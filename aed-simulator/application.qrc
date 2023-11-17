@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>images/steps/01_check_responsiveness.png</file>
+    <file>images/steps/02_call_emergency.png</file>
+    <file>images/steps/03_attach_pads.png</file>
+    <file>images/steps/04_dont_touch_patient.png</file>
+    <file>images/steps/05_start_cpr.png</file>
+</qresource>
+</RCC>
+
