@@ -6,7 +6,7 @@ ShockIndicatorButton::ShockIndicatorButton(QWidget *parent)
     offPixmap = QPixmap(":/images/shock_indicator_off.png");
     onPixmap = QPixmap(":/images/shock_indicator_on.png");
 
-    setStyleSheet("QPushButton { background-color: transparent; }");
+    setStyleSheet("QPushButton { border-radius: 10000px; }");
     setIcon(QIcon(offPixmap));
     setIconSize(offPixmap.size());
 }
