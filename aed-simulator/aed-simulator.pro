@@ -24,9 +24,7 @@ HEADERS += \
     src/statusindicator.h
 
 FORMS += \
-    src/aedimage.ui \
-    src/mainwindow.ui \
-    src/statusindicator.ui
+    src/mainwindow.ui
 
 RESOURCES = application.qrc
 

@@ -1,16 +1,12 @@
 #ifndef AEDIMAGE_H
 #define AEDIMAGE_H
 
-#include <QWidget>
-
-namespace Ui {
-class AEDImage;
-}
+#include <QLabel>
 
 /**
  * Widget for displaying images for the AED.
  */
-class AEDImage : public QWidget
+class AEDImage : public QLabel
 {
     Q_OBJECT
 
@@ -22,10 +18,6 @@ public:
      *
      */
     explicit AEDImage(QString imagePath, int height, QWidget *parent);
-    ~AEDImage();
-
-private:
-    Ui::AEDImage *ui;
 };
 
 #endif // AEDIMAGE_H

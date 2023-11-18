@@ -1,25 +1,17 @@
 #ifndef STATUSINDICATOR_H
 #define STATUSINDICATOR_H
 
-#include <QWidget>
-
-namespace Ui {
-class StatusIndicator;
-}
+#include <QLabel>
 
 /**
  * Represents the AED's status indicator.
  */
-class StatusIndicator : public QWidget
+class StatusIndicator : public QLabel
 {
     Q_OBJECT
 
 public:
     explicit StatusIndicator(QWidget *parent = nullptr);
-    ~StatusIndicator();
-
-private:
-    Ui::StatusIndicator *ui;
 };
 
 #endif // STATUSINDICATOR_H
