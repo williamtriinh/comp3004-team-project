@@ -3,6 +3,7 @@
 
 #include "aedimage.h"
 #include "powerbutton.h"
+#include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
 #include <QComboBox>
@@ -55,10 +56,13 @@ MainWindow::MainWindow(QWidget *parent)
     image3->move(DISPLAY_SIZE - image3->width() - 10, 270);
 
     AEDImage *image4 = new AEDImage(":/images/steps/04_dont_touch_patient.png", 120, displayWidget);
-    image4->move(DISPLAY_SIZE - image4->width() - 160, 540);
+    image4->move(DISPLAY_SIZE - image4->width() - 170, 540);
 
     AEDImage *image5 = new AEDImage(":/images/steps/05_start_cpr.png", 200, displayWidget);
-    image5->move(80, 460);
+    image5->move(50, 460);
+
+    ShockIndicatorButton *shockIndicatorButton = new ShockIndicatorButton(displayWidget);
+    shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
 
     StatusIndicator *statusIndicator = new StatusIndicator;
     bottomLayout->insertWidget(0, statusIndicator);

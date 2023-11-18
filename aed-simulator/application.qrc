@@ -2,6 +2,8 @@
 <qresource>
     <file>images/green_ring.png</file>
     <file>images/power_button.png</file>
+    <file>images/shock_indicator_off.png</file>
+    <file>images/shock_indicator_on.png</file>
     <file>images/status_indicator_failed.png</file>
     <file>images/status_indicator_off.png</file>
     <file>images/status_indicator_passed.png</file>
