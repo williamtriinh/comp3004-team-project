@@ -9,14 +9,24 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    src/aedimage.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/powerbutton.cpp \
+    src/shockindicatorbutton.cpp \
+    src/statusindicator.cpp
 
 HEADERS += \
-    mainwindow.h
+    src/aedimage.h \
+    src/mainwindow.h \
+    src/powerbutton.h \
+    src/shockindicatorbutton.h \
+    src/statusindicator.h
 
 FORMS += \
-    mainwindow.ui
+    src/mainwindow.ui
+
+RESOURCES = application.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

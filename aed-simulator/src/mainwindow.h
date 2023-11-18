@@ -7,11 +7,16 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/**
+ * The main application window for the AED simulator.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    static const int DISPLAY_SIZE = 700;
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
