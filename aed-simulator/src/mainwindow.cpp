@@ -5,7 +5,9 @@
 #include "powerbutton.h"
 #include "statusindicator.h"
 
+#include <QComboBox>
 #include <QHBoxLayout>
+#include <QPlainTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -31,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *bottomLayout = new QHBoxLayout;
     mainLayout->setContentsMargins(0, 0, 0, 0);
     bottomLayout->addStretch();
-
     QWidget *bottomWidget = new QWidget;
     bottomWidget->setLayout(bottomLayout);
     bottomWidget->setFixedWidth(DISPLAY_SIZE);
@@ -64,6 +65,27 @@ MainWindow::MainWindow(QWidget *parent)
 
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
+
+    // Widgets for simulating events/actions
+    QVBoxLayout *rightLayout = new QVBoxLayout;
+    QWidget *rightWidget = new QWidget();
+    rightWidget->setLayout(rightLayout);
+    rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QComboBox *electrodePadsComboBox = new QComboBox;
+    electrodePadsComboBox->addItem("success");
+    electrodePadsComboBox->addItem("failure");
+    rightLayout->addWidget(electrodePadsComboBox);
+
+    QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
+    rightLayout->addWidget(electrodePadsButton);
+    rightLayout->addStretch();
+
+    QPlainTextEdit *audioConsole = new QPlainTextEdit;
+    audioConsole->setReadOnly(true);
+    rightLayout->addWidget(audioConsole);
+
+    mainLayout->addWidget(rightWidget);
 }
 
 MainWindow::~MainWindow()
