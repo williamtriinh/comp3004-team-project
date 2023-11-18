@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include "aedimage.h"
+#include "statusindicator.h"
+
 #include <QLabel>
 #include <QPixmap>
 
@@ -30,6 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     AEDImage *image5 = new AEDImage(":/images/steps/05_start_cpr.png", 200, ui->displayWidget);
     image5->move(80, 460);
+
+    StatusIndicator *statusIndicator = new StatusIndicator();
+    ui->bottomHorizontalLayout->insertWidget(0, statusIndicator);
 }
 
 MainWindow::~MainWindow()

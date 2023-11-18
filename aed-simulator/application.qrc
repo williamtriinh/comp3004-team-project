@@ -1,6 +1,9 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>images/green_ring.png</file>
+    <file>images/status_indicator_failed.png</file>
+    <file>images/status_indicator_off.png</file>
+    <file>images/status_indicator_passed.png</file>
     <file>images/steps/01_check_responsiveness.png</file>
     <file>images/steps/02_call_emergency.png</file>
     <file>images/steps/03_attach_pads.png</file>

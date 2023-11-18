@@ -11,15 +11,18 @@ CONFIG += c++11
 SOURCES += \
     src/aedimage.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/statusindicator.cpp
 
 HEADERS += \
     src/aedimage.h \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/statusindicator.h
 
 FORMS += \
     src/aedimage.ui \
-    src/mainwindow.ui
+    src/mainwindow.ui \
+    src/statusindicator.ui
 
 RESOURCES = application.qrc
 
