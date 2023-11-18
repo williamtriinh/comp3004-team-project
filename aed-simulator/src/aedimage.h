@@ -8,7 +8,7 @@ class AEDImage;
 }
 
 /**
- * Widget for displaying the graphical steps.
+ * Widget for displaying images for the AED.
  */
 class AEDImage : public QWidget
 {
