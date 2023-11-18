@@ -53,10 +53,10 @@ MainWindow::MainWindow(QWidget *parent)
     image2->move(DISPLAY_SIZE / 2 - image2->width() / 2, 20);
 
     AEDImage *image3 = new AEDImage(":/images/steps/03_attach_pads.png", 120, displayWidget);
-    image3->move(DISPLAY_SIZE - image3->width() - 10, 270);
+    image3->move(540, 270);
 
     AEDImage *image4 = new AEDImage(":/images/steps/04_dont_touch_patient.png", 120, displayWidget);
-    image4->move(DISPLAY_SIZE - image4->width() - 170, 540);
+    image4->move(385, 540);
 
     AEDImage *image5 = new AEDImage(":/images/steps/05_start_cpr.png", 200, displayWidget);
     image5->move(50, 460);
