@@ -12,11 +12,13 @@ SOURCES += \
     src/aedimage.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
+    src/powerbutton.cpp \
     src/statusindicator.cpp
 
 HEADERS += \
     src/aedimage.h \
     src/mainwindow.h \
+    src/powerbutton.h \
     src/statusindicator.h
 
 FORMS += \

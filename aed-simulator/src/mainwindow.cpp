@@ -2,10 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include "aedimage.h"
+#include "powerbutton.h"
 #include "statusindicator.h"
-
-#include <QLabel>
-#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     StatusIndicator *statusIndicator = new StatusIndicator();
     ui->bottomHorizontalLayout->insertWidget(0, statusIndicator);
+
+    PowerButton *powerButton = new PowerButton();
+    ui->bottomHorizontalLayout->insertWidget(2, powerButton);
 }
 
 MainWindow::~MainWindow()
