@@ -8,6 +8,7 @@
 
 #include <QComboBox>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -60,6 +61,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     AEDImage *image5 = new AEDImage(":/images/steps/05_start_cpr.png", 200, displayWidget);
     image5->move(50, 460);
+
+    QLabel *batteryLabel = new QLabel("Battery Level: 100%", displayWidget);
+    batteryLabel->move(DISPLAY_SIZE / 2 - 150, 200);
+    QLabel *shockCountLabel = new QLabel("Shocks: 05", displayWidget);
+    shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
+
+    QWidget *placeholderGraph = new QWidget(displayWidget);
+    placeholderGraph->setFixedSize(300, 150);
+    placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
+    placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
 
     ShockIndicatorButton *shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
