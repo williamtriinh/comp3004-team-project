@@ -5,6 +5,9 @@
 #include <QPushButton>
 #include <QWidget>
 
+/**
+ * Represents the AED's shock indicator. Light indicator flashes when a shock is ready.
+ */
 class ShockIndicatorButton : public QPushButton
 {
     Q_OBJECT
