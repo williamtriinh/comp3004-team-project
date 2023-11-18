@@ -12,6 +12,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    static const int DISPLAY_SIZE = 700;
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
