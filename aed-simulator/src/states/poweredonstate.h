@@ -1,9 +1,9 @@
 #ifndef POWEREDONSTATE_H
 #define POWEREDONSTATE_H
 
-#include "aedstateinterface.h"
+#include "basestate.h"
 
-class PoweredOnState : public AEDStateInterface
+class PoweredOnState : public BaseState
 {
 public:
     PoweredOnState();

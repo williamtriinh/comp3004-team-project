@@ -14,7 +14,7 @@ SOURCES += \
     src/mainwindow.cpp \
     src/powerbutton.cpp \
     src/shockindicatorbutton.cpp \
-    src/states/aedstateinterface.cpp \
+    src/states/basestate.cpp \
     src/states/poweredoffstate.cpp \
     src/states/poweredonstate.cpp \
     src/statusindicator.cpp
@@ -24,7 +24,7 @@ HEADERS += \
     src/mainwindow.h \
     src/powerbutton.h \
     src/shockindicatorbutton.h \
-    src/states/aedstateinterface.h \
+    src/states/basestate.h \
     src/states/poweredoffstate.h \
     src/states/poweredonstate.h \
     src/statusindicator.h

@@ -87,7 +87,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
-    connect(powerButton, &QPushButton::clicked, state, &AEDStateInterface::togglePower);
+    connect(powerButton, &QPushButton::clicked, state, &BaseState::togglePower);
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -117,7 +117,7 @@ MainWindow::~MainWindow()
     delete state;
 }
 
-void MainWindow::changeState(AEDStateInterface *newState) {
+void MainWindow::changeState(BaseState *newState) {
     if (state != nullptr) {
         delete state;
     }

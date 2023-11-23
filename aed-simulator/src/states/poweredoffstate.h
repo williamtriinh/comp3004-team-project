@@ -1,9 +1,9 @@
 #ifndef POWEREDOFFSTATE_H
 #define POWEREDOFFSTATE_H
 
-#include "aedstateinterface.h"
+#include "basestate.h"
 
-class PoweredOffState : public AEDStateInterface
+class PoweredOffState : public BaseState
 {
 public:
     PoweredOffState();
