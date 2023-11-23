@@ -13,6 +13,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPlainTextEdit>
+#include <QTime>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -104,9 +105,9 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout->addWidget(electrodePadsButton);
     rightLayout->addStretch();
 
-    QPlainTextEdit *audioConsole = new QPlainTextEdit;
-    audioConsole->setReadOnly(true);
-    rightLayout->addWidget(audioConsole);
+    console = new QPlainTextEdit;
+    console->setReadOnly(true);
+    rightLayout->addWidget(console);
 
     mainLayout->addWidget(rightWidget);
 }
@@ -126,3 +127,7 @@ void MainWindow::changeState(BaseState *newState) {
     state->execute();
 }
 
+void MainWindow::playMessage(QString message) {
+    QTime time = QTime::currentTime();
+    console->appendPlainText(QString("[%1]: %2").arg(time.toString("hh:mm:ss")).arg(message));
+}

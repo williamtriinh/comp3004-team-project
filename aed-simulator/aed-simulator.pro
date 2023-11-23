@@ -17,6 +17,7 @@ SOURCES += \
     src/states/basestate.cpp \
     src/states/poweredoffstate.cpp \
     src/states/poweredonstate.cpp \
+    src/states/selfteststate.cpp \
     src/statusindicator.cpp
 
 HEADERS += \
@@ -27,6 +28,7 @@ HEADERS += \
     src/states/basestate.h \
     src/states/poweredoffstate.h \
     src/states/poweredonstate.h \
+    src/states/selfteststate.h \
     src/statusindicator.h
 
 FORMS += \

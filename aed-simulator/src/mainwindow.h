@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include "states/basestate.h"
+
 #include <QMainWindow>
+#include <QPlainTextEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,8 +29,16 @@ public:
      */
     void changeState(BaseState *newState);
 
+    /**
+     * Prints a message to the console
+     * @param message The message to display
+     */
+    void playMessage(QString message);
+
 private:
     Ui::MainWindow *ui;
     BaseState *state;
+
+    QPlainTextEdit *console;
 };
 #endif // MAINWINDOW_H
