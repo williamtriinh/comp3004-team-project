@@ -15,6 +15,7 @@ SOURCES += \
     src/powerbutton.cpp \
     src/shockindicatorbutton.cpp \
     src/states/basestate.cpp \
+    src/states/checkresponsivenessstate.cpp \
     src/states/poweredoffstate.cpp \
     src/states/poweredonstate.cpp \
     src/states/selfteststate.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     src/powerbutton.h \
     src/shockindicatorbutton.h \
     src/states/basestate.h \
+    src/states/checkresponsivenessstate.h \
     src/states/poweredoffstate.h \
     src/states/poweredonstate.h \
     src/states/selfteststate.h \
