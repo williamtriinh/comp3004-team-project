@@ -1,5 +1,8 @@
 #include "poweredonstate.h"
 
+#include "../mainwindow.h"
+#include "selfteststate.h"
+
 #include <QDebug>
 
 PoweredOnState::PoweredOnState()
@@ -8,7 +11,7 @@ PoweredOnState::PoweredOnState()
 }
 
 void PoweredOnState::execute() {
-    qDebug() << "Executing PoweredOnState";
+    context->changeState(new SelfTestState);
 }
 
 void PoweredOnState::togglePower() {
