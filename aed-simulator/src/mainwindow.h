@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "states/aedstateinterface.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -20,7 +21,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    /**
+     * Changes the current state to the specified state
+     * @param newState The new state
+     */
+    void changeState(AEDStateInterface *newState);
+
 private:
     Ui::MainWindow *ui;
+    AEDStateInterface *state;
 };
 #endif // MAINWINDOW_H

@@ -6,7 +6,10 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "states/poweredoffstate.h"
+
 #include <QComboBox>
+#include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPlainTextEdit>
@@ -18,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Set the initialize state
+    state = NULL;
+    changeState(new PoweredOffState);
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -80,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
+    connect(powerButton, &QPushButton::clicked, state, &AEDStateInterface::togglePower);
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -106,5 +114,15 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete state;
+}
+
+void MainWindow::changeState(AEDStateInterface *newState) {
+    if (state != nullptr) {
+        delete state;
+    }
+    state = newState;
+    state->setContext(this);
+    state->execute();
 }
 
