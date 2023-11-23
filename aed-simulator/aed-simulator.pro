@@ -14,6 +14,7 @@ SOURCES += \
     src/mainwindow.cpp \
     src/powerbutton.cpp \
     src/shockindicatorbutton.cpp \
+    src/states/attachdefibrillatorpadsstate.cpp \
     src/states/basestate.cpp \
     src/states/callforhelpstate.cpp \
     src/states/checkresponsivenessstate.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     src/mainwindow.h \
     src/powerbutton.h \
     src/shockindicatorbutton.h \
+    src/states/attachdefibrillatorpadsstate.h \
     src/states/basestate.h \
     src/states/callforhelpstate.h \
     src/states/checkresponsivenessstate.h \
