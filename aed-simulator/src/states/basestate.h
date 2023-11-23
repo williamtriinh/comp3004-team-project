@@ -15,7 +15,15 @@ class BaseState : public QObject
 
 public slots:
     void setContext(MainWindow *context);
+
+    /**
+     * The method that's called when the context transitions into the corresponding state.
+     */
     virtual void execute() = 0;
+
+    /**
+     * Handles turning on/off the AED.
+     */
     virtual void togglePower() = 0;
 protected:
     MainWindow *context;
