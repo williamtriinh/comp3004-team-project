@@ -2,7 +2,6 @@
 
 #include "../mainwindow.h"
 #include "checkresponsivenessstate.h"
-#include "poweredoffstate.h"
 
 #include <QDebug>
 
@@ -21,6 +20,7 @@ SelfTestState::~SelfTestState()
 
 void SelfTestState::initialize()
 {
+    // Pretend the self test takes 3 seconds to complete
     timer->start(3000);
 }
 

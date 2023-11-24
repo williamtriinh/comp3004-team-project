@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class MainWindow; // Forward declaration
+class MainWindow;
 
 /**
  * An abstract class representing the base state of the AED
