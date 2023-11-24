@@ -6,6 +6,7 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "simulation/installelectrodeswidget.h"
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -26,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Set the initialize state
     state = NULL;
     changeState(new PoweredOffState);
+
+    battery = 100;
+    electrodesInstalled = true;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -96,6 +100,10 @@ MainWindow::MainWindow(QWidget *parent)
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    InstallElectrodesWidget *installElectrodesWidget = new InstallElectrodesWidget(this);
+    rightLayout->addWidget(installElectrodesWidget);
+
+    // Applying electro pads to victim
     QComboBox *electrodePadsComboBox = new QComboBox;
     electrodePadsComboBox->addItem("success");
     electrodePadsComboBox->addItem("failure");
@@ -104,6 +112,8 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
     rightLayout->addWidget(electrodePadsButton);
     rightLayout->addStretch();
+
+
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -130,4 +140,17 @@ void MainWindow::changeState(BaseState *newState) {
 void MainWindow::playMessage(QString message) {
     QTime time = QTime::currentTime();
     console->appendPlainText(QString("[%1]: %2").arg(time.toString("hh:mm:ss")).arg(message));
+}
+
+void MainWindow::setBattery(int value) {
+    battery = std::clamp(value, 0, 100);
+}
+
+void MainWindow::toggleElectrodesInstalled() {
+    electrodesInstalled = !electrodesInstalled;
+    emit electrodesInstalledChanged(electrodesInstalled);
+}
+
+bool MainWindow::getElectrodesInstalled() {
+    return electrodesInstalled;
 }

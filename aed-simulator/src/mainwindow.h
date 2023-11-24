@@ -35,10 +35,28 @@ public:
      */
     void playMessage(QString message);
 
+    void setBattery(int value);
+
+    bool getElectrodesInstalled();
+
+public slots:
+    void toggleElectrodesInstalled();
+
 private:
     Ui::MainWindow *ui;
     BaseState *state;
 
     QPlainTextEdit *console;
+
+    /**
+     * The AED's battery percentage from 0 (empty) to 100 (full)
+     */
+    int battery;
+
+    bool electrodesInstalled;
+
+signals:
+    void batteryChanged();
+    void electrodesInstalledChanged(bool electrodesInstalled);
 };
 #endif // MAINWINDOW_H
