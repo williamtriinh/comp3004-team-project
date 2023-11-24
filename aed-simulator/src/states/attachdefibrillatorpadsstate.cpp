@@ -1,14 +1,23 @@
 #include "attachdefibrillatorpadsstate.h"
 
-AttachDefibrillatorPadsState::AttachDefibrillatorPadsState()
+AttachDefibrillatorPadsState::AttachDefibrillatorPadsState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void AttachDefibrillatorPadsState::execute() {
-
+AttachDefibrillatorPadsState::~AttachDefibrillatorPadsState()
+{
 }
 
-void AttachDefibrillatorPadsState::togglePower() {
+void AttachDefibrillatorPadsState::execute()
+{
+}
 
+void AttachDefibrillatorPadsState::togglePower()
+{
+}
+
+QString AttachDefibrillatorPadsState::getStateName()
+{
+    return "AttachDefibrillatorPadsState";
 }

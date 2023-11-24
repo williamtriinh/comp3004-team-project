@@ -6,6 +6,8 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "simulation/batterieswidget.h"
+#include "simulation/installelectrodeswidget.h"
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -14,6 +16,7 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QTime>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -25,7 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Set the initialize state
     state = NULL;
-    changeState(new PoweredOffState);
+    changeState(new PoweredOffState(this));
+
+    unitStatus = UnitStatus::DEFAULT;
+    battery = 100;
+    electrodesInstalled = true;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -83,12 +90,12 @@ MainWindow::MainWindow(QWidget *parent)
     ShockIndicatorButton *shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
 
-    StatusIndicator *statusIndicator = new StatusIndicator;
+    StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
 
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
-    connect(powerButton, &QPushButton::clicked, state, &BaseState::togglePower);
+    connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -96,6 +103,10 @@ MainWindow::MainWindow(QWidget *parent)
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    rightLayout->addWidget(new BatteriesWidget(this));
+    rightLayout->addWidget(new InstallElectrodesWidget(this));
+
+    // Applying electro pads to victim
     QComboBox *electrodePadsComboBox = new QComboBox;
     electrodePadsComboBox->addItem("success");
     electrodePadsComboBox->addItem("failure");
@@ -119,15 +130,42 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::changeState(BaseState *newState) {
+    qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
     }
     state = newState;
-    state->setContext(this);
-    state->execute();
+    state->initialize();
 }
 
 void MainWindow::playMessage(QString message) {
     QTime time = QTime::currentTime();
     console->appendPlainText(QString("[%1]: %2").arg(time.toString("hh:mm:ss")).arg(message));
+}
+
+MainWindow::UnitStatus MainWindow::getUnitStatus() {
+    return unitStatus;
+}
+
+void MainWindow::setUnitStatus(UnitStatus status) {
+    unitStatus = status;
+    emit unitStatusChanged(unitStatus);
+}
+
+int MainWindow::getBattery() {
+    return battery;
+}
+
+void MainWindow::setBattery(int value) {
+    battery = std::clamp(value, 0, 100);
+    emit batteryChanged(battery);
+}
+
+void MainWindow::toggleElectrodesInstalled() {
+    electrodesInstalled = !electrodesInstalled;
+    emit electrodesInstalledChanged(electrodesInstalled);
+}
+
+bool MainWindow::getElectrodesInstalled() {
+    return electrodesInstalled;
 }

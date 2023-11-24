@@ -1,14 +1,23 @@
 #include "analyzingstate.h"
 
-AnalyzingState::AnalyzingState()
+AnalyzingState::AnalyzingState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void AnalyzingState::execute() {
-
+AnalyzingState::~AnalyzingState()
+{
 }
 
-void AnalyzingState::togglePower() {
+void AnalyzingState::execute()
+{
+}
 
+void AnalyzingState::togglePower()
+{
+}
+
+QString AnalyzingState::getStateName()
+{
+    return "AnalyzingState";
 }

@@ -1,14 +1,17 @@
 #include "checkresponsivenessstate.h"
 
-CheckResponsivenessState::CheckResponsivenessState()
+#include "../mainwindow.h"
+
+CheckResponsivenessState::CheckResponsivenessState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void CheckResponsivenessState::execute() {
-
+void CheckResponsivenessState::execute()
+{
 }
 
-void CheckResponsivenessState::togglePower() {
-
+QString CheckResponsivenessState::getStateName()
+{
+    return "CheckResponsivenessState";
 }

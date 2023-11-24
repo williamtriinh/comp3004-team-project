@@ -3,12 +3,15 @@
 
 #include "basestate.h"
 
+#include <QObject>
+
 class PoweredOffState : public BaseState
 {
 public:
-    PoweredOffState();
-    void execute() override;
+    PoweredOffState(MainWindow *context);
+    void initialize() override;
     void togglePower() override;
+    QString getStateName() override;
 };
 
 #endif // POWEREDOFFSTATE_H

@@ -6,9 +6,11 @@
 class AttachDefibrillatorPadsState : public BaseState
 {
 public:
-    AttachDefibrillatorPadsState();
+    AttachDefibrillatorPadsState(MainWindow *context);
+    ~AttachDefibrillatorPadsState() override;
     void execute() override;
     void togglePower() override;
+    QString getStateName() override;
 };
 
 #endif // ATTACHDEFIBRILLATORPADSSTATE_H

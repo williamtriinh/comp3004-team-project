@@ -1,14 +1,23 @@
 #include "performcprstate.h"
 
-PerformCPRState::PerformCPRState()
+PerformCPRState::PerformCPRState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void PerformCPRState::execute() {
-
+PerformCPRState::~PerformCPRState()
+{
 }
 
-void PerformCPRState::togglePower() {
+void PerformCPRState::execute()
+{
+}
 
+void PerformCPRState::togglePower()
+{
+}
+
+QString PerformCPRState::getStateName()
+{
+    return "PerformCPRState";
 }

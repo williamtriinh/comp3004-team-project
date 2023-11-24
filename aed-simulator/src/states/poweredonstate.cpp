@@ -1,19 +1,27 @@
 #include "poweredonstate.h"
 
 #include "../mainwindow.h"
+#include "poweredoffstate.h"
 #include "selfteststate.h"
 
 #include <QDebug>
 
-PoweredOnState::PoweredOnState()
+PoweredOnState::PoweredOnState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void PoweredOnState::execute() {
-    context->changeState(new SelfTestState);
+void PoweredOnState::initialize()
+{
+    context->changeState(new SelfTestState(context));
 }
 
-void PoweredOnState::togglePower() {
+void PoweredOnState::togglePower()
+{
+    context->changeState(new PoweredOffState(context));
+}
 
+QString PoweredOnState::getStateName()
+{
+    return "PoweredOnState";
 }

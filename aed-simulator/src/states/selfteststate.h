@@ -3,12 +3,23 @@
 
 #include "basestate.h"
 
-class SelfTestState : public BaseState
+#include <QObject>
+#include <QTimer>
+
+class SelfTestState : public QObject, public BaseState
 {
+    Q_OBJECT
 public:
-    SelfTestState();
+    SelfTestState(MainWindow *context);
+    ~SelfTestState() override;
+    void initialize() override;
+    QString getStateName() override;
+
+public slots:
     void execute() override;
-    void togglePower() override;
+
+private:
+    QTimer *timer;
 };
 
 #endif // SELFTESTSTATE_H
