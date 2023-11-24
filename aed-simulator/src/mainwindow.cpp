@@ -6,6 +6,7 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
 #include "states/poweredoffstate.h"
 
@@ -100,8 +101,8 @@ MainWindow::MainWindow(QWidget *parent)
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    InstallElectrodesWidget *installElectrodesWidget = new InstallElectrodesWidget(this);
-    rightLayout->addWidget(installElectrodesWidget);
+    rightLayout->addWidget(new BatteriesWidget(this));
+    rightLayout->addWidget(new InstallElectrodesWidget(this));
 
     // Applying electro pads to victim
     QComboBox *electrodePadsComboBox = new QComboBox;
@@ -112,8 +113,6 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
     rightLayout->addWidget(electrodePadsButton);
     rightLayout->addStretch();
-
-
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -142,8 +141,13 @@ void MainWindow::playMessage(QString message) {
     console->appendPlainText(QString("[%1]: %2").arg(time.toString("hh:mm:ss")).arg(message));
 }
 
+int MainWindow::getBattery() {
+    return battery;
+}
+
 void MainWindow::setBattery(int value) {
     battery = std::clamp(value, 0, 100);
+    emit batteryChanged(battery);
 }
 
 void MainWindow::toggleElectrodesInstalled() {

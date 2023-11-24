@@ -14,6 +14,7 @@ SOURCES += \
     src/mainwindow.cpp \
     src/powerbutton.cpp \
     src/shockindicatorbutton.cpp \
+    src/simulation/batterieswidget.cpp \
     src/simulation/installelectrodeswidget.cpp \
     src/states/analyzingstate.cpp \
     src/states/attachdefibrillatorpadsstate.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     src/mainwindow.h \
     src/powerbutton.h \
     src/shockindicatorbutton.h \
+    src/simulation/batterieswidget.h \
     src/simulation/installelectrodeswidget.h \
     src/states/analyzingstate.h \
     src/states/attachdefibrillatorpadsstate.h \

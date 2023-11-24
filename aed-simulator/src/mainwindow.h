@@ -35,6 +35,7 @@ public:
      */
     void playMessage(QString message);
 
+    int getBattery();
     void setBattery(int value);
 
     bool getElectrodesInstalled();
@@ -56,7 +57,7 @@ private:
     bool electrodesInstalled;
 
 signals:
-    void batteryChanged();
+    void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
 };
 #endif // MAINWINDOW_H
