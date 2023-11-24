@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     ShockIndicatorButton *shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
 
-    StatusIndicator *statusIndicator = new StatusIndicator;
+    StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
 
     PowerButton *powerButton = new PowerButton();

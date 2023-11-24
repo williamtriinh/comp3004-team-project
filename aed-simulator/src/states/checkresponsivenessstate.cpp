@@ -1,7 +1,6 @@
 #include "checkresponsivenessstate.h"
 
 #include "../mainwindow.h"
-#include "poweredoffstate.h"
 
 CheckResponsivenessState::CheckResponsivenessState(MainWindow *context)
     : BaseState(context)
@@ -10,11 +9,6 @@ CheckResponsivenessState::CheckResponsivenessState(MainWindow *context)
 
 void CheckResponsivenessState::execute()
 {
-}
-
-void CheckResponsivenessState::togglePower()
-{
-    context->changeState(new PoweredOffState(context));
 }
 
 QString CheckResponsivenessState::getStateName()

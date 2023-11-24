@@ -8,6 +8,11 @@ PoweredOffState::PoweredOffState(MainWindow *context)
 {
 }
 
+void PoweredOffState::initialize()
+{
+    context->setUnitStatus(MainWindow::UnitStatus::DEFAULT);
+}
+
 void PoweredOffState::togglePower()
 {
     context->changeState(new PoweredOnState(context));

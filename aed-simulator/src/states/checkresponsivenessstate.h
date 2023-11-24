@@ -8,7 +8,6 @@ class CheckResponsivenessState : public BaseState
 public:
     CheckResponsivenessState(MainWindow *context);
     void execute() override;
-    void togglePower() override;
     QString getStateName() override;
 };
 
