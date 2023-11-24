@@ -8,10 +8,12 @@ PoweredOffState::PoweredOffState(MainWindow *context)
 {
 }
 
-void PoweredOffState::execute()
+void PoweredOffState::togglePower()
 {
+    context->changeState(new PoweredOnState(context));
 }
 
-void PoweredOffState::togglePower() {
-    context->changeState(new PoweredOnState(context));
+QString PoweredOffState::getStateName()
+{
+    return "PoweredOffState";
 }

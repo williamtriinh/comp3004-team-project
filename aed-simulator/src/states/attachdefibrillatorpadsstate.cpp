@@ -5,10 +5,19 @@ AttachDefibrillatorPadsState::AttachDefibrillatorPadsState(MainWindow *context)
 {
 }
 
+AttachDefibrillatorPadsState::~AttachDefibrillatorPadsState()
+{
+}
+
 void AttachDefibrillatorPadsState::execute()
 {
 }
 
 void AttachDefibrillatorPadsState::togglePower()
 {
+}
+
+QString AttachDefibrillatorPadsState::getStateName()
+{
+    return "AttachDefibrillatorPadsState";
 }

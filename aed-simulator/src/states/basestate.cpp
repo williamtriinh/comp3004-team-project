@@ -2,12 +2,27 @@
 
 #include <QDebug>
 
-BaseState::BaseState(MainWindow *context) {
+BaseState::BaseState(MainWindow *context)
+{
     this->context = context;
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &BaseState::execute);
 }
 
-BaseState::~BaseState() {
-    delete timer;
+BaseState::~BaseState()
+{
+    // Optional
+}
+
+void BaseState::initialize()
+{
+    // Optional
+}
+
+void BaseState::execute()
+{
+    qDebug() << "TODO: Implement execute()";
+}
+
+void BaseState::togglePower()
+{
+    qDebug() << "TODO: Implement togglePower()";
 }

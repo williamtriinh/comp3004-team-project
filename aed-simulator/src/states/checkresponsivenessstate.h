@@ -9,6 +9,7 @@ public:
     CheckResponsivenessState(MainWindow *context);
     void execute() override;
     void togglePower() override;
+    QString getStateName() override;
 };
 
 #endif // CHECKRESPONSIVENESSSTATE_H

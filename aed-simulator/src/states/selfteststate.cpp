@@ -4,8 +4,22 @@
 #include "checkresponsivenessstate.h"
 #include "poweredoffstate.h"
 
+#include <QDebug>
+
 SelfTestState::SelfTestState(MainWindow *context)
-    : BaseState(context)
+    : QObject(context), BaseState(context)
+{
+    timer = new QTimer(this);
+    timer->setSingleShot(true);
+    connect(timer, &QTimer::timeout, this, &SelfTestState::execute);
+}
+
+SelfTestState::~SelfTestState()
+{
+    delete timer;
+}
+
+void SelfTestState::initialize()
 {
     timer->start(3000);
 }
@@ -24,4 +38,9 @@ void SelfTestState::execute()
 void SelfTestState::togglePower()
 {
     context->changeState(new PoweredOffState(context));
+}
+
+QString SelfTestState::getStateName()
+{
+    return "SelfTestState";
 }

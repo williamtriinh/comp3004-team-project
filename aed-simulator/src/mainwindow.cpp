@@ -16,6 +16,7 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QTime>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -94,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
-    connect(powerButton, &QPushButton::clicked, state, &BaseState::togglePower);
+    connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -129,10 +130,12 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::changeState(BaseState *newState) {
+    qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
     }
     state = newState;
+    state->initialize();
 }
 
 void MainWindow::playMessage(QString message) {

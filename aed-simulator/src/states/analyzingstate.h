@@ -7,8 +7,10 @@ class AnalyzingState : public BaseState
 {
 public:
     AnalyzingState(MainWindow *context);
+    ~AnalyzingState() override;
     void execute() override;
     void togglePower() override;
+    QString getStateName() override;
 };
 
 #endif // ANALYZINGSTATE_H

@@ -7,8 +7,9 @@ class PoweredOnState : public BaseState
 {
 public:
     PoweredOnState(MainWindow *context);
-    void execute() override;
+    void initialize() override;
     void togglePower() override;
+    QString getStateName() override;
 };
 
 #endif // POWEREDONSTATE_H

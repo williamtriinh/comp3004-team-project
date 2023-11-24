@@ -2,7 +2,6 @@
 #define BASESTATE_H
 
 #include <QObject>
-#include <QTimer>
 
 class MainWindow; // Forward declaration
 
@@ -10,28 +9,35 @@ class MainWindow; // Forward declaration
  * An abstract class representing the base state of the AED
  */
 
-class BaseState : public QObject
+class BaseState
 {
-    Q_OBJECT
-
-
 public:
     BaseState(MainWindow *context);
-    ~BaseState();
+    virtual ~BaseState();
 
-public slots:
     /**
      * The method that's called when the context transitions into the corresponding state.
+     * Only called once.
      */
-    virtual void execute() = 0;
+    virtual void initialize();
+
+    /**
+     * The main execution method for the state. Can be called multiple times.
+     */
+    virtual void execute();
 
     /**
      * Handles turning on/off the AED.
      */
-    virtual void togglePower() = 0;
+    virtual void togglePower();
+
+    /**
+     * For debugging purposes. Returns the name of the state.
+     * @return The name of the corresponding state
+     */
+    virtual QString getStateName() = 0;
 protected:
     MainWindow *context;
-    QTimer *timer;
 };
 
 #endif // BASESTATE_H
