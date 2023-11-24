@@ -1,5 +1,8 @@
 #include "basestate.h"
 
+#include "../mainwindow.h"
+#include "poweredoffstate.h"
+
 #include <QDebug>
 
 BaseState::BaseState(MainWindow *context)
@@ -24,5 +27,6 @@ void BaseState::execute()
 
 void BaseState::togglePower()
 {
-    qDebug() << "TODO: Implement togglePower()";
+    context->playMessage("POWERING OFF");
+    context->changeState(new PoweredOffState(context));
 }

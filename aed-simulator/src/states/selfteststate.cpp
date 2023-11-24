@@ -35,11 +35,6 @@ void SelfTestState::execute()
     context->changeState(new CheckResponsivenessState(context));
 }
 
-void SelfTestState::togglePower()
-{
-    context->changeState(new PoweredOffState(context));
-}
-
 QString SelfTestState::getStateName()
 {
     return "SelfTestState";
