@@ -27,8 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Set the initialize state
     state = NULL;
-    changeState(new PoweredOffState);
+    changeState(new PoweredOffState(this));
 
+    unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
 
@@ -132,13 +133,20 @@ void MainWindow::changeState(BaseState *newState) {
         delete state;
     }
     state = newState;
-    state->setContext(this);
-    state->execute();
 }
 
 void MainWindow::playMessage(QString message) {
     QTime time = QTime::currentTime();
     console->appendPlainText(QString("[%1]: %2").arg(time.toString("hh:mm:ss")).arg(message));
+}
+
+MainWindow::UnitStatus MainWindow::getUnitStatus() {
+    return unitStatus;
+}
+
+void MainWindow::setUnitStatus(UnitStatus status) {
+    unitStatus = status;
+    emit unitStatusChanged(unitStatus);
 }
 
 int MainWindow::getBattery() {

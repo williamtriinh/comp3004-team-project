@@ -1,14 +1,14 @@
 #include "analyzingstate.h"
 
-AnalyzingState::AnalyzingState()
+AnalyzingState::AnalyzingState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void AnalyzingState::execute() {
-
+void AnalyzingState::execute()
+{
 }
 
-void AnalyzingState::togglePower() {
-
+void AnalyzingState::togglePower()
+{
 }

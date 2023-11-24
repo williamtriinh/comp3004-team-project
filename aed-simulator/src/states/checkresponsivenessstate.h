@@ -6,7 +6,7 @@
 class CheckResponsivenessState : public BaseState
 {
 public:
-    CheckResponsivenessState();
+    CheckResponsivenessState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

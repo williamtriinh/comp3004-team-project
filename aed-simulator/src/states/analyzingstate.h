@@ -6,7 +6,7 @@
 class AnalyzingState : public BaseState
 {
 public:
-    AnalyzingState();
+    AnalyzingState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

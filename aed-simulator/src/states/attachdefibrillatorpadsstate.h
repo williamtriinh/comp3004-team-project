@@ -6,7 +6,7 @@
 class AttachDefibrillatorPadsState : public BaseState
 {
 public:
-    AttachDefibrillatorPadsState();
+    AttachDefibrillatorPadsState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

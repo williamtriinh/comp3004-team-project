@@ -18,6 +18,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    enum class UnitStatus {
+        OK,
+        FAILED,
+        DEFAULT,
+    };
+
     static const int DISPLAY_SIZE = 700;
 
     MainWindow(QWidget *parent = nullptr);
@@ -35,6 +41,9 @@ public:
      */
     void playMessage(QString message);
 
+    UnitStatus getUnitStatus();
+    void setUnitStatus(UnitStatus status);
+
     int getBattery();
     void setBattery(int value);
 
@@ -50,6 +59,11 @@ private:
     QPlainTextEdit *console;
 
     /**
+     * The AED's self-test status
+     */
+    UnitStatus unitStatus;
+
+    /**
      * The AED's battery percentage from 0 (empty) to 100 (full)
      */
     int battery;
@@ -57,6 +71,7 @@ private:
     bool electrodesInstalled;
 
 signals:
+    void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
 };

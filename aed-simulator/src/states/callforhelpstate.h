@@ -6,7 +6,7 @@
 class CallForHelpState : public BaseState
 {
 public:
-    CallForHelpState();
+    CallForHelpState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

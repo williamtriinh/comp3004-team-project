@@ -1,14 +1,14 @@
 #include "callforhelpstate.h"
 
-CallForHelpState::CallForHelpState()
+CallForHelpState::CallForHelpState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void CallForHelpState::execute() {
-
+void CallForHelpState::execute()
+{
 }
 
-void CallForHelpState::togglePower() {
-
+void CallForHelpState::togglePower()
+{
 }

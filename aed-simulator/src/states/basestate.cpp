@@ -1,5 +1,13 @@
 #include "basestate.h"
 
-void BaseState::setContext(MainWindow *context) {
+#include <QDebug>
+
+BaseState::BaseState(MainWindow *context) {
     this->context = context;
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &BaseState::execute);
+}
+
+BaseState::~BaseState() {
+    delete timer;
 }

@@ -6,7 +6,7 @@
 class SelfTestState : public BaseState
 {
 public:
-    SelfTestState();
+    SelfTestState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

@@ -6,7 +6,7 @@
 class PoweredOffState : public BaseState
 {
 public:
-    PoweredOffState();
+    PoweredOffState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

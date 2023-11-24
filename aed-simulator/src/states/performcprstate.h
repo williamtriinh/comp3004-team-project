@@ -6,7 +6,7 @@
 class PerformCPRState : public BaseState
 {
 public:
-    PerformCPRState();
+    PerformCPRState(MainWindow *context);
     void execute() override;
     void togglePower() override;
 };

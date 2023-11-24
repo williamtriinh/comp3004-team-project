@@ -2,6 +2,7 @@
 #define BASESTATE_H
 
 #include <QObject>
+#include <QTimer>
 
 class MainWindow; // Forward declaration
 
@@ -13,9 +14,12 @@ class BaseState : public QObject
 {
     Q_OBJECT
 
-public slots:
-    void setContext(MainWindow *context);
 
+public:
+    BaseState(MainWindow *context);
+    ~BaseState();
+
+public slots:
     /**
      * The method that's called when the context transitions into the corresponding state.
      */
@@ -27,6 +31,7 @@ public slots:
     virtual void togglePower() = 0;
 protected:
     MainWindow *context;
+    QTimer *timer;
 };
 
 #endif // BASESTATE_H

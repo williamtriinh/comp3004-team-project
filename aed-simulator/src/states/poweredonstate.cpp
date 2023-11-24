@@ -5,15 +5,16 @@
 
 #include <QDebug>
 
-PoweredOnState::PoweredOnState()
+PoweredOnState::PoweredOnState(MainWindow *context)
+    : BaseState(context)
 {
-
 }
 
-void PoweredOnState::execute() {
-    context->changeState(new SelfTestState);
+void PoweredOnState::execute()
+{
+    context->changeState(new SelfTestState(context));
 }
 
-void PoweredOnState::togglePower() {
-
+void PoweredOnState::togglePower()
+{
 }
