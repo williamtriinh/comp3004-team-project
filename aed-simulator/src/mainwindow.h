@@ -27,8 +27,7 @@ public:
 
     enum class ElectrodePadsAttachedState {
         NOT_ATTACHED,
-        ATTACHED_SUCCESSFULLY,
-        ATTACHED_FAILED,
+        ATTACHED,
     };
 
     static const int DISPLAY_SIZE = 700;

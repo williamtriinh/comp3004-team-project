@@ -18,8 +18,7 @@ AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWi
 
     attachmentComboBox = new QComboBox();
     attachmentComboBox->addItem("Not attached");
-    attachmentComboBox->addItem("Attached successfully");
-    attachmentComboBox->addItem("Attached failed");
+    attachmentComboBox->addItem("Attached");
     connect(attachmentComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AttachElectrodePadsWidget::handleAttachmentComboBoxChanged);
 
     QVBoxLayout *layout = new QVBoxLayout();
@@ -36,10 +35,7 @@ void AttachElectrodePadsWidget::handleAttachmentComboBoxChanged(int index)
     switch (index)
     {
     case 1:
-        state = MainWindow::ElectrodePadsAttachedState::ATTACHED_SUCCESSFULLY;
-        break;
-    case 2:
-        state = MainWindow::ElectrodePadsAttachedState::ATTACHED_FAILED;
+        state = MainWindow::ElectrodePadsAttachedState::ATTACHED;
         break;
     default:
         state = MainWindow::ElectrodePadsAttachedState::NOT_ATTACHED;
