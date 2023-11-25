@@ -112,15 +112,30 @@ MainWindow::MainWindow(QWidget *parent)
 
     rightLayout->addWidget(new BatteriesWidget(this));
     rightLayout->addWidget(new InstallElectrodesWidget(this));
+
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
 
 
+    // Applying electro pads to victim
+    QComboBox *electrodePadsComboBox = new QComboBox;
+    electrodePadsComboBox->addItem("success");
+    electrodePadsComboBox->addItem("failure");
+    rightLayout->addWidget(electrodePadsComboBox);
 
+
+    // Determine's patient's status
     QComboBox *patientStatusComboBox = new QComboBox;
-    patientStatusComboBox->addItem("Patients in Vtach");
-    patientStatusComboBox->addItem("Patients in Vhab");
-    patientStatusComboBox->addItem("Patients has a normal rhythm");
+    patientStatusComboBox->addItem("Patient is in Vtach");
+    patientStatusComboBox->addItem("Patient is in Vhab");
+    patientStatusComboBox->addItem("Patient has a normal rhythm");
     rightLayout->addWidget(patientStatusComboBox);
+
+    QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
+    rightLayout->addWidget(electrodePadsButton);
+    rightLayout->addStretch();
+
+
+
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -185,6 +200,7 @@ bool MainWindow::getElectrodesInstalled()
     return electrodesInstalled;
 }
 
+
 MainWindow::ElectrodePadsAttachedState MainWindow::getElectrodePadsAttachedState()
 {
     return electrodePadsAttachedState;
@@ -194,4 +210,15 @@ void MainWindow::setElectrodePadsAttached(ElectrodePadsAttachedState state)
 {
     electrodePadsAttachedState = state;
     emit electrodePadsAttachedStateChanged(electrodePadsAttachedState);
+}
+
+MainWindow::PatientStatus MainWindow::getPatientStatus()
+{
+    return patientStatus;
+}
+
+void MainWindow::setPatientStatus(PatientStatus status)
+{
+    patientStatus = status;
+    emit patientStatusChanged(patientStatus);
 }

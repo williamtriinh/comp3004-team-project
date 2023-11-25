@@ -11,7 +11,7 @@ public:
     ~AnalyzingState() override;
     void initialize() override;
     QString getStateName() override;
-    void initialize() override;
+
 
 public slots:
     void execute() override;

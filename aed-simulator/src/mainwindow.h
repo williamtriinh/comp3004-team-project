@@ -25,9 +25,16 @@ public:
         DEFAULT,
     };
 
+
     enum class ElectrodePadsAttachedState {
         NOT_ATTACHED,
         ATTACHED,
+    };
+    enum class PatientStatus{
+        NORMAL,
+        VTACH,
+        VHAB,
+        DEFAULT,
     };
 
     static const int DISPLAY_SIZE = 700;
@@ -55,8 +62,12 @@ public:
 
     bool getElectrodesInstalled();
 
+
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
+
+    PatientStatus getPatientStatus();
+    void setPatientStatus(PatientStatus status);
 
 public slots:
     void toggleElectrodesInstalled();
@@ -97,11 +108,20 @@ private:
      */
     void updateActiveAEDImage();
 
+
+    /**
+     * The patient's status
+     */
+    PatientStatus patientStatus;
+
 signals:
     void stateChanged(BaseState *state);
     void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
     void electrodePadsAttachedStateChanged(ElectrodePadsAttachedState state);
+
+    void patientStatusChanged(PatientStatus status);
+
 };
 #endif // MAINWINDOW_H

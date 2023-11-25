@@ -13,20 +13,27 @@ AnalyzingState::AnalyzingState(MainWindow *context)
 
 AnalyzingState::~AnalyzingState()
 {
-}
-
-void AnalyzingState::initialize()
-{
-    context->playMessage("Don't touch patient. Analyzing.");
-}
-
-void AnalyzingState::execute()
-{
+    delete timer;
 }
 
 void AnalyzingState::initialize(){
     context->playMessage("Don't touch patient. Analyzing");
+    timer->start(5000);
 }
+
+
+
+void AnalyzingState::execute()
+{
+    if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
+        // Show Graph
+        return;
+    }
+    else if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
+        return;
+    }
+}
+
 
 QString AnalyzingState::getStateName()
 {
