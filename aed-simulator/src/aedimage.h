@@ -22,9 +22,11 @@ public:
 
     /**
      * Constructs a widget with the specified image resource and height
-     * @param imagePath path to image
+     * @param mainWindow the main window where the state resides
+     * @param imageName the name of the image
      * @param height displayed height of the image
-     *
+     * @param stateName the name of the state the image corresponds to
+     * @param parent
      */
     explicit AEDImage(
         MainWindow *mainWidow,
