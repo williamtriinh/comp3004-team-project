@@ -9,6 +9,7 @@ class AnalyzingState : public BaseState
 public:
     AnalyzingState(MainWindow *context);
     ~AnalyzingState() override;
+    void initialize() override;
     QString getStateName() override;
     void initialize() override;
 

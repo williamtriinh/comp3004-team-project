@@ -14,6 +14,7 @@ InstallElectrodesWidget::InstallElectrodesWidget(MainWindow *mainWindow, QWidget
     connect(button, &QPushButton::clicked, mainWindow, &MainWindow::toggleElectrodesInstalled);
 
     QVBoxLayout *layout = new QVBoxLayout;
+    layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
     layout->addWidget(label);
     layout->addWidget(button);

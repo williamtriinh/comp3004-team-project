@@ -6,8 +6,10 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
+
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -34,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
+    electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -109,16 +112,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     rightLayout->addWidget(new BatteriesWidget(this));
     rightLayout->addWidget(new InstallElectrodesWidget(this));
-
-    // Applying electro pads to victim
-    QComboBox *electrodePadsComboBox = new QComboBox;
-    electrodePadsComboBox->addItem("success");
-    electrodePadsComboBox->addItem("failure");
-    rightLayout->addWidget(electrodePadsComboBox);
-
-    QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
-    rightLayout->addWidget(electrodePadsButton);
-    rightLayout->addStretch();
+    rightLayout->addWidget(new AttachElectrodePadsWidget(this));
 
 
 
@@ -189,4 +183,15 @@ void MainWindow::toggleElectrodesInstalled()
 bool MainWindow::getElectrodesInstalled()
 {
     return electrodesInstalled;
+}
+
+MainWindow::ElectrodePadsAttachedState MainWindow::getElectrodePadsAttachedState()
+{
+    return electrodePadsAttachedState;
+}
+
+void MainWindow::setElectrodePadsAttached(ElectrodePadsAttachedState state)
+{
+    electrodePadsAttachedState = state;
+    emit electrodePadsAttachedStateChanged(electrodePadsAttachedState);
 }
