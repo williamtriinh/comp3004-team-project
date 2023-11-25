@@ -29,7 +29,12 @@ void AnalyzingState::execute()
         // Show Graph
         return;
     }
-    else if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
+    else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
+        // Show Graph
+        return;
+    }
+    else{
+        // Show Graph
         return;
     }
 }

@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++11
 
@@ -10,9 +10,11 @@ CONFIG += c++11
 
 SOURCES += \
     src/aedimage.cpp \
+    src/graphs.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/powerbutton.cpp \
+    src/qcustomplot.cpp \
     src/shockindicatorbutton.cpp \
     src/simulation/attachelectrodepadswidget.cpp \
     src/simulation/batterieswidget.cpp \
@@ -31,8 +33,10 @@ SOURCES += \
 
 HEADERS += \
     src/aedimage.h \
+    src/graphs.h \
     src/mainwindow.h \
     src/powerbutton.h \
+    src/qcustomplot.h \
     src/shockindicatorbutton.h \
     src/simulation/attachelectrodepadswidget.h \
     src/simulation/batterieswidget.h \
