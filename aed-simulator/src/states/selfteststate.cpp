@@ -18,7 +18,7 @@ SelfTestState::~SelfTestState()
 
 void SelfTestState::initialize()
 {
-    // Pretend the self-test takes SELF_TEST_DURATION_MS milliseconds
+    // Pretend the self-test takes SELF_TEST_DURATION_MS milliseconds to complete
     timer->start(SELF_TEST_DURATION_MS);
 }
 
