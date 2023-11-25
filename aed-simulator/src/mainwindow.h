@@ -50,6 +50,8 @@ public:
 
     bool getElectrodesInstalled();
 
+    bool getElectrodePadsAttached();
+
 public slots:
     void toggleElectrodesInstalled();
 
@@ -78,6 +80,11 @@ private:
      * Keeps track of whether the electrodes are installed (true) or not (false)
      */
     bool electrodesInstalled;
+
+    /**
+     * Keeps track of whether the electrode pads are attached to the patient
+     */
+    bool electrodePadsAttached;
 
     /**
      * Sets the appropriate AED image depending on the current state

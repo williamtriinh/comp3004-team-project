@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
+    electrodePadsAttached = false;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -181,4 +182,9 @@ void MainWindow::toggleElectrodesInstalled()
 bool MainWindow::getElectrodesInstalled()
 {
     return electrodesInstalled;
+}
+
+bool MainWindow::getElectrodePadsAttached()
+{
+    return electrodePadsAttached;
 }
