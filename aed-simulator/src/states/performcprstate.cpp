@@ -13,10 +13,6 @@ void PerformCPRState::execute()
 {
 }
 
-void PerformCPRState::togglePower()
-{
-}
-
 QString PerformCPRState::getStateName()
 {
     return "PerformCPRState";

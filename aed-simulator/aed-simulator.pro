@@ -25,7 +25,8 @@ SOURCES += \
     src/states/poweredoffstate.cpp \
     src/states/poweredonstate.cpp \
     src/states/selfteststate.cpp \
-    src/statusindicator.cpp
+    src/statusindicator.cpp \
+    src/utils/intermediatestate.cpp
 
 HEADERS += \
     src/aedimage.h \
@@ -43,7 +44,8 @@ HEADERS += \
     src/states/poweredoffstate.h \
     src/states/poweredonstate.h \
     src/states/selfteststate.h \
-    src/statusindicator.h
+    src/statusindicator.h \
+    src/utils/intermediatestate.h
 
 FORMS += \
     src/mainwindow.ui
