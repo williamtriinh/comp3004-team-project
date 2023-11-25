@@ -2,6 +2,7 @@
 #define ANALYZINGSTATE_H
 
 #include "basestate.h"
+#include <QTimer>
 
 class AnalyzingState : public BaseState
 {
@@ -9,9 +10,15 @@ public:
     AnalyzingState(MainWindow *context);
     ~AnalyzingState() override;
     QString getStateName() override;
+    void initialize() override;
 
 public slots:
     void execute() override;
+
+
+private:
+    QTimer *timer;
+
 };
 
 #endif // ANALYZINGSTATE_H

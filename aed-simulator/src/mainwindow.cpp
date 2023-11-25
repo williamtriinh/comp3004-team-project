@@ -120,6 +120,14 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout->addWidget(electrodePadsButton);
     rightLayout->addStretch();
 
+
+
+    QComboBox *patientStatusComboBox = new QComboBox;
+    patientStatusComboBox->addItem("Patients in Vtach");
+    patientStatusComboBox->addItem("Patients in Vhab");
+    patientStatusComboBox->addItem("Patients has a normal rhythm");
+    rightLayout->addWidget(patientStatusComboBox);
+
     console = new QPlainTextEdit;
     console->setReadOnly(true);
     rightLayout->addWidget(console);
