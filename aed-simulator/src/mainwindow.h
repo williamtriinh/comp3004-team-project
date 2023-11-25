@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "aedimage.h"
 #include "states/basestate.h"
 
 #include <QMainWindow>
@@ -59,6 +60,11 @@ private:
     QPlainTextEdit *console;
 
     /**
+     * Kepps track of which AED image has its light flashing
+     */
+    AEDImage *activeAEDImage;
+
+    /**
      * The AED's self-test status
      */
     UnitStatus unitStatus;
@@ -68,9 +74,18 @@ private:
      */
     int battery;
 
+    /**
+     * Keeps track of whether the electrodes are installed (true) or not (false)
+     */
     bool electrodesInstalled;
 
+    /**
+     * Sets the appropriate AED image depending on the current state
+     */
+    void updateActiveAEDImage();
+
 signals:
+    void stateChanged(BaseState *state);
     void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);

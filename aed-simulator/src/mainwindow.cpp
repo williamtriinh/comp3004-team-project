@@ -59,22 +59,22 @@ MainWindow::MainWindow(QWidget *parent)
     leftLayout->addWidget(bottomWidget);
     mainLayout->addWidget(leftWidget);
 
-    AEDImage *greenRingImage = new AEDImage(":/images/green_ring.png", DISPLAY_SIZE - 94, displayWidget);
-    greenRingImage->move(DISPLAY_SIZE / 2 - greenRingImage->width() / 2, DISPLAY_SIZE / 2 - greenRingImage->height() / 2);
+//    AEDImage *greenRingImage = new AEDImage(":/images/green_ring.png", DISPLAY_SIZE - 94, displayWidget);
+//    greenRingImage->move(DISPLAY_SIZE / 2 - greenRingImage->width() / 2, DISPLAY_SIZE / 2 - greenRingImage->height() / 2);
 
-    AEDImage *image1 = new AEDImage(":/images/steps/01_check_responsiveness.png", 120, displayWidget);
+    AEDImage *image1 = new AEDImage(this, "01_check_responsiveness", 120, "CheckResponsivenessState", displayWidget);
     image1->move(10, 210);
 
-    AEDImage *image2 = new AEDImage(":/images/steps/02_call_emergency.png", 120, displayWidget);
+    AEDImage *image2 = new AEDImage(this, "02_call_emergency", 120, "CallForHelpState", displayWidget);
     image2->move(DISPLAY_SIZE / 2 - image2->width() / 2, 20);
 
-    AEDImage *image3 = new AEDImage(":/images/steps/03_attach_pads.png", 120, displayWidget);
+    AEDImage *image3 = new AEDImage(this, "03_attach_pads", 120, "AttachDefibrillatorPadsState", displayWidget);
     image3->move(540, 270);
 
-    AEDImage *image4 = new AEDImage(":/images/steps/04_dont_touch_patient.png", 120, displayWidget);
+    AEDImage *image4 = new AEDImage(this, "04_dont_touch_patient", 120, "AnalyzingState", displayWidget);
     image4->move(385, 540);
 
-    AEDImage *image5 = new AEDImage(":/images/steps/05_start_cpr.png", 200, displayWidget);
+    AEDImage *image5 = new AEDImage(this, "05_start_cpr", 200, "PerformCPRState", displayWidget);
     image5->move(50, 460);
 
     QLabel *batteryLabel = new QLabel("Battery Level: 100%", displayWidget);
@@ -129,43 +129,52 @@ MainWindow::~MainWindow()
     delete state;
 }
 
-void MainWindow::changeState(BaseState *newState) {
+void MainWindow::changeState(BaseState *newState)
+{
     qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
     }
     state = newState;
     state->initialize();
+    emit stateChanged(state);
 }
 
-void MainWindow::playMessage(QString message) {
-    QTime time = QTime::currentTime();
-    console->appendPlainText(QString("[%1]: %2").arg(time.toString("hh:mm:ss")).arg(message));
+void MainWindow::playMessage(QString message)
+{
+    QString timeString = QTime::currentTime().toString("hh:mm:ss");
+    console->appendPlainText(QString("[%1]: %2").arg(timeString).arg(message));
 }
 
-MainWindow::UnitStatus MainWindow::getUnitStatus() {
+MainWindow::UnitStatus MainWindow::getUnitStatus()
+{
     return unitStatus;
 }
 
-void MainWindow::setUnitStatus(UnitStatus status) {
+void MainWindow::setUnitStatus(UnitStatus status)
+{
     unitStatus = status;
     emit unitStatusChanged(unitStatus);
 }
 
-int MainWindow::getBattery() {
+int MainWindow::getBattery()
+{
     return battery;
 }
 
-void MainWindow::setBattery(int value) {
+void MainWindow::setBattery(int value)
+{
     battery = std::clamp(value, 0, 100);
     emit batteryChanged(battery);
 }
 
-void MainWindow::toggleElectrodesInstalled() {
+void MainWindow::toggleElectrodesInstalled()
+{
     electrodesInstalled = !electrodesInstalled;
     emit electrodesInstalledChanged(electrodesInstalled);
 }
 
-bool MainWindow::getElectrodesInstalled() {
+bool MainWindow::getElectrodesInstalled()
+{
     return electrodesInstalled;
 }
