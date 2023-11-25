@@ -7,11 +7,16 @@
     <file>images/status_indicator_failed.png</file>
     <file>images/status_indicator_off.png</file>
     <file>images/status_indicator_passed.png</file>
-    <file>images/steps/01_check_responsiveness.png</file>
-    <file>images/steps/02_call_emergency.png</file>
-    <file>images/steps/03_attach_pads.png</file>
-    <file>images/steps/04_dont_touch_patient.png</file>
-    <file>images/steps/05_start_cpr.png</file>
+    <file>images/steps/01_check_responsiveness_off.png</file>
+    <file>images/steps/01_check_responsiveness_on.png</file>
+    <file>images/steps/02_call_emergency_off.png</file>
+    <file>images/steps/02_call_emergency_on.png</file>
+    <file>images/steps/03_attach_pads_off.png</file>
+    <file>images/steps/03_attach_pads_on.png</file>
+    <file>images/steps/04_dont_touch_patient_off.png</file>
+    <file>images/steps/04_dont_touch_patient_on.png</file>
+    <file>images/steps/05_start_cpr_off.png</file>
+    <file>images/steps/05_start_cpr_on.png</file>
 </qresource>
 </RCC>
 
