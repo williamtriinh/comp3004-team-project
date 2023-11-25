@@ -6,7 +6,7 @@
 #include <QDebug>
 
 SelfTestState::SelfTestState(MainWindow *context)
-    : QObject(context), BaseState(context)
+    : BaseState(context)
 {
     timer = new QTimer(this);
     timer->setSingleShot(true);

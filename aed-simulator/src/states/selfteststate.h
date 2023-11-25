@@ -3,12 +3,10 @@
 
 #include "basestate.h"
 
-#include <QObject>
 #include <QTimer>
 
-class SelfTestState : public QObject, public BaseState
+class SelfTestState : public BaseState
 {
-    Q_OBJECT
 public:
     SelfTestState(MainWindow *context);
     ~SelfTestState() override;

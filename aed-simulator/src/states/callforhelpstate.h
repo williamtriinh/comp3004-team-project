@@ -8,9 +8,11 @@ class CallForHelpState : public BaseState
 public:
     CallForHelpState(MainWindow *context);
     ~CallForHelpState() override;
+    QString getStateName() override;
+
+public slots:
     void execute() override;
     void togglePower() override;
-    QString getStateName() override;
 };
 
 #endif // CALLFORHELPSTATE_H

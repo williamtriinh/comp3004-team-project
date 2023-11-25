@@ -7,8 +7,10 @@ class CheckResponsivenessState : public BaseState
 {
 public:
     CheckResponsivenessState(MainWindow *context);
-    void execute() override;
     QString getStateName() override;
+
+public slots:
+    void execute() override;
 };
 
 #endif // CHECKRESPONSIVENESSSTATE_H

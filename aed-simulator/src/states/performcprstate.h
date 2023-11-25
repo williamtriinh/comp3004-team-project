@@ -8,9 +8,11 @@ class PerformCPRState : public BaseState
 public:
     PerformCPRState(MainWindow *context);
     ~PerformCPRState() override;
+    QString getStateName() override;
+
+public slots:
     void execute() override;
     void togglePower() override;
-    QString getStateName() override;
 };
 
 #endif // PERFORMCPRSTATE_H
