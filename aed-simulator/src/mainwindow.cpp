@@ -162,7 +162,7 @@ int MainWindow::getBattery()
 
 void MainWindow::setBattery(int value)
 {
-    battery = std::clamp(value, 0, 100);
+    battery = std::max(std::min(value, 100), 0);
     emit batteryChanged(battery);
 }
 
