@@ -28,10 +28,20 @@ void SelfTestState::execute()
     {
     case 0:
     {
-        if (context->getBattery() < 70 || !context->getElectrodesInstalled()) {
+        if (context->getBattery() < 70)
+        {
             context->setUnitStatus(MainWindow::UnitStatus::FAILED);
+            context->playMessage("Change batteries.");
             return;
         }
+
+        if (!context->getElectrodesInstalled())
+        {
+            context->setUnitStatus(MainWindow::UnitStatus::FAILED);
+            context->playMessage("Attach electrode pads.");
+            return;
+        }
+
         context->setUnitStatus(MainWindow::UnitStatus::OK);
         context->playMessage("Automatic defibrillator unit OK.");
         timer->start(SPEECH_DELAY_MS);
