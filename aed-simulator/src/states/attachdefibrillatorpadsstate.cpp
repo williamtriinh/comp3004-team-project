@@ -24,7 +24,7 @@ void AttachDefibrillatorPadsState::initialize()
 
 void AttachDefibrillatorPadsState::execute()
 {
-    if (!context->getElectrodePadsAttached())
+    if (context->getElectrodePadsAttachedState() != MainWindow::ElectrodePadsAttachedState::ATTACHED_SUCCESSFULLY)
     {
         timer->start(POLL_INTERVAL_MS);
         return;

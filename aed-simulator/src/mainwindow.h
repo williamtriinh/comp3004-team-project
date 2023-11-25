@@ -25,6 +25,12 @@ public:
         DEFAULT,
     };
 
+    enum class ElectrodePadsAttachedState {
+        NOT_ATTACHED,
+        ATTACHED_SUCCESSFULLY,
+        ATTACHED_FAILED,
+    };
+
     static const int DISPLAY_SIZE = 700;
 
     MainWindow(QWidget *parent = nullptr);
@@ -50,7 +56,8 @@ public:
 
     bool getElectrodesInstalled();
 
-    bool getElectrodePadsAttached();
+    ElectrodePadsAttachedState getElectrodePadsAttachedState();
+    void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
 public slots:
     void toggleElectrodesInstalled();
@@ -84,7 +91,7 @@ private:
     /**
      * Keeps track of whether the electrode pads are attached to the patient
      */
-    bool electrodePadsAttached;
+    ElectrodePadsAttachedState electrodePadsAttachedState;
 
     /**
      * Sets the appropriate AED image depending on the current state
@@ -96,5 +103,6 @@ signals:
     void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
+    void electrodePadsAttachedStateChanged(ElectrodePadsAttachedState state);
 };
 #endif // MAINWINDOW_H

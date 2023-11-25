@@ -8,8 +8,10 @@
 AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWidget *parent)
     : QWidget{parent}
 {
+    this->mainWindow = mainWindow;
     QLabel *label = new QLabel("Attach Electrode Pads");
 
+    // TODO: Figure out what to do with patientComboBox
     patientComboBox = new QComboBox();
     patientComboBox->addItem("Adult");
     patientComboBox->addItem("Child or < 55 lbs");
@@ -18,8 +20,7 @@ AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWi
     attachmentComboBox->addItem("Not attached");
     attachmentComboBox->addItem("Attached successfully");
     attachmentComboBox->addItem("Attached failed");
-
-    button = new QPushButton("Update");
+    connect(attachmentComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AttachElectrodePadsWidget::handleAttachmentComboBoxChanged);
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -27,5 +28,21 @@ AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWi
     layout->addWidget(label);
     layout->addWidget(patientComboBox);
     layout->addWidget(attachmentComboBox);
-    layout->addWidget(button);
+}
+
+void AttachElectrodePadsWidget::handleAttachmentComboBoxChanged(int index)
+{
+    MainWindow::ElectrodePadsAttachedState state;
+    switch (index)
+    {
+    case 1:
+        state = MainWindow::ElectrodePadsAttachedState::ATTACHED_SUCCESSFULLY;
+        break;
+    case 2:
+        state = MainWindow::ElectrodePadsAttachedState::ATTACHED_FAILED;
+        break;
+    default:
+        state = MainWindow::ElectrodePadsAttachedState::NOT_ATTACHED;
+    }
+    mainWindow->setElectrodePadsAttached(state);
 }

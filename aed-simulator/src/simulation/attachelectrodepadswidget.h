@@ -2,7 +2,6 @@
 #define ATTACHELECTRODEPADSWIDGET_H
 
 #include <QComboBox>
-#include <QPushButton>
 #include <QWidget>
 
 class MainWindow;
@@ -14,12 +13,16 @@ public:
     explicit AttachElectrodePadsWidget(MainWindow *mainWindow, QWidget *parent = nullptr);
 
 private:
+    MainWindow *mainWindow;
+
     QComboBox *patientComboBox;
     QComboBox *attachmentComboBox;
-    QPushButton *button;
+
+private slots:
+    void handleAttachmentComboBoxChanged(int index);
 
 signals:
-
+    void buttonClicked();
 };
 
 #endif // ATTACHELECTRODEPADSWIDGET_H

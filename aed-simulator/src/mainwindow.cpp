@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
-    electrodePadsAttached = false;
+    electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -177,7 +177,13 @@ bool MainWindow::getElectrodesInstalled()
     return electrodesInstalled;
 }
 
-bool MainWindow::getElectrodePadsAttached()
+MainWindow::ElectrodePadsAttachedState MainWindow::getElectrodePadsAttachedState()
 {
-    return electrodePadsAttached;
+    return electrodePadsAttachedState;
+}
+
+void MainWindow::setElectrodePadsAttached(ElectrodePadsAttachedState state)
+{
+    electrodePadsAttachedState = state;
+    emit electrodePadsAttachedStateChanged(electrodePadsAttachedState);
 }
