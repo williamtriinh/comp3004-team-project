@@ -3,16 +3,21 @@
 
 #include "basestate.h"
 
+#include <QTimer>
+
 class CallForHelpState : public BaseState
 {
 public:
     CallForHelpState(MainWindow *context);
     ~CallForHelpState() override;
+    void initialize() override;
     QString getStateName() override;
 
 public slots:
     void execute() override;
-    void togglePower() override;
+
+private:
+    QTimer *timer;
 };
 
 #endif // CALLFORHELPSTATE_H

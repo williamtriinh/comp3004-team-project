@@ -18,6 +18,7 @@ CheckResponsivenessState::~CheckResponsivenessState()
 
 void CheckResponsivenessState::initialize()
 {
+    context->playMessage("Check responsiveness.");
     timer->start(5000);
 }
 

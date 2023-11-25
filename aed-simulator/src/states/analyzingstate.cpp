@@ -13,10 +13,6 @@ void AnalyzingState::execute()
 {
 }
 
-void AnalyzingState::togglePower()
-{
-}
-
 QString AnalyzingState::getStateName()
 {
     return "AnalyzingState";

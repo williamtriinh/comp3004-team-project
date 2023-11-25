@@ -3,8 +3,6 @@
 #include "../mainwindow.h"
 #include "checkresponsivenessstate.h"
 
-#include <QDebug>
-
 SelfTestState::SelfTestState(MainWindow *context)
     : BaseState(context)
 {
@@ -20,19 +18,34 @@ SelfTestState::~SelfTestState()
 
 void SelfTestState::initialize()
 {
-    // Pretend the self test takes 3 seconds to complete
-    timer->start(3000);
+    // Pretend the self-test takes SELF_TEST_DURATION_MS milliseconds
+    timer->start(SELF_TEST_DURATION_MS);
 }
 
 void SelfTestState::execute()
 {
-    if (context->getBattery() < 70 || !context->getElectrodesInstalled()) {
-        context->setUnitStatus(MainWindow::UnitStatus::FAILED);
+    switch (getStep())
+    {
+    case 0:
+    {
+        if (context->getBattery() < 70 || !context->getElectrodesInstalled()) {
+            context->setUnitStatus(MainWindow::UnitStatus::FAILED);
+            return;
+        }
+        context->setUnitStatus(MainWindow::UnitStatus::OK);
+        context->playMessage("Automatic defibrillator unit OK.");
+        timer->start(SPEECH_DELAY_MS);
+        break;
+    }
+    case 1:
+        context->playMessage("Stay calm.");
+        timer->start(SPEECH_DELAY_MS);
+        break;
+    case 2:
+        context->changeState(new CheckResponsivenessState(context));
         return;
     }
-    context->setUnitStatus(MainWindow::UnitStatus::OK);
-    context->playMessage("Automatic Defibrillator Unit OK");
-    context->changeState(new CheckResponsivenessState(context));
+    nextStep();
 }
 
 QString SelfTestState::getStateName()

@@ -12,7 +12,6 @@ public:
 
 public slots:
     void execute() override;
-    void togglePower() override;
 };
 
 #endif // PERFORMCPRSTATE_H

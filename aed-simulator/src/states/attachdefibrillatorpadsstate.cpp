@@ -13,10 +13,6 @@ void AttachDefibrillatorPadsState::execute()
 {
 }
 
-void AttachDefibrillatorPadsState::togglePower()
-{
-}
-
 QString AttachDefibrillatorPadsState::getStateName()
 {
     return "AttachDefibrillatorPadsState";
