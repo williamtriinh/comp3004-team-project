@@ -1,7 +1,6 @@
 #include "analyzingstate.h"
 #include "../mainwindow.h"
-
-#include "../mainwindow.h"
+#include "performcprstate.h"
 
 AnalyzingState::AnalyzingState(MainWindow *context)
     : BaseState(context)
@@ -26,18 +25,24 @@ void AnalyzingState::initialize(){
 void AnalyzingState::execute()
 {
     if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
-        // Show Graph
-        return;
+
+        context->displayVTACHECG();
+
     }
     else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
-        // Show Graph
-//        MainWindow
-        return;
+        context->displayVHABECG();
+
+    }
+    else if(context->getPatientStatus() == MainWindow::PatientStatus::NORMAL){
+        context->displayNormalECG();
+
     }
     else{
-        // Show Graph
-        return;
+        qDebug() << "Select Patient's Status";
     }
+
+
+    context->changeState(new PerformCPRState(context));
 }
 
 

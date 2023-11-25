@@ -31,10 +31,11 @@ public:
         NOT_ATTACHED,
         ATTACHED,
     };
+
     enum class PatientStatus{
-        NORMAL,
-        VTACH,
         VHAB,
+        VTACH,
+        NORMAL,
         DEFAULT,
     };
 
@@ -67,12 +68,16 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
+
+
+    QCustomPlot *placeholderGraph;
+
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
-    void displayVTACHECG(QCustomPlot* placeholderGraph);
-    void displayVHABECG(QCustomPlot* placeholderGraph);
-    void displayNormalECG(QCustomPlot* placeholderGraph);
+    void displayVTACHECG();
+    void displayVHABECG();
+    void displayNormalECG();
 
 public slots:
     void toggleElectrodesInstalled();

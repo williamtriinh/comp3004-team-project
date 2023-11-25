@@ -11,6 +11,7 @@
 #include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
+#include "simulation/patientstatuswidget.h"
 
 #include "states/poweredoffstate.h"
 
@@ -92,12 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
     QLabel *shockCountLabel = new QLabel("Shocks: 05", displayWidget);
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
-//    QWidget *placeholderGraph = new QWidget(displayWidget);
-//    placeholderGraph->setFixedSize(300, 150);
-//    placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
-//    placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
-
-    QCustomPlot *placeholderGraph = new QCustomPlot(displayWidget);
+    placeholderGraph = new QCustomPlot(displayWidget);
     placeholderGraph->setFixedSize(300, 150);
     placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
@@ -112,9 +108,16 @@ MainWindow::MainWindow(QWidget *parent)
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
 
+
+
+
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QWidget *rightWidget = new QWidget();
+
+
+    rightLayout->addWidget(new PatientStatusWidget(this));
+
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -124,6 +127,8 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
 
 
+
+
     // Applying electro pads to victim
     QComboBox *electrodePadsComboBox = new QComboBox;
     electrodePadsComboBox->addItem("success");
@@ -131,16 +136,11 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout->addWidget(electrodePadsComboBox);
 
 
-    // Determine's patient's status
-    QComboBox *patientStatusComboBox = new QComboBox;
-    patientStatusComboBox->addItem("Patient is in Vtach");
-    patientStatusComboBox->addItem("Patient is in Vhab");
-    patientStatusComboBox->addItem("Patient has a normal rhythm");
-    rightLayout->addWidget(patientStatusComboBox);
-
     QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
     rightLayout->addWidget(electrodePadsButton);
     rightLayout->addStretch();
+
+
 
 
 
@@ -232,16 +232,16 @@ void MainWindow::setPatientStatus(PatientStatus status)
 }
 
 
-void MainWindow::displayVTACHECG(QCustomPlot* placeholderGraph){
+void MainWindow::displayVTACHECG(){
     graphs *graph = new graphs(placeholderGraph);
     graph->shockNotAdvisedECG();
 }
-void MainWindow::displayVHABECG(QCustomPlot* placeholderGraph){
+void MainWindow::displayVHABECG(){
     graphs *graph = new graphs(placeholderGraph);
-    graph->shockNotAdvisedECG();
+    graph->shockAdvisedECG();
 }
 
-void MainWindow::displayNormalECG(QCustomPlot* placeholderGraph){
+void MainWindow::displayNormalECG(){
     graphs *graph = new graphs(placeholderGraph);
     graph->shockNotAdvisedECG();
 }
