@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPixmap>
 #include <QPlainTextEdit>
 #include <QTime>
 #include <QTimer>
@@ -59,8 +60,11 @@ MainWindow::MainWindow(QWidget *parent)
     leftLayout->addWidget(bottomWidget);
     mainLayout->addWidget(leftWidget);
 
-//    AEDImage *greenRingImage = new AEDImage(":/images/green_ring.png", DISPLAY_SIZE - 94, displayWidget);
-//    greenRingImage->move(DISPLAY_SIZE / 2 - greenRingImage->width() / 2, DISPLAY_SIZE / 2 - greenRingImage->height() / 2);
+    QPixmap greenRingPixmap = QPixmap(":/images/green_ring.png").scaledToHeight(DISPLAY_SIZE - 94);
+    QLabel *greenRing = new QLabel(displayWidget);
+    greenRing->setPixmap(greenRingPixmap);
+    greenRing->setFixedSize(greenRingPixmap.size());
+    greenRing->move(DISPLAY_SIZE / 2 - greenRing->width() / 2, DISPLAY_SIZE / 2 - greenRing->height() / 2);
 
     AEDImage *image1 = new AEDImage(this, "01_check_responsiveness", 120, "CheckResponsivenessState", displayWidget);
     image1->move(10, 210);
