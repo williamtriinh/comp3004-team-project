@@ -13,10 +13,6 @@ void CallForHelpState::execute()
 {
 }
 
-void CallForHelpState::togglePower()
-{
-}
-
 QString CallForHelpState::getStateName()
 {
     return "CallForHelpState";
