@@ -3,8 +3,6 @@
 
 #include "basestate.h"
 
-#include <QObject>
-
 class PoweredOffState : public BaseState
 {
 public:

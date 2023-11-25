@@ -3,7 +3,6 @@
 
 #include "basestate.h"
 
-#include <QObject>
 #include <QTimer>
 
 class SelfTestState : public BaseState
