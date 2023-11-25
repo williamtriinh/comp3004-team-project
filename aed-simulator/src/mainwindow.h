@@ -3,6 +3,7 @@
 
 #include "aedimage.h"
 #include "states/basestate.h"
+#include "qcustomplot.h"
 
 #include <QMainWindow>
 #include <QPlainTextEdit>
@@ -68,6 +69,10 @@ public:
 
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
+
+    void displayVTACHECG(QCustomPlot* placeholderGraph);
+    void displayVHABECG(QCustomPlot* placeholderGraph);
+    void displayNormalECG(QCustomPlot* placeholderGraph);
 
 public slots:
     void toggleElectrodesInstalled();

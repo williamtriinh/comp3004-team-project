@@ -6,6 +6,8 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "graphs.h"
+
 #include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
@@ -37,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     battery = 100;
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
+    patientStatus = PatientStatus::DEFAULT;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -89,7 +92,12 @@ MainWindow::MainWindow(QWidget *parent)
     QLabel *shockCountLabel = new QLabel("Shocks: 05", displayWidget);
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
-    QWidget *placeholderGraph = new QWidget(displayWidget);
+//    QWidget *placeholderGraph = new QWidget(displayWidget);
+//    placeholderGraph->setFixedSize(300, 150);
+//    placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
+//    placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
+
+    QCustomPlot *placeholderGraph = new QCustomPlot(displayWidget);
     placeholderGraph->setFixedSize(300, 150);
     placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
@@ -221,4 +229,19 @@ void MainWindow::setPatientStatus(PatientStatus status)
 {
     patientStatus = status;
     emit patientStatusChanged(patientStatus);
+}
+
+
+void MainWindow::displayVTACHECG(QCustomPlot* placeholderGraph){
+    graphs *graph = new graphs(placeholderGraph);
+    graph->shockNotAdvisedECG();
+}
+void MainWindow::displayVHABECG(QCustomPlot* placeholderGraph){
+    graphs *graph = new graphs(placeholderGraph);
+    graph->shockNotAdvisedECG();
+}
+
+void MainWindow::displayNormalECG(QCustomPlot* placeholderGraph){
+    graphs *graph = new graphs(placeholderGraph);
+    graph->shockNotAdvisedECG();
 }

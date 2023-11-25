@@ -31,6 +31,7 @@ void AnalyzingState::execute()
     }
     else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
         // Show Graph
+//        MainWindow
         return;
     }
     else{
