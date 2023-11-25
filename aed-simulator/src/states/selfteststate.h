@@ -9,7 +9,7 @@ class SelfTestState : public BaseState
 {
 public:
     SelfTestState(MainWindow *context);
-    ~SelfTestState() override;
+    ~SelfTestState();
     void initialize() override;
     QString getStateName() override;
 
