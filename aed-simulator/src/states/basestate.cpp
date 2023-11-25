@@ -6,6 +6,7 @@
 #include <QDebug>
 
 BaseState::BaseState(MainWindow *context)
+    : QObject(context)
 {
     this->context = context;
 }

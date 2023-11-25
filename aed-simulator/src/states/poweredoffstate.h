@@ -10,8 +10,10 @@ class PoweredOffState : public BaseState
 public:
     PoweredOffState(MainWindow *context);
     void initialize() override;
-    void togglePower() override;
     QString getStateName() override;
+
+public slots:
+    void togglePower() override;
 };
 
 #endif // POWEREDOFFSTATE_H
