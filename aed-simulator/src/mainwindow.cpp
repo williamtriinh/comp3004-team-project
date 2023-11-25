@@ -6,8 +6,10 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
+
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -110,16 +112,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     rightLayout->addWidget(new BatteriesWidget(this));
     rightLayout->addWidget(new InstallElectrodesWidget(this));
-
-    // Applying electro pads to victim
-    QComboBox *electrodePadsComboBox = new QComboBox;
-    electrodePadsComboBox->addItem("success");
-    electrodePadsComboBox->addItem("failure");
-    rightLayout->addWidget(electrodePadsComboBox);
-
-    QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
-    rightLayout->addWidget(electrodePadsButton);
-    rightLayout->addStretch();
+    rightLayout->addWidget(new AttachElectrodePadsWidget(this));
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
