@@ -31,7 +31,7 @@ void SelfTestState::execute()
         return;
     }
     context->setUnitStatus(MainWindow::UnitStatus::OK);
-    context->playMessage("UNIT OK");
+    context->playMessage("Automatic Defibrillator Unit OK");
     context->changeState(new CheckResponsivenessState(context));
 }
 
