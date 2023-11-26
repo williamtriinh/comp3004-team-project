@@ -1,10 +1,10 @@
 #include "graphs.h"
 
-graphs::graphs(QCustomPlot* graph) : placeholderGraph(graph)
+Graphs::Graphs(QCustomPlot* graph) : placeholderGraph(graph)
 {
 }
 
-void graphs::shockAdvisedECG() {
+void Graphs::shockAdvisedECG() {
     placeholderGraph->addGraph();
     placeholderGraph->graph(0)->setPen(QPen(Qt::blue)); // line color blue for the graph
 
@@ -42,7 +42,7 @@ void graphs::shockAdvisedECG() {
     placeholderGraph->replot();
 }
 
-void graphs::shockNotAdvisedECG(){
+void Graphs::shockNotAdvisedECG(){
     placeholderGraph->addGraph();
     placeholderGraph->graph(0)->setPen(QPen(Qt::blue)); // line color blue for the graph
 

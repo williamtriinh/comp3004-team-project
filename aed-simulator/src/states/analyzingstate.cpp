@@ -29,7 +29,6 @@ void AnalyzingState::execute()
         qDebug() << "Select Patient's Status";
         while(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT) {
             QCoreApplication::processEvents();
-            QThread::msleep(100);
         }
     }
 
@@ -69,7 +68,6 @@ void AnalyzingState::execute()
 
                 while(!context->getShockIndicatorButtonPressed()){
                     QCoreApplication::processEvents();
-                    QThread::msleep(100);
                 }
                 context->playMessage("Shock will be delivered in three, two, one ....");
                 timer->start(SELF_TEST_DURATION_MS);
