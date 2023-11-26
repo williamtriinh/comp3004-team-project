@@ -81,8 +81,8 @@ void AnalyzingState::execute()
 
             case 4:
                 context->shockIndicatorButtonStopFlashing();
-                context->changeState(new PerformCPRState(context));
                 context->deactivateShockIndicatorButtonPressed();
+                context->changeState(new PerformCPRState(context));
                 return;
             }
 

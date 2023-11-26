@@ -23,30 +23,33 @@ void PerformCPRState::initialize()
 
 void PerformCPRState::execute()
 {
-    bool checkDepth = true;
 
 
-    if (checkDepth){
-        switch (getStep()) {
-            case 0:
-                context->playMessage("Compression too deep. Reduce force.");
-                timer->start(2000);
-                break;
 
-            case 1:
-                context->playMessage("Compression too shallow. Press harder.");
-                timer->start(2000);
-                break;
+    switch (getStep()) {
+        case 0:
+            context->playMessage("Compression too deep. Reduce force.");
+            timer->start(2000);
+            break;
 
-            case 2:
-                context->playMessage("Good compression depth. Keep going.");
-                timer->start(2000);
-                break;
-        }
-        nextStep();
+        case 1:
+            context->playMessage("Compression too shallow. Press harder.");
+            timer->start(2000);
+            break;
 
-    context->changeState(new AnalyzingState(context));
+        case 2:
+            context->playMessage("Good compression depth. Keep going.");
+            timer->start(2000);
+            break;
+
+        case 3:
+            context->changeState(new AnalyzingState(context));
+            return;
     }
+    nextStep();
+
+
+
 }
 
 QString PerformCPRState::getStateName()
