@@ -17,6 +17,7 @@ PatientStatusWidget::PatientStatusWidget(MainWindow *mainWindow, QWidget *parent
 
     // Determine's patient's status
     QComboBox *patientStatusComboBox = new QComboBox;
+    patientStatusComboBox->addItem("Select Patient Status");
     patientStatusComboBox->addItem("Patient is in Vtach");
     patientStatusComboBox->addItem("Patient is in Vhab");
     patientStatusComboBox->addItem("Patient has a normal rhythm");

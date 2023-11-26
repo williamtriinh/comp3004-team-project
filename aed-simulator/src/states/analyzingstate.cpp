@@ -83,12 +83,6 @@ void AnalyzingState::execute()
                     QCoreApplication::processEvents();
                     QThread::msleep(100);
                 }
-
-                timer->start(SELF_TEST_DURATION_MS);
-                break;
-
-            case 3:
-
                 context->playMessage("Shock will be delivered in three, two, one ....");
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
@@ -96,7 +90,8 @@ void AnalyzingState::execute()
 
 
 
-            case 4:
+
+            case 3:
                 context->playMessage("Shock delivered");
                 context->setBattery(context->getBattery()-10);
                 timer->start(SELF_TEST_DURATION_MS);
@@ -104,7 +99,7 @@ void AnalyzingState::execute()
 
 
 
-            case 5:
+            case 4:
                 context->shockIndicatorButtonStopFlashing();
                 context->changeState(new PerformCPRState(context));
                 context->deactivateShockIndicatorButtonPressed();
