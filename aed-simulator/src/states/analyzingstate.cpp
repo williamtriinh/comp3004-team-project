@@ -22,36 +22,25 @@ void AnalyzingState::initialize(){
     timer->start(SELF_TEST_DURATION_MS);
 }
 
-
-
 void AnalyzingState::execute()
 {
     bool shockAdvised = true;
-
-
     if(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT){
         qDebug() << "Select Patient's Status";
         while(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT) {
             QCoreApplication::processEvents();
             QThread::msleep(100);
         }
-
     }
 
     if(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT){
         shockAdvised = false;
     }
 
-
-
-
-
-
     if(shockAdvised){
         if(context->getBattery()>10){
             switch(getStep())
             {
-
             case 0:
             {
                 if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
@@ -64,7 +53,6 @@ void AnalyzingState::execute()
                 else{
                     context->displayNormalECG();
                 }
-
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
@@ -87,25 +75,17 @@ void AnalyzingState::execute()
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
 
-
-
-
-
             case 3:
                 context->playMessage("Shock delivered");
                 context->setBattery(context->getBattery()-10);
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
 
-
-
             case 4:
                 context->shockIndicatorButtonStopFlashing();
                 context->changeState(new PerformCPRState(context));
                 context->deactivateShockIndicatorButtonPressed();
                 return;
-
-
             }
 
             nextStep();
@@ -113,13 +93,8 @@ void AnalyzingState::execute()
         else{
             context->playMessage("Not enough battery");
         }
-
-
-
     }
 }
-
-
 
 QString AnalyzingState::getStateName(){
     return "AnalyzingState";

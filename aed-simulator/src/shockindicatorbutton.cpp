@@ -1,20 +1,5 @@
-//#include "shockindicatorbutton.h"
-
-//ShockIndicatorButton::ShockIndicatorButton(QWidget *parent)
-//    : QPushButton(parent)
-//{
-//    offPixmap = QPixmap(":/images/shock_indicator_off.png");
-//    onPixmap = QPixmap(":/images/shock_indicator_on.png");
-
-//    setStyleSheet("QPushButton { border-radius: 10000px; }");
-//    setIcon(QIcon(offPixmap));
-//    setIconSize(offPixmap.size());
-//}
-
-
 #include "shockindicatorbutton.h"
 #include <QTimer>
-
 
 constexpr int LIGHT_ON_DURATION_MS = 500;
 constexpr int LIGHT_OFF_DURATION_MS = 500;
@@ -40,7 +25,6 @@ void ShockIndicatorButton::toggleLight()
     setIcon(QIcon(illuminated ? onPixmap : offPixmap));
     timer->start(illuminated ? LIGHT_ON_DURATION_MS : LIGHT_OFF_DURATION_MS);
 }
-
 
 void ShockIndicatorButton::startFlashing() {
     toggleLight();

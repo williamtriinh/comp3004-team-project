@@ -6,10 +6,10 @@
 #include <QPen>
 #include "qcustomplot.h"
 
-class graphs
+class Graphs
 {
 public:
-    graphs(QCustomPlot* graph);
+    Graphs(QCustomPlot* graph);
     void shockAdvisedECG();
     void shockNotAdvisedECG();
 

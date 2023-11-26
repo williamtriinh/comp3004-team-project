@@ -235,16 +235,16 @@ void MainWindow::setPatientStatus(PatientStatus status)
 
 
 void MainWindow::displayVTACHECG(){
-    graphs *graph = new graphs(placeholderGraph);
+    Graphs *graph = new Graphs(placeholderGraph);
     graph->shockAdvisedECG();
 }
 void MainWindow::displayVHABECG(){
-    graphs *graph = new graphs(placeholderGraph);
+    Graphs *graph = new Graphs(placeholderGraph);
     graph->shockAdvisedECG();
 }
 
 void MainWindow::displayNormalECG(){
-    graphs *graph = new graphs(placeholderGraph);
+    Graphs *graph = new Graphs(placeholderGraph);
     graph->shockNotAdvisedECG();
 }
 
