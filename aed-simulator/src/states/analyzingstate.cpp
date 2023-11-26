@@ -32,7 +32,6 @@ void AnalyzingState::execute()
     if(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT){
         qDebug() << "Select Patient's Status";
         while(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT) {
-
             QCoreApplication::processEvents();
             QThread::msleep(100);
         }
@@ -64,19 +63,35 @@ void AnalyzingState::execute()
             {
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
+                timer->start(SELF_TEST_DURATION_MS);
+                break;
+
+
 
             }
             case 1:
 
                 context->playMessage("Shock will be delivered in three, two, one ....");
+                timer->start(SELF_TEST_DURATION_MS);
+                break;
+
 
 
 
             case 2:
                 context->playMessage("Shock delivered");
                 context->setBattery(context->getBattery()-10);
+                timer->start(SELF_TEST_DURATION_MS);
+                break;
+
+            case 3:
+                context->shockIndicatorButtonStopFlashing();
+                context->changeState(new PerformCPRState(context));
+                return;
+
 
             }
+
             nextStep();
         }
         else{
@@ -84,8 +99,7 @@ void AnalyzingState::execute()
         }
 
 
-        context->shockIndicatorButtonStopFlashing();
-        context->changeState(new PerformCPRState(context));
+
     }
 }
 

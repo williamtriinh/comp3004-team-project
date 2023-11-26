@@ -252,6 +252,16 @@ void MainWindow::shockIndicatorButtonFlashing() {
 }
 
 void MainWindow::shockIndicatorButtonStopFlashing(){
-        shockIndicatorButton->stopFlashing();
+    shockIndicatorButton->stopFlashing();
 }
+
+//void MainWindow::setShockIndicatorButtonPressed(){
+
+//}
+
+//void MainWindow::getShockIndicatorButtonPressed(){
+
+//}
+
+
 
