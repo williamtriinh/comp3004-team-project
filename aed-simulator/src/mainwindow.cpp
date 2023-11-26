@@ -110,9 +110,6 @@ MainWindow::MainWindow(QWidget *parent)
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
 
-
-
-
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QWidget *rightWidget = new QWidget();
@@ -127,25 +124,6 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout->addWidget(new InstallElectrodesWidget(this));
 
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
-
-
-
-
-    // Applying electro pads to victim
-    QComboBox *electrodePadsComboBox = new QComboBox;
-    electrodePadsComboBox->addItem("success");
-    electrodePadsComboBox->addItem("failure");
-    rightLayout->addWidget(electrodePadsComboBox);
-
-
-    QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
-    rightLayout->addWidget(electrodePadsButton);
-    rightLayout->addStretch();
-
-
-
-
-
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -247,7 +225,6 @@ void MainWindow::displayNormalECG(){
     Graphs *graph = new Graphs(placeholderGraph);
     graph->shockNotAdvisedECG();
 }
-
 
 void MainWindow::shockIndicatorButtonFlashing() {
     shockIndicatorButton->startFlashing();
