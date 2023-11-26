@@ -100,6 +100,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
+    connect(shockIndicatorButton,SIGNAL(released()),this,SLOT(activateShockIndicatorButtonPressed()));
+
 
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
@@ -255,13 +257,18 @@ void MainWindow::shockIndicatorButtonStopFlashing(){
     shockIndicatorButton->stopFlashing();
 }
 
-//void MainWindow::setShockIndicatorButtonPressed(){
+void MainWindow::activateShockIndicatorButtonPressed(){
+    shockIndicatorButtonPressed = true;
+}
 
-//}
+bool MainWindow::getShockIndicatorButtonPressed(){
+    return shockIndicatorButtonPressed;
 
-//void MainWindow::getShockIndicatorButtonPressed(){
+}
 
-//}
+void MainWindow::deactivateShockIndicatorButtonPressed(){
+    shockIndicatorButtonPressed = false;
+}
 
 
 

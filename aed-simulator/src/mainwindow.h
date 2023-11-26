@@ -85,6 +85,10 @@ public:
     void shockIndicatorButtonFlashing();
     void shockIndicatorButtonStopFlashing();
 
+    bool getShockIndicatorButtonPressed();
+
+    void deactivateShockIndicatorButtonPressed();
+
 public slots:
     void toggleElectrodesInstalled();
 
@@ -130,14 +134,26 @@ private:
      */
     PatientStatus patientStatus;
 
+    /**
+     * Keeps track if the shock button has been pressed
+     */
+    bool shockIndicatorButtonPressed;
+
+
+
+
+
 signals:
     void stateChanged(BaseState *state);
     void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
     void electrodePadsAttachedStateChanged(ElectrodePadsAttachedState state);
-
     void patientStatusChanged(PatientStatus status);
+
+private slots:
+    void activateShockIndicatorButtonPressed();
+
 
 };
 #endif // MAINWINDOW_H

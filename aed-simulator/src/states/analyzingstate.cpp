@@ -38,21 +38,14 @@ void AnalyzingState::execute()
 
     }
 
-
-
-
-    if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
-        context->displayVTACHECG();
-    }
-
-    else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
-        context->displayVHABECG();
-    }
-
-    else{
-        context->displayNormalECG();
+    if(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT){
         shockAdvised = false;
     }
+
+
+
+
+
 
     if(shockAdvised){
         if(context->getBattery()>10){
@@ -61,15 +54,40 @@ void AnalyzingState::execute()
 
             case 0:
             {
+                if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
+                    context->displayVTACHECG();
+                }
+
+                else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
+                    context->displayVHABECG();
+                }
+                else{
+                    context->displayNormalECG();
+                }
+
+
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
-
-
-
             }
+
             case 1:
+                context->playMessage("Press Shock Indicator Button");
+                timer->start(SELF_TEST_DURATION_MS);
+                break;
+
+            case 2:
+
+                while(!context->getShockIndicatorButtonPressed()){
+                    QCoreApplication::processEvents();
+                    QThread::msleep(100);
+                }
+
+                timer->start(SELF_TEST_DURATION_MS);
+                break;
+
+            case 3:
 
                 context->playMessage("Shock will be delivered in three, two, one ....");
                 timer->start(SELF_TEST_DURATION_MS);
@@ -78,15 +96,18 @@ void AnalyzingState::execute()
 
 
 
-            case 2:
+            case 4:
                 context->playMessage("Shock delivered");
                 context->setBattery(context->getBattery()-10);
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
 
-            case 3:
+
+
+            case 5:
                 context->shockIndicatorButtonStopFlashing();
                 context->changeState(new PerformCPRState(context));
+                context->deactivateShockIndicatorButtonPressed();
                 return;
 
 
