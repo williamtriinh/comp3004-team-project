@@ -24,6 +24,7 @@ void SelfTestState::initialize()
 
 void SelfTestState::execute()
 {
+
     switch (getStep())
     {
     case 0:

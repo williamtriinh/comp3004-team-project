@@ -3,6 +3,8 @@
 
 #include "aedimage.h"
 #include "states/basestate.h"
+#include "qcustomplot.h"
+#include "shockindicatorbutton.h"
 
 #include <QMainWindow>
 #include <QPlainTextEdit>
@@ -25,9 +27,17 @@ public:
         DEFAULT,
     };
 
+
     enum class ElectrodePadsAttachedState {
         NOT_ATTACHED,
         ATTACHED,
+    };
+
+    enum class PatientStatus{
+        VHAB,
+        VTACH,
+        NORMAL,
+        DEFAULT,
     };
 
     static const int DISPLAY_SIZE = 700;
@@ -55,8 +65,29 @@ public:
 
     bool getElectrodesInstalled();
 
+
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
+
+
+
+    QCustomPlot *placeholderGraph;
+
+    ShockIndicatorButton *shockIndicatorButton;
+
+    PatientStatus getPatientStatus();
+    void setPatientStatus(PatientStatus status);
+
+    void displayVTACHECG();
+    void displayVHABECG();
+    void displayNormalECG();
+
+    void shockIndicatorButtonFlashing();
+    void shockIndicatorButtonStopFlashing();
+
+    bool getShockIndicatorButtonPressed();
+
+    void deactivateShockIndicatorButtonPressed();
 
 public slots:
     void toggleElectrodesInstalled();
@@ -97,11 +128,32 @@ private:
      */
     void updateActiveAEDImage();
 
+
+    /**
+     * The patient's status
+     */
+    PatientStatus patientStatus;
+
+    /**
+     * Keeps track if the shock button has been pressed
+     */
+    bool shockIndicatorButtonPressed;
+
+
+
+
+
 signals:
     void stateChanged(BaseState *state);
     void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
     void electrodePadsAttachedStateChanged(ElectrodePadsAttachedState state);
+    void patientStatusChanged(PatientStatus status);
+
+private slots:
+    void activateShockIndicatorButtonPressed();
+
+
 };
 #endif // MAINWINDOW_H

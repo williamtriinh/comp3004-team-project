@@ -6,9 +6,12 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
+#include "graphs.h"
+
 #include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
+#include "simulation/patientstatuswidget.h"
 
 #include "states/poweredoffstate.h"
 
@@ -37,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     battery = 100;
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
+    patientStatus = PatientStatus::DEFAULT;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -89,13 +93,15 @@ MainWindow::MainWindow(QWidget *parent)
     QLabel *shockCountLabel = new QLabel("Shocks: 05", displayWidget);
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
-    QWidget *placeholderGraph = new QWidget(displayWidget);
+    placeholderGraph = new QCustomPlot(displayWidget);
     placeholderGraph->setFixedSize(300, 150);
     placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
 
-    ShockIndicatorButton *shockIndicatorButton = new ShockIndicatorButton(displayWidget);
+    shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
+    connect(shockIndicatorButton,SIGNAL(released()),this,SLOT(activateShockIndicatorButtonPressed()));
+
 
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
@@ -104,15 +110,42 @@ MainWindow::MainWindow(QWidget *parent)
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
 
+
+
+
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QWidget *rightWidget = new QWidget();
+
+
+    rightLayout->addWidget(new PatientStatusWidget(this));
+
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     rightLayout->addWidget(new BatteriesWidget(this));
     rightLayout->addWidget(new InstallElectrodesWidget(this));
+
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
+
+
+
+
+    // Applying electro pads to victim
+    QComboBox *electrodePadsComboBox = new QComboBox;
+    electrodePadsComboBox->addItem("success");
+    electrodePadsComboBox->addItem("failure");
+    rightLayout->addWidget(electrodePadsComboBox);
+
+
+    QPushButton *electrodePadsButton = new QPushButton("Apply Electrode Pads");
+    rightLayout->addWidget(electrodePadsButton);
+    rightLayout->addStretch();
+
+
+
+
+
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -177,6 +210,7 @@ bool MainWindow::getElectrodesInstalled()
     return electrodesInstalled;
 }
 
+
 MainWindow::ElectrodePadsAttachedState MainWindow::getElectrodePadsAttachedState()
 {
     return electrodePadsAttachedState;
@@ -187,3 +221,54 @@ void MainWindow::setElectrodePadsAttached(ElectrodePadsAttachedState state)
     electrodePadsAttachedState = state;
     emit electrodePadsAttachedStateChanged(electrodePadsAttachedState);
 }
+
+MainWindow::PatientStatus MainWindow::getPatientStatus()
+{
+    return patientStatus;
+}
+
+void MainWindow::setPatientStatus(PatientStatus status)
+{
+    patientStatus = status;
+    emit patientStatusChanged(patientStatus);
+}
+
+
+void MainWindow::displayVTACHECG(){
+    Graphs *graph = new Graphs(placeholderGraph);
+    graph->shockAdvisedECG();
+}
+void MainWindow::displayVHABECG(){
+    Graphs *graph = new Graphs(placeholderGraph);
+    graph->shockAdvisedECG();
+}
+
+void MainWindow::displayNormalECG(){
+    Graphs *graph = new Graphs(placeholderGraph);
+    graph->shockNotAdvisedECG();
+}
+
+
+void MainWindow::shockIndicatorButtonFlashing() {
+    shockIndicatorButton->startFlashing();
+}
+
+void MainWindow::shockIndicatorButtonStopFlashing(){
+    shockIndicatorButton->stopFlashing();
+}
+
+void MainWindow::activateShockIndicatorButtonPressed(){
+    shockIndicatorButtonPressed = true;
+}
+
+bool MainWindow::getShockIndicatorButtonPressed(){
+    return shockIndicatorButtonPressed;
+
+}
+
+void MainWindow::deactivateShockIndicatorButtonPressed(){
+    shockIndicatorButtonPressed = false;
+}
+
+
+
