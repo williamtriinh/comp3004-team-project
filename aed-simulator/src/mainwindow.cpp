@@ -98,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
     placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
 
-    ShockIndicatorButton *shockIndicatorButton = new ShockIndicatorButton(displayWidget);
+    shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
 
     StatusIndicator *statusIndicator = new StatusIndicator(this);
@@ -234,7 +234,7 @@ void MainWindow::setPatientStatus(PatientStatus status)
 
 void MainWindow::displayVTACHECG(){
     graphs *graph = new graphs(placeholderGraph);
-    graph->shockNotAdvisedECG();
+    graph->shockAdvisedECG();
 }
 void MainWindow::displayVHABECG(){
     graphs *graph = new graphs(placeholderGraph);
@@ -245,3 +245,13 @@ void MainWindow::displayNormalECG(){
     graphs *graph = new graphs(placeholderGraph);
     graph->shockNotAdvisedECG();
 }
+
+
+void MainWindow::shockIndicatorButtonFlashing() {
+    shockIndicatorButton->startFlashing();
+}
+
+void MainWindow::shockIndicatorButtonStopFlashing(){
+        shockIndicatorButton->stopFlashing();
+}
+

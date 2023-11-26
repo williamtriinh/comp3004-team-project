@@ -4,6 +4,7 @@
 #include "aedimage.h"
 #include "states/basestate.h"
 #include "qcustomplot.h"
+#include "shockindicatorbutton.h"
 
 #include <QMainWindow>
 #include <QPlainTextEdit>
@@ -72,12 +73,17 @@ public:
 
     QCustomPlot *placeholderGraph;
 
+    ShockIndicatorButton *shockIndicatorButton;
+
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
     void displayVTACHECG();
     void displayVHABECG();
     void displayNormalECG();
+
+    void shockIndicatorButtonFlashing();
+    void shockIndicatorButtonStopFlashing();
 
 public slots:
     void toggleElectrodesInstalled();
