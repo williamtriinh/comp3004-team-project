@@ -149,9 +149,20 @@ private:
      * Label which shows battery
      */
     QLabel *batteryLabel;
+
+    /**
+     * Label which shows number of shocks left
+     */
     QLabel *shockCountLabel;
 
+    /**
+     * Keeps track of number of shocks left
+     */
     int numberOfShocks;
+
+    /**
+     * Counts how many times the program enters the analyzing state
+     */
     int analyzingStateCounter;
 
 
