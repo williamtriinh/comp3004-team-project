@@ -18,14 +18,16 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
     EndProgramComboBox->addItem("CPR regenerates the heart beat");
     EndProgramComboBox->addItem("The shock revives the patient");
     connect(EndProgramComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EndProgramWidget::handleEndProgramComboBoxChanged);
+
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(label);
     layout->addWidget(EndProgramComboBox);
 }
 
-void EndProgramWidget::handleEndProgramComboBoxChanged(int index){
+void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
+{
     switch (index)
     {
     case 1:
