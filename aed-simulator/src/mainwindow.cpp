@@ -115,20 +115,13 @@ MainWindow::MainWindow(QWidget *parent)
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QWidget *rightWidget = new QWidget();
-
-
-    rightLayout->addWidget(new PatientStatusWidget(this));
-
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
+    rightLayout->addWidget(new PatientStatusWidget(this));
     rightLayout->addWidget(new BatteriesWidget(this));
     rightLayout->addWidget(new InstallElectrodesWidget(this));
-
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
-
     rightLayout->addWidget(new EndProgramWidget(this));
-
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -192,7 +185,6 @@ bool MainWindow::getElectrodesInstalled()
 {
     return electrodesInstalled;
 }
-
 
 MainWindow::ElectrodePadsAttachedState MainWindow::getElectrodePadsAttachedState()
 {

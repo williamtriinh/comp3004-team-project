@@ -1,6 +1,5 @@
 #include "endprogramwidget.h"
 
-
 #include "../mainwindow.h"
 
 #include <QLabel>
@@ -12,7 +11,6 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
     this->mainWindow = mainWindow;
 
     QLabel *label = new QLabel("End Program");
-
 
     QComboBox *EndProgramComboBox = new QComboBox;
     EndProgramComboBox->addItem("Select End Program");
@@ -33,14 +31,11 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index){
     case 1:
         mainWindow->changeState(new PoweredOffState(mainWindow));
         break;
-
     case 2:
         mainWindow->changeState(new PoweredOffState(mainWindow));
         break;
-
     case 3:
         mainWindow->changeState(new PoweredOffState(mainWindow));
         break;
-
     }
 }
