@@ -1,6 +1,7 @@
 #include "endprogramwidget.h"
 
 #include "../mainwindow.h"
+#include "../states/poweredoffstate.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -12,18 +13,18 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
 
     QLabel *label = new QLabel("End Program");
 
-    QComboBox *EndProgramComboBox = new QComboBox;
-    EndProgramComboBox->addItem("Select End Program");
-    EndProgramComboBox->addItem("Emergency Services' arrives");
-    EndProgramComboBox->addItem("CPR regenerates the heart beat");
-    EndProgramComboBox->addItem("The shock revives the patient");
-    connect(EndProgramComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EndProgramWidget::handleEndProgramComboBoxChanged);
+    QComboBox *endProgramComboBox = new QComboBox;
+    endProgramComboBox->addItem("Select End Program");
+    endProgramComboBox->addItem("Emergency Services' arrives");
+    endProgramComboBox->addItem("CPR regenerates the heart beat");
+    endProgramComboBox->addItem("The shock revives the patient");
+    connect(endProgramComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EndProgramWidget::handleEndProgramComboBoxChanged);
 
     QVBoxLayout *layout = new QVBoxLayout();
     setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(label);
-    layout->addWidget(EndProgramComboBox);
+    layout->addWidget(endProgramComboBox);
 }
 
 void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
