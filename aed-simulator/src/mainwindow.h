@@ -89,6 +89,8 @@ public:
 
     void deactivateShockIndicatorButtonPressed();
 
+    void updateBattery();
+
 public slots:
     void toggleElectrodesInstalled();
 
@@ -138,6 +140,11 @@ private:
      * Keeps track if the shock button has been pressed
      */
     bool shockIndicatorButtonPressed;
+
+    /**
+     * Label which shows battery
+     */
+    QLabel *batteryLabel;
 
 
 

@@ -88,7 +88,8 @@ MainWindow::MainWindow(QWidget *parent)
     AEDImage *image5 = new AEDImage(this, "05_start_cpr", 200, "PerformCPRState", displayWidget);
     image5->move(50, 460);
 
-    QLabel *batteryLabel = new QLabel("Battery Level: 100%", displayWidget);
+    batteryLabel = new QLabel(displayWidget);
+    batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
     batteryLabel->move(DISPLAY_SIZE / 2 - 150, 200);
     QLabel *shockCountLabel = new QLabel("Shocks: 05", displayWidget);
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
@@ -245,6 +246,12 @@ bool MainWindow::getShockIndicatorButtonPressed(){
 
 void MainWindow::deactivateShockIndicatorButtonPressed(){
     shockIndicatorButtonPressed = false;
+}
+
+void MainWindow::updateBattery(){
+
+    batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+
 }
 
 

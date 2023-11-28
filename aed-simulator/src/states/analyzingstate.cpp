@@ -37,7 +37,7 @@ void AnalyzingState::execute()
     }
 
     if(shockAdvised){
-        if(context->getBattery()>10){
+        if(context->getBattery()>=20){
             switch(getStep())
             {
             case 0:
@@ -75,7 +75,8 @@ void AnalyzingState::execute()
 
             case 3:
                 context->playMessage("Shock delivered");
-                context->setBattery(context->getBattery()-10);
+                context->setBattery(context->getBattery()-20);
+                context->updateBattery();
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
 
