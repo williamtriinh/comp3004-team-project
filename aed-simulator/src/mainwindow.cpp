@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
+    analyzingStateCounter = 0;
+    numberOfShocks = battery/20;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -91,7 +93,9 @@ MainWindow::MainWindow(QWidget *parent)
     batteryLabel = new QLabel(displayWidget);
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
     batteryLabel->move(DISPLAY_SIZE / 2 - 150, 200);
-    QLabel *shockCountLabel = new QLabel("Shocks: 05", displayWidget);
+
+    shockCountLabel = new QLabel(displayWidget);
+    shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
     placeholderGraph = new QCustomPlot(displayWidget);
@@ -249,9 +253,21 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
 }
 
 void MainWindow::updateBattery(){
-
+    numberOfShocks = battery/20;
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+}
 
+void MainWindow::updateShockCount(){
+
+    shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
+}
+
+void MainWindow::incrementAnalyzingStateCounter() {
+    analyzingStateCounter++;
+}
+
+int MainWindow::getAnalyzingStateCounter() const{
+    return analyzingStateCounter;
 }
 
 

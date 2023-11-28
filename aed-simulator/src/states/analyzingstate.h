@@ -14,15 +14,12 @@ public:
     void initialize() override;
     QString getStateName() override;
 
-
-
 public slots:
     void execute() override;
 
 
 private:
     QTimer *timer;
-
 };
 
 #endif // ANALYZINGSTATE_H

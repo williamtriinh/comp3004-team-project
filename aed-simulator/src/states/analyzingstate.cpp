@@ -7,6 +7,7 @@
 AnalyzingState::AnalyzingState(MainWindow *context)
     : BaseState(context)
 {
+
     timer = new QTimer(this);
     timer->setSingleShot(true);
     connect(timer, &QTimer::timeout, this, &AnalyzingState::execute);
@@ -42,20 +43,24 @@ void AnalyzingState::execute()
             {
             case 0:
             {
-                if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
-                    context->displayVTACHECG();
-                }
+                if(context->getAnalyzingStateCounter()==0){
+                    qDebug() << "Executing Analyzing State";
+                    if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
+                        context->displayVTACHECG();
+                    }
 
-                else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
-                    context->displayVHABECG();
-                }
-                else{
-                    context->displayNormalECG();
+                    else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
+                        context->displayVHABECG();
+                    }
+                    else{
+                        context->displayNormalECG();
+                    }
                 }
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
                 timer->start(SELF_TEST_DURATION_MS);
+                context->incrementAnalyzingStateCounter();
                 break;
             }
 
@@ -77,6 +82,7 @@ void AnalyzingState::execute()
                 context->playMessage("Shock delivered");
                 context->setBattery(context->getBattery()-20);
                 context->updateBattery();
+                context->updateShockCount();
                 timer->start(SELF_TEST_DURATION_MS);
                 break;
 

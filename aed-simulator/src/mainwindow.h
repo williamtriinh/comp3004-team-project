@@ -91,6 +91,12 @@ public:
 
     void updateBattery();
 
+    void updateShockCount();
+
+    void incrementAnalyzingStateCounter();
+
+    int getAnalyzingStateCounter() const;
+
 public slots:
     void toggleElectrodesInstalled();
 
@@ -145,6 +151,12 @@ private:
      * Label which shows battery
      */
     QLabel *batteryLabel;
+    QLabel *shockCountLabel;
+
+    int numberOfShocks;
+    int analyzingStateCounter;
+
+
 
 
 
