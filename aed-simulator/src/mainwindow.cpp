@@ -12,6 +12,8 @@
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
 #include "simulation/patientstatuswidget.h"
+#include "simulation/endprogramwidget.h"
+
 
 #include "states/poweredoffstate.h"
 
@@ -124,6 +126,9 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout->addWidget(new InstallElectrodesWidget(this));
 
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
+
+    rightLayout->addWidget(new EndProgramWidget(this));
+
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);

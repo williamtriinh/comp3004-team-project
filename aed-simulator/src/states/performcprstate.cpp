@@ -18,6 +18,7 @@ PerformCPRState::~PerformCPRState()
 void PerformCPRState::initialize()
 {
     context->playMessage("Perform CPR.");
+    context->playMessage("2 breaths for every 30 compressions.");
     timer->start(2000);
 }
 
@@ -39,7 +40,7 @@ void PerformCPRState::execute()
 
         case 2:
             context->playMessage("Good compression depth. Keep going.");
-            timer->start(2000);
+            timer->start(5000);
             break;
 
         case 3:
