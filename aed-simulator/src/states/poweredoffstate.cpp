@@ -10,6 +10,7 @@ PoweredOffState::PoweredOffState(MainWindow *context)
 
 void PoweredOffState::initialize()
 {
+    context->playMessage("Powering off.");
     context->setUnitStatus(MainWindow::UnitStatus::DEFAULT);
 }
 

@@ -20,6 +20,7 @@ SOURCES += \
     src/simulation/batterieswidget.cpp \
     src/simulation/installelectrodeswidget.cpp \
     src/simulation/patientstatuswidget.cpp \
+    src/simulation/endprogramwidget.cpp \
     src/states/analyzingstate.cpp \
     src/states/attachdefibrillatorpadsstate.cpp \
     src/states/basestate.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     src/simulation/batterieswidget.h \
     src/simulation/installelectrodeswidget.h \
     src/simulation/patientstatuswidget.h \
+    src/simulation/endprogramwidget.h \
     src/states/analyzingstate.h \
     src/states/attachdefibrillatorpadsstate.h \
     src/states/basestate.h \
