@@ -35,9 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Set the initialize state
-    state = NULL;
-    changeState(new PoweredOffState(this));
-
+    state = new PoweredOffState(this);
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;

@@ -28,6 +28,5 @@ void BaseState::execute()
 
 void BaseState::togglePower()
 {
-    context->playMessage("POWERING OFF");
     context->changeState(new PoweredOffState(context));
 }
