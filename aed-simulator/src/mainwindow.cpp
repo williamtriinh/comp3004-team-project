@@ -12,6 +12,8 @@
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
 #include "simulation/patientstatuswidget.h"
+#include "simulation/endprogramwidget.h"
+
 
 #include "states/poweredoffstate.h"
 
@@ -33,9 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Set the initialize state
-    state = NULL;
-    changeState(new PoweredOffState(this));
-
+    state = new PoweredOffState(this);
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
@@ -118,17 +118,13 @@ MainWindow::MainWindow(QWidget *parent)
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QWidget *rightWidget = new QWidget();
-
-
-    rightLayout->addWidget(new PatientStatusWidget(this));
-
     rightWidget->setLayout(rightLayout);
     rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
+    rightLayout->addWidget(new PatientStatusWidget(this));
     rightLayout->addWidget(new BatteriesWidget(this));
     rightLayout->addWidget(new InstallElectrodesWidget(this));
-
     rightLayout->addWidget(new AttachElectrodePadsWidget(this));
+    rightLayout->addWidget(new EndProgramWidget(this));
 
     console = new QPlainTextEdit;
     console->setReadOnly(true);
@@ -192,7 +188,6 @@ bool MainWindow::getElectrodesInstalled()
 {
     return electrodesInstalled;
 }
-
 
 MainWindow::ElectrodePadsAttachedState MainWindow::getElectrodePadsAttachedState()
 {
