@@ -1,6 +1,7 @@
 #include "analyzingstate.h"
 #include "../mainwindow.h"
 #include "performcprstate.h"
+#include "poweredoffstate.h"
 
 #include <QCoreApplication>
 
@@ -20,7 +21,7 @@ AnalyzingState::~AnalyzingState()
 
 void AnalyzingState::initialize(){
     context->playMessage("Don't touch patient. Analyzing");
-    timer->start(SELF_TEST_DURATION_MS);
+    timer->start(ANALYZING_STATE_DURATION_MS);
 }
 
 void AnalyzingState::execute()
@@ -59,14 +60,14 @@ void AnalyzingState::execute()
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
-                timer->start(SELF_TEST_DURATION_MS);
+                timer->start(ANALYZING_STATE_DURATION_MS);
                 context->incrementAnalyzingStateCounter();
                 break;
             }
 
             case 1:
                 context->playMessage("Press Shock Indicator Button");
-                timer->start(SELF_TEST_DURATION_MS);
+                timer->start(ANALYZING_STATE_DURATION_MS);
                 break;
 
             case 2:
@@ -75,28 +76,37 @@ void AnalyzingState::execute()
                     QCoreApplication::processEvents();
                 }
                 context->playMessage("Shock will be delivered in three, two, one ....");
-                timer->start(SELF_TEST_DURATION_MS);
+                timer->start(ANALYZING_STATE_DURATION_MS);
                 break;
 
             case 3:
                 context->playMessage("Shock delivered");
                 context->setBattery(context->getBattery()-20);
                 context->updateBattery();
-                context->updateShockCount();
-                timer->start(SELF_TEST_DURATION_MS);
+
+                timer->start(1000);
                 break;
 
             case 4:
+
+                if(context->getBattery()==0){
+                    context->playMessage("Battery Reached 0. Powering Off");
+                    context->changeState(new PoweredOffState(context));
+                }
+                timer->start(1000);
+                break;
+
+            case 5:
                 context->shockIndicatorButtonStopFlashing();
                 context->deactivateShockIndicatorButtonPressed();
-                context->changeState(new PerformCPRState(context));
+                context->changeState(new PoweredOffState(context));
                 return;
             }
 
             nextStep();
         }
         else{
-            context->playMessage("Not enough battery");
+            context->playMessage("Not enough battery to perform shock");
         }
     }
 }

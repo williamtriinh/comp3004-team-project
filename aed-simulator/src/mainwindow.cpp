@@ -98,10 +98,10 @@ MainWindow::MainWindow(QWidget *parent)
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
-    placeholderGraph = new QCustomPlot(displayWidget);
-    placeholderGraph->setFixedSize(300, 150);
-    placeholderGraph->move(DISPLAY_SIZE / 2 - 150, 240);
-    placeholderGraph->setStyleSheet("QWidget { background-color: black; }");
+    ecgGraph = new QCustomPlot(displayWidget);
+    ecgGraph->setFixedSize(300, 150);
+    ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
+    ecgGraph->setStyleSheet("QWidget { background-color: black; }");
 
     shockIndicatorButton = new ShockIndicatorButton(displayWidget);
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
@@ -218,16 +218,16 @@ void MainWindow::setPatientStatus(PatientStatus status)
 
 
 void MainWindow::displayVTACHECG(){
-    Graphs *graph = new Graphs(placeholderGraph);
+    Graphs *graph = new Graphs(ecgGraph);
     graph->shockAdvisedECG();
 }
 void MainWindow::displayVHABECG(){
-    Graphs *graph = new Graphs(placeholderGraph);
+    Graphs *graph = new Graphs(ecgGraph);
     graph->shockAdvisedECG();
 }
 
 void MainWindow::displayNormalECG(){
-    Graphs *graph = new Graphs(placeholderGraph);
+    Graphs *graph = new Graphs(ecgGraph);
     graph->shockNotAdvisedECG();
 }
 
@@ -255,12 +255,9 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
 void MainWindow::updateBattery(){
     numberOfShocks = battery/20;
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
-}
-
-void MainWindow::updateShockCount(){
-
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
+
 
 void MainWindow::incrementAnalyzingStateCounter() {
     analyzingStateCounter++;

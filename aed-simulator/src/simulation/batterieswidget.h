@@ -14,6 +14,7 @@ public:
     explicit BatteriesWidget(MainWindow *mainWindow, QWidget *parent = nullptr);
 
 private:
+    MainWindow *mainWindow;
     QSpinBox *spinBox;
     QPushButton *button;
 

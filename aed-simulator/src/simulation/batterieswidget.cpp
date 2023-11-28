@@ -8,6 +8,7 @@
 BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     : QWidget{parent}
 {
+    this->mainWindow = mainWindow;
     QLabel *label = new QLabel("Battery");
 
     spinBox = new QSpinBox();
@@ -30,4 +31,6 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
 
 void BatteriesWidget::updateSpinBox(int battery) {
     spinBox->setValue(battery);
+    mainWindow->updateBattery();
+
 }

@@ -71,7 +71,7 @@ public:
 
 
 
-    QCustomPlot *placeholderGraph;
+    QCustomPlot *ecgGraph;
 
     ShockIndicatorButton *shockIndicatorButton;
 
@@ -90,8 +90,6 @@ public:
     void deactivateShockIndicatorButtonPressed();
 
     void updateBattery();
-
-    void updateShockCount();
 
     void incrementAnalyzingStateCounter();
 

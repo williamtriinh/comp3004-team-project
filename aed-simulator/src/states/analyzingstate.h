@@ -8,7 +8,7 @@
 class AnalyzingState : public BaseState, public IntermediateState
 {
 public:
-    static const int SELF_TEST_DURATION_MS = 5000;
+    static const int ANALYZING_STATE_DURATION_MS = 5000;
     AnalyzingState(MainWindow *context);
     ~AnalyzingState() override;
     void initialize() override;
