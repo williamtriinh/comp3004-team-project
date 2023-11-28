@@ -8,6 +8,7 @@
 BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     : QWidget{parent}
 {
+    this->mainWindow = mainWindow;
     QLabel *label = new QLabel("Battery");
 
     spinBox = new QSpinBox();
@@ -15,8 +16,8 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     spinBox->setMaximum(100);
     updateSpinBox(mainWindow->getBattery());
 
-    button = new QPushButton("Update Battery");
-    connect(button, &QPushButton::clicked, mainWindow, [=]() { mainWindow->setBattery(spinBox->value()); });
+    button = new QPushButton("Reset Battery");
+    connect(button, &QPushButton::clicked, mainWindow, [=]() { mainWindow->setBattery(100); });
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -30,4 +31,6 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
 
 void BatteriesWidget::updateSpinBox(int battery) {
     spinBox->setValue(battery);
+    mainWindow->updateBattery();
+
 }

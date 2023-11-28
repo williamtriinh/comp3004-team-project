@@ -41,6 +41,7 @@ void PerformCPRState::execute()
         break;
 
     case 3:
+        context->playMessage("Stop CPR.");
         context->changeState(new AnalyzingState(context));
         return;
     }

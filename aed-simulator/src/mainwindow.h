@@ -71,7 +71,7 @@ public:
 
 
 
-    QCustomPlot *placeholderGraph;
+    QCustomPlot *ecgGraph;
 
     ShockIndicatorButton *shockIndicatorButton;
 
@@ -88,6 +88,12 @@ public:
     bool getShockIndicatorButtonPressed();
 
     void deactivateShockIndicatorButtonPressed();
+
+    void updateBattery();
+
+    void incrementAnalyzingStateCounter();
+
+    int getAnalyzingStateCounter() const;
 
 public slots:
     void toggleElectrodesInstalled();
@@ -138,6 +144,28 @@ private:
      * Keeps track if the shock button has been pressed
      */
     bool shockIndicatorButtonPressed;
+
+    /**
+     * Label which shows battery
+     */
+    QLabel *batteryLabel;
+
+    /**
+     * Label which shows number of shocks left
+     */
+    QLabel *shockCountLabel;
+
+    /**
+     * Keeps track of number of shocks left
+     */
+    int numberOfShocks;
+
+    /**
+     * Counts how many times the program enters the analyzing state
+     */
+    int analyzingStateCounter;
+
+
 
 
 

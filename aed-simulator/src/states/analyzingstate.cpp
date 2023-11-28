@@ -1,12 +1,14 @@
 #include "analyzingstate.h"
 #include "../mainwindow.h"
 #include "performcprstate.h"
+#include "poweredoffstate.h"
 
 #include <QCoreApplication>
 
 AnalyzingState::AnalyzingState(MainWindow *context)
     : BaseState(context)
 {
+
     timer = new QTimer(this);
     timer->setSingleShot(true);
     connect(timer, &QTimer::timeout, this, &AnalyzingState::execute);
@@ -19,7 +21,7 @@ AnalyzingState::~AnalyzingState()
 
 void AnalyzingState::initialize(){
     context->playMessage("Don't touch patient. Analyzing");
-    timer->start(SELF_TEST_DURATION_MS);
+    timer->start(ANALYZING_STATE_DURATION_MS);
 }
 
 void AnalyzingState::execute()
@@ -37,11 +39,13 @@ void AnalyzingState::execute()
     }
 
     if(shockAdvised){
-        if(context->getBattery()>10){
-            switch(getStep())
-            {
-            case 0:
-            {
+
+        switch(getStep())
+        {
+        case 0:
+        {
+            if(context->getAnalyzingStateCounter()==0){
+                qDebug() << "Executing Analyzing State";
                 if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
                     context->displayVTACHECG();
                 }
@@ -52,46 +56,63 @@ void AnalyzingState::execute()
                 else{
                     context->displayNormalECG();
                 }
+            }
+            if(context->getBattery()>=20){
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
-                timer->start(SELF_TEST_DURATION_MS);
+                timer->start(ANALYZING_STATE_DURATION_MS);
+                context->incrementAnalyzingStateCounter();
                 break;
             }
-
-            case 1:
-                context->playMessage("Press Shock Indicator Button");
-                timer->start(SELF_TEST_DURATION_MS);
-                break;
-
-            case 2:
-
-                while(!context->getShockIndicatorButtonPressed()){
-                    QCoreApplication::processEvents();
-                }
-                context->playMessage("Shock will be delivered in three, two, one ....");
-                timer->start(SELF_TEST_DURATION_MS);
-                break;
-
-            case 3:
-                context->playMessage("Shock delivered");
-                context->setBattery(context->getBattery()-10);
-                timer->start(SELF_TEST_DURATION_MS);
-                break;
-
-            case 4:
-                context->shockIndicatorButtonStopFlashing();
-                context->deactivateShockIndicatorButtonPressed();
-                context->changeState(new PerformCPRState(context));
+            else{
+                context->playMessage("Not enough battery to perform shock");
                 return;
             }
 
-            nextStep();
+
         }
-        else{
-            context->playMessage("Not enough battery");
+
+        case 1:
+            context->playMessage("Press Shock Indicator Button");
+            timer->start(ANALYZING_STATE_DURATION_MS);
+            break;
+
+        case 2:
+
+            while(!context->getShockIndicatorButtonPressed()){
+                QCoreApplication::processEvents();
+            }
+            context->deactivateShockIndicatorButtonPressed();
+            context->playMessage("Shock will be delivered in three, two, one ....");
+            timer->start(ANALYZING_STATE_DURATION_MS);
+            break;
+
+        case 3:
+            context->playMessage("Shock delivered");
+            context->setBattery(context->getBattery()-20);
+            context->updateBattery();
+            timer->start(1000);
+            break;
+
+        case 4:
+
+            if(context->getBattery()==0){
+                context->playMessage("Battery Reached 0. Powering Off");
+                context->changeState(new PoweredOffState(context));
+            }
+            timer->start(1000);
+            break;
+
+        case 5:
+            context->shockIndicatorButtonStopFlashing();
+            context->changeState(new PerformCPRState(context));
+            return;
         }
+
+        nextStep();
     }
+
 }
 
 QString AnalyzingState::getStateName(){

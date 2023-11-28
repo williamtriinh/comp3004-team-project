@@ -29,7 +29,7 @@ void SelfTestState::execute()
     {
     case 0:
     {
-        if (context->getBattery() < 70)
+        if (context->getBattery() < 20)
         {
             context->setUnitStatus(MainWindow::UnitStatus::FAILED);
             context->playMessage("Change batteries.");
