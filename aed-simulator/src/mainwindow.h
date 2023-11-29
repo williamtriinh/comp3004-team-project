@@ -95,8 +95,6 @@ public:
 
     int getAnalyzingStateCounter() const;
 
-    void setCurrentState(BaseState* state);
-    BaseState* getCurrentState() const;
     bool isCurrentStatePerformCPR() const;
 
 public slots:

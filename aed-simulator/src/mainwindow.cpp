@@ -269,19 +269,9 @@ int MainWindow::getAnalyzingStateCounter() const{
     return analyzingStateCounter;
 }
 
-void MainWindow::setCurrentState(BaseState* state) {
-    if (currentState) {
-        delete currentState;
-    }
-    currentState = state;
-}
-
-BaseState* MainWindow::getCurrentState() const {
-    return currentState;
-}
 
 bool MainWindow::isCurrentStatePerformCPR() const {
-    return dynamic_cast<PerformCPRState*>(currentState) != nullptr;
+    return dynamic_cast<PerformCPRState*>(state) != nullptr;
 }
 
 
