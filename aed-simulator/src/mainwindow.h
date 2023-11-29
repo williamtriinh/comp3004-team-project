@@ -173,12 +173,6 @@ private:
 //    QLabel *timeDisplayedLabel;
 
 
-    BaseState* currentState;
-
-
-
-
-
 
 signals:
     void stateChanged(BaseState *state);
