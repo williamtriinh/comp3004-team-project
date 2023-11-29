@@ -34,8 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Set the initialize state
-    state = new PoweredOffState(this);
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
@@ -43,6 +41,10 @@ MainWindow::MainWindow(QWidget *parent)
     patientStatus = PatientStatus::DEFAULT;
     analyzingStateCounter = 0;
     numberOfShocks = battery/20;
+
+    // Important to initialize state after other attributes
+    state = new PoweredOffState(this);
+    state->execute();
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -176,6 +178,11 @@ void MainWindow::setBattery(int value)
 {
     battery = std::max(std::min(value, 100), 0);
     emit batteryChanged(battery);
+}
+
+bool MainWindow::hasSufficientBattery()
+{
+    return battery >= MINIMUM_BATTERY;
 }
 
 void MainWindow::toggleElectrodesInstalled()

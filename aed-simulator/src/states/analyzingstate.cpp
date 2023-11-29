@@ -57,7 +57,7 @@ void AnalyzingState::execute()
                     context->displayNormalECG();
                 }
             }
-            if(context->getBattery()>=20){
+            if(context->getBattery() >= MainWindow::SHOCK_BATTERY_COST){
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
@@ -90,15 +90,15 @@ void AnalyzingState::execute()
 
         case 3:
             context->playMessage("Shock delivered");
-            context->setBattery(context->getBattery()-20);
+            context->setBattery(context->getBattery() - MainWindow::SHOCK_BATTERY_COST);
             context->updateBattery();
             timer->start(1000);
             break;
 
         case 4:
 
-            if(context->getBattery()==0){
-                context->playMessage("Battery Reached 0. Powering Off");
+            if(context->getBattery() == 0){
+                context->playMessage("Battery Reached 0.");
                 context->changeState(new PoweredOffState(context));
             }
             timer->start(1000);

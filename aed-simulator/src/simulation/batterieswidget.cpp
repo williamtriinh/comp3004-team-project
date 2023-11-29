@@ -32,5 +32,4 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
 void BatteriesWidget::updateSpinBox(int battery) {
     spinBox->setValue(battery);
     mainWindow->updateBattery();
-
 }
