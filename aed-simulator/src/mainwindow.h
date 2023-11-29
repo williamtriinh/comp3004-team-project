@@ -84,6 +84,8 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
+    void updateShockCount();
+
     QCustomPlot *ecgGraph;
 
     ShockIndicatorButton *shockIndicatorButton;
