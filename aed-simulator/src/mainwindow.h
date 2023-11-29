@@ -34,8 +34,8 @@ public:
     };
 
     enum class PatientStatus{
-        VHAB,
-        VTACH,
+        VT,
+        VF,
         NORMAL,
         DEFAULT,
     };
@@ -69,7 +69,7 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
-
+    void updateShockCount();
 
     QCustomPlot *ecgGraph;
 
@@ -78,8 +78,8 @@ public:
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
-    void displayVTACHECG();
-    void displayVHABECG();
+    void displayVTECG();
+    void displayVFECG();
     void displayNormalECG();
 
     void shockIndicatorButtonFlashing();
@@ -164,6 +164,13 @@ private:
      * Counts how many times the program enters the analyzing state
      */
     int analyzingStateCounter;
+
+    /**
+     * Displays the elapsed time
+     */
+//    QLabel *timeDisplayedLabel;
+
+
 
 
 
