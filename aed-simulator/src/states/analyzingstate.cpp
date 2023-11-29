@@ -90,9 +90,11 @@ void AnalyzingState::execute()
             break;
 
         case 3:
+
             context->playMessage("Shock delivered");
-            context->setBattery(context->getBattery()-20);
+            context->setBattery(context->getBattery()-10);
             context->updateBattery();
+            context->updateShockCount();
             timer->start(1000);
             break;
 

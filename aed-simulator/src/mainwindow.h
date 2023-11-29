@@ -69,7 +69,7 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
-
+    void updateShockCount();
 
     QCustomPlot *ecgGraph;
 
@@ -164,6 +164,13 @@ private:
      * Counts how many times the program enters the analyzing state
      */
     int analyzingStateCounter;
+
+    /**
+     * Displays the elapsed time
+     */
+//    QLabel *timeDisplayedLabel;
+
+
 
 
 
