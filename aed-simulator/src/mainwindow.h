@@ -95,6 +95,8 @@ public:
 
     int getAnalyzingStateCounter() const;
 
+    bool isCurrentStatePerformCPR() const;
+
 public slots:
     void toggleElectrodesInstalled();
 
@@ -169,12 +171,6 @@ private:
      * Displays the elapsed time
      */
 //    QLabel *timeDisplayedLabel;
-
-
-
-
-
-
 
 
 
