@@ -212,13 +212,13 @@ void MainWindow::setPatientStatus(PatientStatus status)
 }
 
 
-void MainWindow::displayVTACHECG(){
+void MainWindow::displayVTECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedECG();
+    graph->shockAdvisedVTECG();
 }
-void MainWindow::displayVHABECG(){
+void MainWindow::displayVFECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedECG();
+    graph->shockAdvisedVFECG();
 }
 
 void MainWindow::displayNormalECG(){

@@ -34,8 +34,8 @@ public:
     };
 
     enum class PatientStatus{
-        VHAB,
-        VTACH,
+        VT,
+        VF,
         NORMAL,
         DEFAULT,
     };
@@ -78,8 +78,8 @@ public:
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
-    void displayVTACHECG();
-    void displayVHABECG();
+    void displayVTECG();
+    void displayVFECG();
     void displayNormalECG();
 
     void shockIndicatorButtonFlashing();

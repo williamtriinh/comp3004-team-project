@@ -10,8 +10,10 @@ class Graphs
 {
 public:
     Graphs(QCustomPlot* graph);
-    void shockAdvisedECG();
+    void shockAdvisedVTECG();
+    void shockAdvisedVFECG();
     void shockNotAdvisedECG();
+
 
 private:
     QCustomPlot* placeholderGraph;

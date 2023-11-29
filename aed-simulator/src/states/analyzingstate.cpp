@@ -46,15 +46,16 @@ void AnalyzingState::execute()
         {
             if(context->getAnalyzingStateCounter()==0){
                 qDebug() << "Executing Analyzing State";
-                if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
-                    context->displayVTACHECG();
+                if(context->getPatientStatus() == MainWindow::PatientStatus::VT){
+                    context->displayVTECG();
                 }
 
-                else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
-                    context->displayVHABECG();
+                else if(context->getPatientStatus() == MainWindow::PatientStatus::VF){
+                    context->displayVFECG();
                 }
                 else{
                     context->displayNormalECG();
+                    return;
                 }
             }
             if(context->getBattery()>=20){

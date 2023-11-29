@@ -18,8 +18,8 @@ PatientStatusWidget::PatientStatusWidget(MainWindow *mainWindow, QWidget *parent
     // Determine's patient's status
     QComboBox *patientStatusComboBox = new QComboBox;
     patientStatusComboBox->addItem("Select Patient Status");
-    patientStatusComboBox->addItem("Patient is in Vtach");
-    patientStatusComboBox->addItem("Patient is in Vhab");
+    patientStatusComboBox->addItem("Pulseless Ventricular Tachycardia");
+    patientStatusComboBox->addItem("Ventricular Fibrillation");
     patientStatusComboBox->addItem("Patient has a normal rhythm");
     connect(patientStatusComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &PatientStatusWidget::handlePatientStatusComboBoxChanged);
     QVBoxLayout *layout = new QVBoxLayout();
@@ -34,11 +34,11 @@ void PatientStatusWidget::handlePatientStatusComboBoxChanged(int index){
         switch (index)
         {
         case 1:
-            state = MainWindow::PatientStatus::VHAB;
+            state = MainWindow::PatientStatus::VT;
             break;
 
         case 2:
-            state = MainWindow::PatientStatus::VTACH;
+            state = MainWindow::PatientStatus::VF;
             break;
 
         case 3:
