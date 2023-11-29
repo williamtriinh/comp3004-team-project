@@ -4,6 +4,7 @@
 #include "poweredoffstate.h"
 #include "selfteststate.h"
 
+
 #include <QDebug>
 
 PoweredOnState::PoweredOnState(MainWindow *context)
@@ -19,6 +20,7 @@ void PoweredOnState::initialize()
 void PoweredOnState::togglePower()
 {
     context->changeState(new PoweredOffState(context));
+
 }
 
 QString PoweredOnState::getStateName()

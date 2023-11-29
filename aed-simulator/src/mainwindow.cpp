@@ -15,6 +15,7 @@
 #include "simulation/endprogramwidget.h"
 
 
+
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -111,9 +112,17 @@ MainWindow::MainWindow(QWidget *parent)
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
 
+
+    TimerWidget *timerWidget = new TimerWidget(displayWidget);
+
+
+
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
+
+
+
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
