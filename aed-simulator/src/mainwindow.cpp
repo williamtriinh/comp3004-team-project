@@ -98,10 +98,6 @@ MainWindow::MainWindow(QWidget *parent)
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
-//    timeDisplayedLabel = new QLabel(displayWidget);
-//    timeDisplayedLabel->setText(QString("Elapsed Time: %1").arg(numberOfShocks));
-//    timeDisplayedLabel->move(DISPLAY_SIZE / 2 - 150, 220);
-
     ecgGraph = new QCustomPlot(displayWidget);
     ecgGraph->setFixedSize(300, 150);
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);

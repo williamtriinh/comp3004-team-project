@@ -165,17 +165,6 @@ private:
      */
     int analyzingStateCounter;
 
-    /**
-     * Displays the elapsed time
-     */
-//    QLabel *timeDisplayedLabel;
-
-
-
-
-
-
-
 
 
 signals:
