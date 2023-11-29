@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
     analyzingStateCounter = 0;
-    numberOfShocks = battery/20;
+    numberOfShocks = 0;
 
     // Important to initialize state after other attributes
     state = new PoweredOffState(this);
@@ -99,6 +99,10 @@ MainWindow::MainWindow(QWidget *parent)
     shockCountLabel = new QLabel(displayWidget);
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
+
+//    timeDisplayedLabel = new QLabel(displayWidget);
+//    timeDisplayedLabel->setText(QString("Elapsed Time: %1").arg(numberOfShocks));
+//    timeDisplayedLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
     ecgGraph = new QCustomPlot(displayWidget);
     ecgGraph->setFixedSize(300, 150);
@@ -219,13 +223,13 @@ void MainWindow::setPatientStatus(PatientStatus status)
 }
 
 
-void MainWindow::displayVTACHECG(){
+void MainWindow::displayVTECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedECG();
+    graph->shockAdvisedVTECG();
 }
-void MainWindow::displayVHABECG(){
+void MainWindow::displayVFECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedECG();
+    graph->shockAdvisedVFECG();
 }
 
 void MainWindow::displayNormalECG(){
@@ -247,7 +251,6 @@ void MainWindow::activateShockIndicatorButtonPressed(){
 
 bool MainWindow::getShockIndicatorButtonPressed(){
     return shockIndicatorButtonPressed;
-
 }
 
 void MainWindow::deactivateShockIndicatorButtonPressed(){
@@ -255,8 +258,11 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
 }
 
 void MainWindow::updateBattery(){
-    numberOfShocks = battery/20;
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+}
+
+void MainWindow::updateShockCount(){
+    numberOfShocks++;
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
 
