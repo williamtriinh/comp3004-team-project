@@ -1,5 +1,7 @@
 #include "analyzingstate.h"
+
 #include "../mainwindow.h"
+#include "lowbatterystate.h"
 #include "performcprstate.h"
 #include "poweredoffstate.h"
 
@@ -58,7 +60,7 @@ void AnalyzingState::execute()
                     return;
                 }
             }
-            if(context->getBattery()>=20){
+            if(context->getBattery() >= MainWindow::SHOCK_BATTERY_COST){
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
@@ -92,18 +94,26 @@ void AnalyzingState::execute()
         case 3:
 
             context->playMessage("Shock delivered");
-            context->setBattery(context->getBattery()-10);
-            context->updateBattery();
+            context->setBattery(context->getBattery() - MainWindow::SHOCK_BATTERY_COST);
             context->updateShockCount();
             timer->start(1000);
             break;
 
         case 4:
 
-            if(context->getBattery()==0){
-                context->playMessage("Battery Reached 0. Powering Off");
+            if (context->getBattery() == 0)
+            {
+                context->playMessage("Battery Reached 0.");
                 context->changeState(new PoweredOffState(context));
+                return;
             }
+
+            if (!context->hasSufficientBattery())
+            {
+                context->changeState(new LowBatteryState(context));
+                return;
+            }
+
             timer->start(1000);
             break;
 
