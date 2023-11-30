@@ -99,6 +99,13 @@ MainWindow::MainWindow(QWidget *parent)
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
+
+    elapsedTimeLabel = new QLabel(this);
+    elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);
+    elapsedTimeLabel->setFixedSize(200, 50); // Width: 200 pixels, Height: 50 pixels
+    elapsedTimeLabel->setText("Elapsed Time: 00:00:00");
+
+
     ecgGraph = new QCustomPlot(displayWidget);
     ecgGraph->setFixedSize(300, 150);
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
@@ -111,9 +118,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
-
-
-    TimerWidget *timerWidget = new TimerWidget(displayWidget);
 
 
 
@@ -269,6 +273,40 @@ void MainWindow::incrementAnalyzingStateCounter() {
 
 int MainWindow::getAnalyzingStateCounter() const{
     return analyzingStateCounter;
+}
+
+void MainWindow::startElapsedTime() {
+    elapsedTimer.start();
+    updateTimer = new QTimer(this);
+    connect(updateTimer, &QTimer::timeout, this, &MainWindow::updateElapsedTimeDisplay);
+    updateTimer->start(1000); // Update every second
+}
+
+qint64 MainWindow::getElapsedTime() const {
+    return elapsedTimer.elapsed(); // Returns the time in milliseconds
+}
+
+void MainWindow::updateElapsedTimeDisplay() {
+    qint64 elapsedTime = getElapsedTime();
+
+    // Convert milliseconds to hours, minutes, and seconds
+    int hours = int(elapsedTime / (1000 * 60 * 60));
+    int minutes = int((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    int seconds = int((elapsedTime % (1000 * 60)) / 1000);
+
+    QString timeString = QString("Elapsed Time: %1:%2:%3")
+                             .arg(hours, 2, 10, QChar('0'))
+                             .arg(minutes, 2, 10, QChar('0'))
+                             .arg(seconds, 2, 10, QChar('0'));
+
+    elapsedTimeLabel->setText(timeString);
+}
+
+void MainWindow::resetElapsedTime() {
+
+    updateTimer->stop();
+    elapsedTimer.restart();  // Resets the QElapsedTimer
+    updateElapsedTimeDisplay();
 }
 
 

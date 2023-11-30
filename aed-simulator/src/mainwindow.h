@@ -5,6 +5,7 @@
 #include "states/basestate.h"
 #include "qcustomplot.h"
 #include "shockindicatorbutton.h"
+#include <QElapsedTimer>
 
 #include <QMainWindow>
 #include <QPlainTextEdit>
@@ -95,8 +96,17 @@ public:
 
     int getAnalyzingStateCounter() const;
 
+    void startElapsedTime();
+
+    qint64 getElapsedTime() const;
+
+    void resetElapsedTime();
+
+
+
 public slots:
     void toggleElectrodesInstalled();
+    void updateElapsedTimeDisplay();
 
 private:
     Ui::MainWindow *ui;
@@ -165,9 +175,11 @@ private:
      */
     int analyzingStateCounter;
 
+    QElapsedTimer elapsedTimer;
 
+    QLabel *elapsedTimeLabel;
 
-
+    QTimer *updateTimer;
 
 
 

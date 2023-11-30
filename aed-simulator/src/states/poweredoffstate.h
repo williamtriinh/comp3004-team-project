@@ -12,6 +12,8 @@ public:
 
 public slots:
     void togglePower() override;
+
+
 };
 
 #endif // POWEREDOFFSTATE_H
