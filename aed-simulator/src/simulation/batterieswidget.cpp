@@ -3,6 +3,7 @@
 #include "../mainwindow.h"
 
 #include <QLabel>
+#include <QHBoxLayout>
 #include <QVBoxLayout>
 
 BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
@@ -16,6 +17,14 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     spinBox->setMaximum(100);
     updateSpinBox(mainWindow->getBattery());
 
+    QPushButton *button = new QPushButton("Update Battery");
+    connect(button, &QPushButton::clicked, mainWindow, [=](){ mainWindow->setBattery(spinBox->value()); });
+
+    QHBoxLayout *horLayout = new QHBoxLayout;
+    horLayout->setContentsMargins(0, 0, 0, 0);
+    horLayout->addWidget(spinBox);
+    horLayout->addWidget(button);
+
     button = new QPushButton("Recharge Battery");
     connect(button, &QPushButton::clicked, mainWindow, [=]() { mainWindow->setBattery(100); });
 
@@ -23,14 +32,10 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
     layout->addWidget(label);
-    layout->addWidget(spinBox);
+    layout->addLayout(horLayout);
     layout->addWidget(button);
-
-    connect(spinBox, QOverload<int>::of(&QSpinBox::valueChanged), mainWindow, [=]() {mainWindow->setBattery(spinBox->value());});
-    connect(mainWindow, &MainWindow::batteryChanged, this, &BatteriesWidget::updateSpinBox);
 }
 
 void BatteriesWidget::updateSpinBox(int battery) {
     spinBox->setValue(battery);
-    mainWindow->updateBattery();
 }
