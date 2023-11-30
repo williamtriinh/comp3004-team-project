@@ -16,6 +16,8 @@
 #include "states/performcprstate.h"
 
 
+
+
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -104,9 +106,8 @@ MainWindow::MainWindow(QWidget *parent)
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
-//    timeDisplayedLabel = new QLabel(displayWidget);
-//    timeDisplayedLabel->setText(QString("Elapsed Time: %1").arg(numberOfShocks));
-//    timeDisplayedLabel->move(DISPLAY_SIZE / 2 - 150, 220);
+    elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
+    elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
 
     ecgGraph = new QCustomPlot(displayWidget);
     ecgGraph->setFixedSize(300, 150);
@@ -121,9 +122,14 @@ MainWindow::MainWindow(QWidget *parent)
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
 
+
+
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
+
+
+
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -290,4 +296,13 @@ bool MainWindow::isCurrentStatePerformCPR() const {
 }
 
 
+
+void MainWindow::startTimer(){
+    elapsedTimeLabel->startElapsedTime();
+
+}
+
+void MainWindow::stopTimer(){
+    elapsedTimeLabel->resetElapsedTime();
+}
 

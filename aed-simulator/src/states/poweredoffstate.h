@@ -19,6 +19,7 @@ public slots:
 
 private:
     QTimer *timer;
+
 };
 
 #endif // POWEREDOFFSTATE_H

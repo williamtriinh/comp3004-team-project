@@ -5,9 +5,9 @@
 #include "states/basestate.h"
 #include "qcustomplot.h"
 #include "shockindicatorbutton.h"
-
 #include <QMainWindow>
 #include <QPlainTextEdit>
+#include "simulation/elapsedtimelabel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -110,10 +110,21 @@ public:
 
     int getAnalyzingStateCounter() const;
 
+
+    // When user presses power button to turn on AED it begins the timer
+    void startTimer();
+
+    // When user presses power button to power off the AED it stops the timer
+    void stopTimer();
+
+
+
     bool isCurrentStatePerformCPR() const;
+
 
 public slots:
     void toggleElectrodesInstalled();
+
 
 private:
     Ui::MainWindow *ui;
@@ -182,11 +193,7 @@ private:
      */
     int analyzingStateCounter;
 
-    /**
-     * Displays the elapsed time
-     */
-//    QLabel *timeDisplayedLabel;
-
+    ElapsedTimeLabel *elapsedTimeLabel;
 
 
 signals:

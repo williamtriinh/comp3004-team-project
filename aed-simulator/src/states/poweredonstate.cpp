@@ -4,8 +4,6 @@
 #include "poweredoffstate.h"
 #include "selfteststate.h"
 
-#include <QDebug>
-
 PoweredOnState::PoweredOnState(MainWindow *context)
     : BaseState(context)
 {
