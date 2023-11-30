@@ -1,5 +1,7 @@
 #include "analyzingstate.h"
+
 #include "../mainwindow.h"
+#include "lowbatterystate.h"
 #include "performcprstate.h"
 #include "poweredoffstate.h"
 
@@ -46,18 +48,19 @@ void AnalyzingState::execute()
         {
             if(context->getAnalyzingStateCounter()==0){
                 qDebug() << "Executing Analyzing State";
-                if(context->getPatientStatus() == MainWindow::PatientStatus::VHAB){
-                    context->displayVTACHECG();
+                if(context->getPatientStatus() == MainWindow::PatientStatus::VT){
+                    context->displayVTECG();
                 }
 
-                else if(context->getPatientStatus() == MainWindow::PatientStatus::VTACH){
-                    context->displayVHABECG();
+                else if(context->getPatientStatus() == MainWindow::PatientStatus::VF){
+                    context->displayVFECG();
                 }
                 else{
                     context->displayNormalECG();
+                    return;
                 }
             }
-            if(context->getBattery()>=20){
+            if(context->getBattery() >= MainWindow::SHOCK_BATTERY_COST){
 
                 context->shockIndicatorButtonFlashing();
                 context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
@@ -89,18 +92,28 @@ void AnalyzingState::execute()
             break;
 
         case 3:
+
             context->playMessage("Shock delivered");
-            context->setBattery(context->getBattery()-20);
-            context->updateBattery();
+            context->setBattery(context->getBattery() - MainWindow::SHOCK_BATTERY_COST);
+            context->updateShockCount();
             timer->start(1000);
             break;
 
         case 4:
 
-            if(context->getBattery()==0){
-                context->playMessage("Battery Reached 0. Powering Off");
+            if (context->getBattery() == 0)
+            {
+                context->playMessage("Battery Reached 0.");
                 context->changeState(new PoweredOffState(context));
+                return;
             }
+
+            if (!context->hasSufficientBattery())
+            {
+                context->changeState(new LowBatteryState(context));
+                return;
+            }
+
             timer->start(1000);
             break;
 

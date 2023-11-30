@@ -13,6 +13,7 @@
 #include "simulation/installelectrodeswidget.h"
 #include "simulation/patientstatuswidget.h"
 #include "simulation/endprogramwidget.h"
+#include "states/performcprstate.h"
 
 
 
@@ -36,15 +37,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Set the initialize state
-    state = new PoweredOffState(this);
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
     analyzingStateCounter = 0;
-    numberOfShocks = battery/20;
+    numberOfShocks = 0;
+
+    // Important to initialize state after other attributes
+    state = new PoweredOffState(this);
+    state->execute();
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -95,6 +98,9 @@ MainWindow::MainWindow(QWidget *parent)
     batteryLabel = new QLabel(displayWidget);
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
     batteryLabel->move(DISPLAY_SIZE / 2 - 150, 200);
+    connect(this, &MainWindow::batteryChanged, this, [=](){
+        batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+    });
 
     shockCountLabel = new QLabel(displayWidget);
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
@@ -151,6 +157,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeState(BaseState *newState)
 {
+    // Don't change state if the new state is the same as the current state.
+    if (newState->getStateName() == state->getStateName())
+        return;
+
     qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
@@ -158,6 +168,11 @@ void MainWindow::changeState(BaseState *newState)
     state = newState;
     state->initialize();
     emit stateChanged(state);
+}
+
+BaseState *MainWindow::getState()
+{
+    return state;
 }
 
 void MainWindow::playMessage(QString message)
@@ -186,6 +201,11 @@ void MainWindow::setBattery(int value)
 {
     battery = std::max(std::min(value, 100), 0);
     emit batteryChanged(battery);
+}
+
+bool MainWindow::hasSufficientBattery()
+{
+    return battery >= MINIMUM_BATTERY;
 }
 
 void MainWindow::toggleElectrodesInstalled()
@@ -222,13 +242,13 @@ void MainWindow::setPatientStatus(PatientStatus status)
 }
 
 
-void MainWindow::displayVTACHECG(){
+void MainWindow::displayVTECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedECG();
+    graph->shockAdvisedVTECG();
 }
-void MainWindow::displayVHABECG(){
+void MainWindow::displayVFECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedECG();
+    graph->shockAdvisedVFECG();
 }
 
 void MainWindow::displayNormalECG(){
@@ -250,16 +270,14 @@ void MainWindow::activateShockIndicatorButtonPressed(){
 
 bool MainWindow::getShockIndicatorButtonPressed(){
     return shockIndicatorButtonPressed;
-
 }
 
 void MainWindow::deactivateShockIndicatorButtonPressed(){
     shockIndicatorButtonPressed = false;
 }
 
-void MainWindow::updateBattery(){
-    numberOfShocks = battery/20;
-    batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+void MainWindow::updateShockCount(){
+    numberOfShocks++;
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
 
@@ -270,6 +288,11 @@ void MainWindow::incrementAnalyzingStateCounter() {
 
 int MainWindow::getAnalyzingStateCounter() const{
     return analyzingStateCounter;
+}
+
+
+bool MainWindow::isCurrentStatePerformCPR() const {
+    return dynamic_cast<PerformCPRState*>(state) != nullptr;
 }
 
 

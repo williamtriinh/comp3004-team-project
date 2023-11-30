@@ -19,7 +19,7 @@ private:
     QPushButton *button;
 
 private slots:
-    void updateSpinBox(int battery);
+    void updateBattery();
 
 signals:
     void buttonClicked();

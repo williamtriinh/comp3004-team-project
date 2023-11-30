@@ -12,7 +12,7 @@ AEDImage::AEDImage(MainWindow *mainWindow, QString imageName, int height, QStrin
 
     timer = new QTimer(this);
     timer->setSingleShot(true);
-    connect(timer, &QTimer::timeout, this, &AEDImage::toggleLight);
+    connect(timer, &QTimer::timeout, this, &AEDImage::toggleIlluminated);
 
     illuminated = false;
     this->stateName = stateName;
@@ -23,21 +23,33 @@ AEDImage::AEDImage(MainWindow *mainWindow, QString imageName, int height, QStrin
     setFixedSize(offPixmap.size()); // Set the widget's size to the size of the pixmap
 }
 
-void AEDImage::toggleLight()
+void AEDImage::turnOn()
+{
+    illuminated = true;
+    setPixmap(onPixmap);
+    timer->start(AEDImage::LIGHT_FLASH_INTERVAL);
+}
+
+void AEDImage::turnOff()
+{
+    illuminated = false;
+    setPixmap(offPixmap);
+    timer->stop();
+}
+
+void AEDImage::toggleIlluminated()
 {
     illuminated = !illuminated;
     setPixmap(illuminated ? onPixmap : offPixmap);
-    timer->start(illuminated ? AEDImage::LIGHT_ON_DURATION_MS : AEDImage::LIGHT_OFF_DURATION_MS);
+    timer->start(AEDImage::LIGHT_FLASH_INTERVAL);
 }
 
 void AEDImage::handleStateChanged(BaseState *state)
 {
     if (stateName == state->getStateName())
     {
-        toggleLight();
+        turnOn();
     } else {
-        timer->stop();
-        illuminated = false;
-        setPixmap(offPixmap);
+        turnOff();
     }
 }

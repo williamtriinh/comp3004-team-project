@@ -34,13 +34,23 @@ public:
     };
 
     enum class PatientStatus{
-        VHAB,
-        VTACH,
+        VT,
+        VF,
         NORMAL,
         DEFAULT,
     };
 
     static const int DISPLAY_SIZE = 700;
+
+    /**
+     * How much the battery will deplete by when a shock occurs
+     */
+    static const int SHOCK_BATTERY_COST = 10;
+
+    /**
+     * The minimum battery level for the AED to pass the self-test
+     */
+    static const int MINIMUM_BATTERY = 40;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -50,6 +60,8 @@ public:
      * @param newState The new state
      */
     void changeState(BaseState *newState);
+
+    BaseState *getState();
 
     /**
      * Prints a message to the console
@@ -63,13 +75,18 @@ public:
     int getBattery();
     void setBattery(int value);
 
-    bool getElectrodesInstalled();
+    /**
+     * Checks whether the battery is >= MINIMUM_BATTERY
+     * @return true if there's sufficient batter, otherwise, false
+     */
+    bool hasSufficientBattery();
 
+    bool getElectrodesInstalled();
 
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
-
+    void updateShockCount();
 
     QCustomPlot *ecgGraph;
 
@@ -78,8 +95,8 @@ public:
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
-    void displayVTACHECG();
-    void displayVHABECG();
+    void displayVTECG();
+    void displayVFECG();
     void displayNormalECG();
 
     void shockIndicatorButtonFlashing();
@@ -89,11 +106,10 @@ public:
 
     void deactivateShockIndicatorButtonPressed();
 
-    void updateBattery();
-
     void incrementAnalyzingStateCounter();
 
     int getAnalyzingStateCounter() const;
+
 
     // When user presses power button to turn on AED it begins the timer
     void startTimer();
@@ -101,6 +117,9 @@ public:
     // When user presses power button to power off the AED it stops the timer
     void stopTimer();
 
+
+
+    bool isCurrentStatePerformCPR() const;
 
 
 public slots:

@@ -27,6 +27,7 @@ SOURCES += \
     src/states/basestate.cpp \
     src/states/callforhelpstate.cpp \
     src/states/checkresponsivenessstate.cpp \
+    src/states/lowbatterystate.cpp \
     src/states/performcprstate.cpp \
     src/states/poweredoffstate.cpp \
     src/states/poweredonstate.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     src/states/basestate.h \
     src/states/callforhelpstate.h \
     src/states/checkresponsivenessstate.h \
+    src/states/lowbatterystate.h \
     src/states/performcprstate.h \
     src/states/poweredoffstate.h \
     src/states/poweredonstate.h \
