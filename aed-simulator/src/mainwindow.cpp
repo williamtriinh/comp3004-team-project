@@ -13,6 +13,9 @@
 #include "simulation/installelectrodeswidget.h"
 #include "simulation/patientstatuswidget.h"
 #include "simulation/endprogramwidget.h"
+#include "states/performcprstate.h"
+
+
 
 
 #include "states/poweredoffstate.h"
@@ -34,8 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Set the initialize state
-    state = new PoweredOffState(this);
     unitStatus = UnitStatus::DEFAULT;
     battery = 100;
     electrodesInstalled = true;
@@ -43,6 +44,10 @@ MainWindow::MainWindow(QWidget *parent)
     patientStatus = PatientStatus::DEFAULT;
     analyzingStateCounter = 0;
     numberOfShocks = 0;
+
+    // Important to initialize state after other attributes
+    state = new PoweredOffState(this);
+    state->execute();
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->setContentsMargins(0, 0, 0, 0);
@@ -93,11 +98,17 @@ MainWindow::MainWindow(QWidget *parent)
     batteryLabel = new QLabel(displayWidget);
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
     batteryLabel->move(DISPLAY_SIZE / 2 - 150, 200);
+    connect(this, &MainWindow::batteryChanged, this, [=](){
+        batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+    });
 
     shockCountLabel = new QLabel(displayWidget);
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
     shockCountLabel->move(DISPLAY_SIZE / 2 - 150, 220);
 
+    elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
+    elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
+      
     ecgGraph = new QCustomPlot(displayWidget);
     ecgGraph->setFixedSize(300, 150);
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
@@ -111,9 +122,14 @@ MainWindow::MainWindow(QWidget *parent)
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
 
+
+
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
+
+
+
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -141,6 +157,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeState(BaseState *newState)
 {
+    // Don't change state if the new state is the same as the current state.
+    if (newState->getStateName() == state->getStateName())
+        return;
+
     qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
@@ -148,6 +168,11 @@ void MainWindow::changeState(BaseState *newState)
     state = newState;
     state->initialize();
     emit stateChanged(state);
+}
+
+BaseState *MainWindow::getState()
+{
+    return state;
 }
 
 void MainWindow::playMessage(QString message)
@@ -176,6 +201,11 @@ void MainWindow::setBattery(int value)
 {
     battery = std::max(std::min(value, 100), 0);
     emit batteryChanged(battery);
+}
+
+bool MainWindow::hasSufficientBattery()
+{
+    return battery >= MINIMUM_BATTERY;
 }
 
 void MainWindow::toggleElectrodesInstalled()
@@ -251,10 +281,6 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
     shockIndicatorButtonPressed = false;
 }
 
-void MainWindow::updateBattery(){
-    batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
-}
-
 void MainWindow::updateShockCount(){
     numberOfShocks++;
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
@@ -270,4 +296,18 @@ int MainWindow::getAnalyzingStateCounter() const{
 }
 
 
+bool MainWindow::isCurrentStatePerformCPR() const {
+    return dynamic_cast<PerformCPRState*>(state) != nullptr;
+}
+
+
+
+void MainWindow::startTimer(){
+    elapsedTimeLabel->startElapsedTime();
+
+}
+
+void MainWindow::stopTimer(){
+    elapsedTimeLabel->resetElapsedTime();
+}
 

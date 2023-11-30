@@ -18,6 +18,7 @@ SOURCES += \
     src/shockindicatorbutton.cpp \
     src/simulation/attachelectrodepadswidget.cpp \
     src/simulation/batterieswidget.cpp \
+    src/simulation/elapsedtimelabel.cpp \
     src/simulation/installelectrodeswidget.cpp \
     src/simulation/patientstatuswidget.cpp \
     src/simulation/endprogramwidget.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
     src/states/basestate.cpp \
     src/states/callforhelpstate.cpp \
     src/states/checkresponsivenessstate.cpp \
+    src/states/lowbatterystate.cpp \
     src/states/performcprstate.cpp \
     src/states/poweredoffstate.cpp \
     src/states/poweredonstate.cpp \
@@ -42,6 +44,7 @@ HEADERS += \
     src/shockindicatorbutton.h \
     src/simulation/attachelectrodepadswidget.h \
     src/simulation/batterieswidget.h \
+    src/simulation/elapsedtimelabel.h \
     src/simulation/installelectrodeswidget.h \
     src/simulation/patientstatuswidget.h \
     src/simulation/endprogramwidget.h \
@@ -50,6 +53,7 @@ HEADERS += \
     src/states/basestate.h \
     src/states/callforhelpstate.h \
     src/states/checkresponsivenessstate.h \
+    src/states/lowbatterystate.h \
     src/states/performcprstate.h \
     src/states/poweredoffstate.h \
     src/states/poweredonstate.h \

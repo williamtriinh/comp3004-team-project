@@ -35,10 +35,14 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
         mainWindow->changeState(new PoweredOffState(mainWindow));
         break;
     case 2:
-        mainWindow->changeState(new PoweredOffState(mainWindow));
+        if (mainWindow->isCurrentStatePerformCPR()) {
+            mainWindow->changeState(new PoweredOffState(mainWindow));
+        }
         break;
     case 3:
-        mainWindow->changeState(new PoweredOffState(mainWindow));
+        if (mainWindow->isCurrentStatePerformCPR()) {
+            mainWindow->changeState(new PoweredOffState(mainWindow));
+        }
         break;
     }
 }
