@@ -36,7 +36,8 @@ public:
     enum class PatientStatus{
         VT,
         VF,
-        NORMAL,
+        PEA,
+        ASYSTOLE,
         DEFAULT,
     };
 
@@ -97,7 +98,8 @@ public:
 
     void displayVTECG();
     void displayVFECG();
-    void displayNormalECG();
+    void displayPEAECG();
+    void displayAsystoleECG();
 
     void shockIndicatorButtonFlashing();
     void shockIndicatorButtonStopFlashing();

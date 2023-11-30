@@ -18,7 +18,8 @@ PatientStatusWidget::PatientStatusWidget(MainWindow *mainWindow, QWidget *parent
     patientStatusComboBox->addItem("Select Patient Status");
     patientStatusComboBox->addItem("Pulseless Ventricular Tachycardia (Shock Given)");
     patientStatusComboBox->addItem("Ventricular Fibrillation (Shock Given)");
-    patientStatusComboBox->addItem("Patient has a normal rhythm (Shock Not Given)");
+    patientStatusComboBox->addItem("Asystole (Shock Not Given)");
+    patientStatusComboBox->addItem("Pulseless Electrical Activity (Shock Not Given)");
     connect(patientStatusComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &PatientStatusWidget::handlePatientStatusComboBoxChanged);
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -40,7 +41,11 @@ void PatientStatusWidget::handlePatientStatusComboBoxChanged(int index){
             break;
 
         case 3:
-            state = MainWindow::PatientStatus::NORMAL;
+            state = MainWindow::PatientStatus::ASYSTOLE;
+            break;
+
+        case 4:
+            state = MainWindow::PatientStatus::PEA;
             break;
 
         default:

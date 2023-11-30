@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
     elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
-
+      
     ecgGraph = new QCustomPlot(displayWidget);
     ecgGraph->setFixedSize(300, 150);
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
@@ -251,9 +251,14 @@ void MainWindow::displayVFECG(){
     graph->shockAdvisedVFECG();
 }
 
-void MainWindow::displayNormalECG(){
+void MainWindow::displayAsystoleECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockNotAdvisedECG();
+    graph->shockNotAdvisedAsystoleECG();
+}
+
+void MainWindow::displayPEAECG(){
+    Graphs *graph = new Graphs(ecgGraph);
+    graph->shockNotAdvisedPEAECG();
 }
 
 void MainWindow::shockIndicatorButtonFlashing() {

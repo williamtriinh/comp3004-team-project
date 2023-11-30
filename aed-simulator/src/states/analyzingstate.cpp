@@ -55,10 +55,13 @@ void AnalyzingState::execute()
                 else if(context->getPatientStatus() == MainWindow::PatientStatus::VF){
                     context->displayVFECG();
                 }
-                else{
-                    context->displayNormalECG();
-                    return;
+                else if(context->getPatientStatus() == MainWindow::PatientStatus::PEA){
+                    context->displayPEAECG();
                 }
+                else{
+                    context->displayAsystoleECG();
+                }
+
             }
             if(context->getBattery() >= MainWindow::SHOCK_BATTERY_COST){
 

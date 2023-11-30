@@ -12,8 +12,9 @@ public:
     Graphs(QCustomPlot* graph);
     void shockAdvisedVTECG();
     void shockAdvisedVFECG();
-    void shockNotAdvisedECG();
+    void shockNotAdvisedPEAECG();
 
+    void shockNotAdvisedAsystoleECG();
 
 private:
     QCustomPlot* placeholderGraph;
