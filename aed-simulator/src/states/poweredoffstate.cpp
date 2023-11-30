@@ -34,7 +34,8 @@ void PoweredOffState::execute()
 
 void PoweredOffState::togglePower()
 {
-    context->changeState(new PoweredOnState(context));
+    if (context->getBattery() > 0)
+        context->changeState(new PoweredOnState(context));
 }
 
 QString PoweredOffState::getStateName()
