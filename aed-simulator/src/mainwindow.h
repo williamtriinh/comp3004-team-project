@@ -104,8 +104,6 @@ public:
 
     void deactivateShockIndicatorButtonPressed();
 
-    void updateBattery();
-
     void incrementAnalyzingStateCounter();
 
     int getAnalyzingStateCounter() const;

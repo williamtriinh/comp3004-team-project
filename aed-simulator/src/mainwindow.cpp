@@ -96,6 +96,9 @@ MainWindow::MainWindow(QWidget *parent)
     batteryLabel = new QLabel(displayWidget);
     batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
     batteryLabel->move(DISPLAY_SIZE / 2 - 150, 200);
+    connect(this, &MainWindow::batteryChanged, this, [=](){
+        batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
+    });
 
     shockCountLabel = new QLabel(displayWidget);
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
@@ -256,10 +259,6 @@ bool MainWindow::getShockIndicatorButtonPressed(){
 
 void MainWindow::deactivateShockIndicatorButtonPressed(){
     shockIndicatorButtonPressed = false;
-}
-
-void MainWindow::updateBattery(){
-    batteryLabel->setText(QString("Battery Level: %1%").arg(battery));
 }
 
 void MainWindow::updateShockCount(){

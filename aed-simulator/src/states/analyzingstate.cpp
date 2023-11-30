@@ -93,7 +93,6 @@ void AnalyzingState::execute()
 
             context->playMessage("Shock delivered");
             context->setBattery(context->getBattery() - MainWindow::SHOCK_BATTERY_COST);
-            context->updateBattery();
             context->updateShockCount();
             timer->start(1000);
             break;
@@ -103,6 +102,7 @@ void AnalyzingState::execute()
             if(context->getBattery() == 0){
                 context->playMessage("Battery Reached 0.");
                 context->changeState(new PoweredOffState(context));
+                return;
             }
             timer->start(1000);
             break;
