@@ -1,6 +1,7 @@
 #include "batterieswidget.h"
 
 #include "../mainwindow.h"
+#include "../states/poweredoffstate.h"
 
 #include <QLabel>
 #include <QHBoxLayout>
@@ -15,10 +16,10 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     spinBox = new QSpinBox();
     spinBox->setMinimum(0);
     spinBox->setMaximum(100);
-    updateSpinBox(mainWindow->getBattery());
+    spinBox->setValue(100);
 
     QPushButton *button = new QPushButton("Update Battery");
-    connect(button, &QPushButton::clicked, mainWindow, [=](){ mainWindow->setBattery(spinBox->value()); });
+    connect(button, &QPushButton::clicked, this, &BatteriesWidget::updateBattery);
 
     QHBoxLayout *horLayout = new QHBoxLayout;
     horLayout->setContentsMargins(0, 0, 0, 0);
@@ -36,6 +37,10 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     layout->addWidget(button);
 }
 
-void BatteriesWidget::updateSpinBox(int battery) {
-    spinBox->setValue(battery);
+void BatteriesWidget::updateBattery() {
+    int battery = spinBox->value();
+    mainWindow->setBattery(battery);
+
+    if (battery <= 0)
+        mainWindow->changeState(new PoweredOffState(mainWindow));
 }

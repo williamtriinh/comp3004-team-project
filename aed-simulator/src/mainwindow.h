@@ -61,6 +61,8 @@ public:
      */
     void changeState(BaseState *newState);
 
+    BaseState *getState();
+
     /**
      * Prints a message to the console
      * @param message The message to display

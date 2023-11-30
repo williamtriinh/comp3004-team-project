@@ -151,6 +151,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeState(BaseState *newState)
 {
+    // Don't change state if the new state is the same as the current state.
+    if (newState->getStateName() == state->getStateName())
+        return;
+
     qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
@@ -158,6 +162,11 @@ void MainWindow::changeState(BaseState *newState)
     state = newState;
     state->initialize();
     emit stateChanged(state);
+}
+
+BaseState *MainWindow::getState()
+{
+    return state;
 }
 
 void MainWindow::playMessage(QString message)
