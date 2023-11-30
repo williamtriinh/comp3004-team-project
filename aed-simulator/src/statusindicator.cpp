@@ -16,10 +16,18 @@ StatusIndicator::StatusIndicator(MainWindow *mainWindow, QWidget *parent)
     setPixmap(offPixmap);
 
     connect(mainWindow, &MainWindow::unitStatusChanged, this, &StatusIndicator::updateIndicator);
+    connect(mainWindow, &MainWindow::batteryChanged, this, &StatusIndicator::updateIndicator);
 }
 
 void StatusIndicator::updateIndicator()
 {
+    if (mainWindow->getBattery() <= 0)
+    {
+        // When the batteries are dead display X indicator
+        setPixmap(failedPixmap);
+        return;
+    }
+
     switch(mainWindow->getUnitStatus())
     {
     case MainWindow::UnitStatus::FAILED:
