@@ -95,7 +95,10 @@ public:
 
     int getAnalyzingStateCounter() const;
 
+    // When user presses power button to turn on AED it begins the timer
     void startTimer();
+
+    // When user presses power button to power off the AED it stops the timer
     void stopTimer();
 
 
@@ -172,8 +175,6 @@ private:
     int analyzingStateCounter;
 
     ElapsedTimeLabel *elapsedTimeLabel;
-
-
 
 
 signals:
