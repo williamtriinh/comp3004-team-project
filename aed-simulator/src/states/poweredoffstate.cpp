@@ -6,20 +6,20 @@
 PoweredOffState::PoweredOffState(MainWindow *context)
     : BaseState(context)
 {
+
 }
 
 void PoweredOffState::initialize()
 {
     context->playMessage("Powering off.");
     context->setUnitStatus(MainWindow::UnitStatus::DEFAULT);
-    qDebug() << "!!!!!!";
-    context->resetElapsedTime();
+    context->stopTimer();
 }
 
 void PoweredOffState::togglePower()
 {
+    context->startTimer();
     context->changeState(new PoweredOnState(context));
-    context->startElapsedTime();
 }
 
 QString PoweredOffState::getStateName()

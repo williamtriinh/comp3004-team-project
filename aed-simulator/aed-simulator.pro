@@ -18,6 +18,7 @@ SOURCES += \
     src/shockindicatorbutton.cpp \
     src/simulation/attachelectrodepadswidget.cpp \
     src/simulation/batterieswidget.cpp \
+    src/simulation/elapsedtimelabel.cpp \
     src/simulation/installelectrodeswidget.cpp \
     src/simulation/patientstatuswidget.cpp \
     src/simulation/endprogramwidget.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     src/shockindicatorbutton.h \
     src/simulation/attachelectrodepadswidget.h \
     src/simulation/batterieswidget.h \
+    src/simulation/elapsedtimelabel.h \
     src/simulation/installelectrodeswidget.h \
     src/simulation/patientstatuswidget.h \
     src/simulation/endprogramwidget.h \
