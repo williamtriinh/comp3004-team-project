@@ -1,5 +1,7 @@
 #include "analyzingstate.h"
+
 #include "../mainwindow.h"
+#include "lowbatterystate.h"
 #include "performcprstate.h"
 #include "poweredoffstate.h"
 
@@ -99,11 +101,19 @@ void AnalyzingState::execute()
 
         case 4:
 
-            if(context->getBattery() == 0){
+            if (context->getBattery() == 0)
+            {
                 context->playMessage("Battery Reached 0.");
                 context->changeState(new PoweredOffState(context));
                 return;
             }
+
+            if (!context->hasSufficientBattery())
+            {
+                context->changeState(new LowBatteryState(context));
+                return;
+            }
+
             timer->start(1000);
             break;
 

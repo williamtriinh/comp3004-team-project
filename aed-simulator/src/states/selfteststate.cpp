@@ -2,6 +2,7 @@
 
 #include "../mainwindow.h"
 #include "checkresponsivenessstate.h"
+#include "lowbatterystate.h"
 
 SelfTestState::SelfTestState(MainWindow *context)
     : BaseState(context)
@@ -32,7 +33,7 @@ void SelfTestState::execute()
         if (!context->hasSufficientBattery())
         {
             context->setUnitStatus(MainWindow::UnitStatus::FAILED);
-            context->playMessage("Change batteries.");
+            context->changeState(new LowBatteryState(context));
             return;
         }
 
