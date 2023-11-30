@@ -13,6 +13,7 @@
 #include "simulation/installelectrodeswidget.h"
 #include "simulation/patientstatuswidget.h"
 #include "simulation/endprogramwidget.h"
+#include "states/performcprstate.h"
 
 
 #include "states/poweredoffstate.h"
@@ -273,6 +274,11 @@ void MainWindow::incrementAnalyzingStateCounter() {
 
 int MainWindow::getAnalyzingStateCounter() const{
     return analyzingStateCounter;
+}
+
+
+bool MainWindow::isCurrentStatePerformCPR() const {
+    return dynamic_cast<PerformCPRState*>(state) != nullptr;
 }
 
 
