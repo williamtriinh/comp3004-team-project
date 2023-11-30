@@ -65,7 +65,7 @@ private:
 
 private slots:
     /**
-     * Turns on/off the light and sets the appropriate pixmap
+     * Turns on the light, enabling it to flash
      */
     void turnOn();
 
