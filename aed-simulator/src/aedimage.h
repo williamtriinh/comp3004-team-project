@@ -17,8 +17,7 @@ class AEDImage : public QLabel
     Q_OBJECT
 
 public:
-    static const int LIGHT_OFF_DURATION_MS = 1000;
-    static const int LIGHT_ON_DURATION_MS = 500;
+    static const int LIGHT_FLASH_INTERVAL = 500;
 
     /**
      * Constructs a widget with the specified image resource and height
@@ -68,7 +67,17 @@ private slots:
     /**
      * Turns on/off the light and sets the appropriate pixmap
      */
-    void toggleLight();
+    void turnOn();
+
+    /**
+     * Turns off the light, preventing it from flashing
+     */
+    void turnOff();
+
+    /**
+     * Changes 'illuminated' to true or false
+     */
+    void toggleIlluminated();
 
     /**
      * Handles mainWindow state change
