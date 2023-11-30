@@ -221,9 +221,14 @@ void MainWindow::displayVFECG(){
     graph->shockAdvisedVFECG();
 }
 
-void MainWindow::displayNormalECG(){
+void MainWindow::displayAsystoleECG(){
     Graphs *graph = new Graphs(ecgGraph);
-    graph->shockNotAdvisedECG();
+    graph->shockNotAdvisedAsystoleECG();
+}
+
+void MainWindow::displayPEAECG(){
+    Graphs *graph = new Graphs(ecgGraph);
+    graph->shockNotAdvisedPEAECG();
 }
 
 void MainWindow::shockIndicatorButtonFlashing() {
