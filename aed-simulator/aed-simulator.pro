@@ -30,7 +30,6 @@ SOURCES += \
     src/states/lowbatterystate.cpp \
     src/states/performcprstate.cpp \
     src/states/poweredoffstate.cpp \
-    src/states/poweredonstate.cpp \
     src/states/selfteststate.cpp \
     src/statusindicator.cpp \
     src/utils/intermediatestate.cpp
@@ -56,7 +55,6 @@ HEADERS += \
     src/states/lowbatterystate.h \
     src/states/performcprstate.h \
     src/states/poweredoffstate.h \
-    src/states/poweredonstate.h \
     src/states/selfteststate.h \
     src/statusindicator.h \
     src/utils/intermediatestate.h
