@@ -11,10 +11,11 @@ AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWi
     this->mainWindow = mainWindow;
     QLabel *label = new QLabel("Attach Electrode Pads");
 
-    // TODO: Figure out what to do with patientComboBox
     patientComboBox = new QComboBox();
     patientComboBox->addItem("Adult");
-    patientComboBox->addItem("Child or < 55 lbs");
+    patientComboBox->addItem("Child");
+    patientComboBox->addItem("Infant");
+    connect(patientComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AttachElectrodePadsWidget::handlePatientComboBoxChanged);
 
     attachmentComboBox = new QComboBox();
     attachmentComboBox->addItem("Not attached");
@@ -27,6 +28,25 @@ AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWi
     layout->addWidget(label);
     layout->addWidget(patientComboBox);
     layout->addWidget(attachmentComboBox);
+}
+
+void AttachElectrodePadsWidget::handlePatientComboBoxChanged(int index)
+{
+    MainWindow::PatientType patientType;
+
+    switch (index)
+    {
+    case 0:
+        patientType = MainWindow::PatientType::ADULT;
+        break;
+    case 1:
+        patientType = MainWindow::PatientType::CHILD;
+        break;
+    case 2:
+        patientType = MainWindow::PatientType::INFANT;
+    }
+
+    mainWindow->setPatientType(patientType);
 }
 
 void AttachElectrodePadsWidget::handleAttachmentComboBoxChanged(int index)
