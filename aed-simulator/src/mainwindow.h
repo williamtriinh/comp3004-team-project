@@ -135,11 +135,6 @@ private:
     QPlainTextEdit *console;
 
     /**
-     * Kepps track of which AED image has its light flashing
-     */
-    AEDImage *activeAEDImage;
-
-    /**
      * The AED's self-test status
      */
     UnitStatus unitStatus;
@@ -158,12 +153,6 @@ private:
      * Keeps track of whether the electrode pads are attached to the patient
      */
     ElectrodePadsAttachedState electrodePadsAttachedState;
-
-    /**
-     * Sets the appropriate AED image depending on the current state
-     */
-    void updateActiveAEDImage();
-
 
     /**
      * The patient's status
