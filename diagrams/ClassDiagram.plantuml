@@ -1,0 +1,186 @@
+@startuml ClassDiagram
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class QObject
+
+QObject <|-- QWidget
+class QWidget
+
+QWidget <|-- QCustomPlot
+class QCustomPlot
+
+QWidget <|--QFrame
+class QFrame
+
+QFrame <|-- QLabel
+class QLabel
+
+QWidget <|-- QAbstractButton
+class QAbstractButton
+
+QAbstractButton <|-- QPushButton
+class QPushButton
+
+QWidget <|-- QMainWindow
+class QMainWindow
+
+QCustomPlot "1" <-- "0..1" Graphs : has <
+class Graphs {
+  + shockAdvisedVTECG(): void
+  + shockAdvisedVFECG(): void
+  + shockNotAdvisedPEAECG(): void
+  + shockNotAdvisedAsystoleECG(): void
+  - placeholderGraph: QCustomPlot*
+}
+
+MainWindow "1" -- "1" StatusIndicator : has >
+class StatusIndicator {
+  - offPixmap: QPixmap
+  - onPixmap: QPixmap
+  - passedPixmap: QPixmap
+  - updateIndicator(): void
+}
+
+MainWindow "1" -- "0..*" AEDImage : has >
+class AEDImage {
+  - timer: QTimer*
+  - illuminated: bool
+  - stateName: QString
+  - offPixmap: QPixmap
+  - onPixmap: QPixmap
+  - turnOn(): void
+  - turnOff(): void
+  - toggleIlluminated(): void
+  - handleStateChanged(state: BaseState*): void
+}
+
+QPushButton <|-- ShockIndicatorButton
+ShockIndicatorButton "1" <-- "1" MainWindow : has <
+class ShockIndicatorButton {
+  - offPixmap: QPixmap
+  - onPixmap: QPixmap
+  - timer: *QTimer
+  - illuminated: bool
+  + startFlashing(): void
+  + stopFlashing(): void
+  - toggleLight(): void
+}
+
+QWidget <|-- AttachElectrodePadsWidget
+AttachElectrodePadsWidget "1" -- "1" MainWindow : has <
+class AttachElectrodePadsWidget {
+  - patientComboBox: QComboBox*
+  - attachmentComboBox: QComboBox*
+  - handleAttachmentComboBoxChanged(index: int): void
+}
+
+QWidget <|-- BatteriesWidget
+BatteriesWidget "1" -- "1" MainWindow : has <
+class BatteriesWidget {
+  - spinBox: QSpinBox*
+  - button: QPushButton*
+  - updateBattery(): void
+}
+
+QWidget <|-- EndProgramWidget
+EndProgramWidget "1" -- "1" MainWindow : has <
+class EndProgramWidget {
+  - handleEndProgramComboBoxChanged(index: int): void
+}
+
+QWidget <|-- InstallElectrodesWidget
+InstallElectrodesWidget "1" -- "1" MainWindow : has <
+class InstallElectrodesWidget {
+  - label: QLabel*
+  - button: QButton*
+  - updateLabel(electrodesInstalled: bool): void
+}
+
+QWidget <|-- PatientStatusWidget
+PatientStatusWidget "1" -- "1" MainWindow : has <
+class PatientStatusWidget {
+  - patientStatusComboBox: QComboBox*
+  - handlePatientStatusComboBoxChanged(index: int): void
+}
+
+UI "1" --* "1" MainWindow
+QMainWindow <|-- MainWindow
+class MainWindow {
+  + ecgGraph: QCustomPlot*
+  - state: BaseState*
+  - console: QPlainTextEdit*
+  + changeState(newState: BaseState*): void
+  + playMessage(message: QString): void
+  + hasSufficientBattery(): bool
+  + updateShockCount(): void
+  + displayVTECG(): void
+  + displayVFECG(): void
+  + displayPEAECG(): void
+  + displayAsystoleECG(): void
+  + shockIndicatorButtonFlashing(): void
+  + shockIndicatorButtonStopFlashing(): void
+  + getShockIndicatorButtonPressed(): bool
+  + deactivateShockIndicatorButtonPressed(): void
+  + incrementAnalyzingStateCounter(): void
+  + getAnalyzingStateCounter(): int
+  + startTimer(): void
+  + stopTimer(): void
+  + isCurrentStatePerformCPR(): bool
+  + toggleElectrodesInstalled(): void
+}
+
+MainWindow "1" o-- "1" BaseState
+class BaseState {
+  - context: MainWindow*
+  + initialize(): void
+  + execute(): void
+  + togglePower(): void
+  + getStateName(): QString
+}
+
+class IntermediateState {
+  - step: int
+  + nextStep(): void
+}
+
+BaseState <|-- PoweredOffState
+class PoweredOffState {
+  - timer: QTimer*
+}
+
+BaseState <|-- SelfTestState
+IntermediateState <|-- SelfTestState
+class SelfTestState {
+  - timer: QTimer*
+}
+
+BaseState <|-- LowBatteryState
+class LowBatteryState
+
+BaseState <|-- CheckResponsivenessState
+class CheckResponsivenessState {
+  - timer: QTimer*
+}
+
+BaseState <|-- CallForHelpState
+class CallForHelpState {
+  - timer: QTimer*
+}
+
+BaseState <|-- AttachDefibrillatorPadsState
+class AttachDefibrillatorPadsState {
+  - timer: QTimer*
+}
+
+BaseState <|-- AnalyzingState
+IntermediateState <|-- AnalyzingState
+class AnalyzingState
+
+BaseState <|-- PerformCPRState
+IntermediateState <|-- PerformCPRState
+class PerformCPRState {
+  - timer: QTimer*
+}
+@enduml
