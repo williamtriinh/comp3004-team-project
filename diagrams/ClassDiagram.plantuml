@@ -161,7 +161,7 @@ together {
 
 together {
   MainWindow "1" o-- "1" BaseState
-  class BaseState {
+  abstract class BaseState {
     - context: MainWindow*
     + initialize(): void
     + execute(): void
@@ -169,7 +169,7 @@ together {
     + getStateName(): QString
   }
 
-  class IntermediateState {
+  abstract class IntermediateState {
     - step: int
     + nextStep(): void
   }
