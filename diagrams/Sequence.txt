@@ -1,11 +1,16 @@
 electrodes not attached sequence diagram:
 
 sequenceDiagram
-    SelfTestState ->>+ InstallElectrodesWidget : ! getElectrodesInstalled()
-    InstallElectrodesWidget ->>- MainWindow : playMessage("Attach electrode pads.")
-    User ->>+ InstallElectrodesWidget : click()
-    InstallElectrodesWidget ->>- MainWindow : playMessage("Electrodes Installed, true")
-    MainWindow ->> SelfTestState : getElectrodesInstalled()
+    actor user as User
+    participant selfTestState as selfTestState:SelfTestState
+    participant mainWindow as mainWindow:MainWindow
+    participant InstallElectrodesWidget as InstallElectrodesWidget:InstallElectrodesWidget
+
+    selfTestState ->>+ InstallElectrodesWidget : ! getElectrodesInstalled()
+    InstallElectrodesWidget ->>- mainWindow : playMessage("Attach electrode pads.")
+    user ->>+ InstallElectrodesWidget : click "Install/Uninstall" button
+    InstallElectrodesWidget ->>+ mainWindow : playMessage("Electrodes Installed, true")
+    InstallElectrodesWidget ->>- selfTestState : getElectrodesInstalled()
 
 =========================================================================================================
 Low Battery Sequence  diagram:
