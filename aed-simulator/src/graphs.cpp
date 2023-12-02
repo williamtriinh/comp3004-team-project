@@ -50,7 +50,7 @@ void Graphs::updateGraphData(const QVector<double>& yValues){
     }
 
     QVector<double> xValues(repeatedYValues.size());
-    std::iota(xValues.begin(), xValues.end(), 0); // Fill xValues with indices 0, 1, 2, ...
+    std::iota(xValues.begin(), xValues.end(), 0);
 
     placeholderGraph->graph(0)->setData(xValues, repeatedYValues);
     placeholderGraph->replot();
