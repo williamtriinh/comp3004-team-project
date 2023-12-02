@@ -7,6 +7,9 @@
 
 class MainWindow;
 
+/**
+ * Widget that displays the chest compression depths
+ */
 class ChestCompressionDisplay : public QLabel
 {
 public:
@@ -22,6 +25,9 @@ public:
 private:
     MainWindow *mainWindow;
 
+    /**
+     * A collection storing the various pixmaps for rendering the display
+     */
     QVector<QPixmap> pixmaps;
 
     /**
