@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include "simulation/elapsedtimelabel.h"
+#include "simulation/chestcompressiondisplay.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,7 +34,7 @@ public:
         ATTACHED,
     };
 
-    enum class PatientStatus{
+    enum class PatientStatus {
         VT,
         VF,
         PEA,
@@ -87,6 +88,8 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
+    ChestCompressionDisplay *getChestCompressionDisplay();
+
     void updateShockCount();
 
     QCustomPlot *ecgGraph;
@@ -119,10 +122,7 @@ public:
     // When user presses power button to power off the AED it stops the timer
     void stopTimer();
 
-
-
     bool isCurrentStatePerformCPR() const;
-
 
 public slots:
     void toggleElectrodesInstalled();
@@ -185,6 +185,8 @@ private:
     int analyzingStateCounter;
 
     ElapsedTimeLabel *elapsedTimeLabel;
+
+    ChestCompressionDisplay *chestCompressionDisplay;
 
 
 signals:
