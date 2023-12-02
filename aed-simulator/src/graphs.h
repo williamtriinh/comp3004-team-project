@@ -1,23 +1,25 @@
-
 #ifndef GRAPHS_H
 #define GRAPHS_H
 
-#include <QVector>
-#include <QPen>
 #include "qcustomplot.h"
+#include <QVector>
 
-class Graphs
-{
+class Graphs {
 public:
-    Graphs(QCustomPlot* graph);
-    void shockAdvisedVTECG();
-    void shockAdvisedVFECG();
-    void shockNotAdvisedPEAECG();
+    explicit Graphs(QCustomPlot* graph);
 
-    void shockNotAdvisedAsystoleECG();
+    // Functions for setting up and updating the graph
+    void setupGraph();
+    void setDataPEAECG();
+    void setDataAsystoleECG();
+    void setDataVTECG();
+    void setDataVFECG();
 
 private:
     QCustomPlot* placeholderGraph;
+
+
+    void updateGraphData(const QVector<double>& yValues);
 };
 
 #endif // GRAPHS_H

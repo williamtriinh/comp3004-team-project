@@ -6,8 +6,6 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
-#include "graphs.h"
-
 #include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/installelectrodeswidget.h"
@@ -42,10 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
-    analyzingStateCounter = 0;
     numberOfShocks = 0;
     shockIndicatorButtonPressed = false;
-    isPatientDead = false;
 
     // Important to initialize state after other attributes
     state = new PoweredOffState(this);
@@ -110,8 +106,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
     elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
-      
+
     ecgGraph = new QCustomPlot(displayWidget);
+    graph = new Graphs(ecgGraph);
+    graph->setupGraph();
     ecgGraph->setFixedSize(300, 150);
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     ecgGraph->setStyleSheet("QWidget { background-color: black; }");
@@ -245,22 +243,19 @@ void MainWindow::setPatientStatus(PatientStatus status)
 
 
 void MainWindow::displayVTECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedVTECG();
+    graph->setDataVTECG();
 }
 void MainWindow::displayVFECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedVFECG();
+
+    graph->setDataVFECG();
 }
 
 void MainWindow::displayAsystoleECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockNotAdvisedAsystoleECG();
+    graph->setDataAsystoleECG();
 }
 
 void MainWindow::displayPEAECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockNotAdvisedPEAECG();
+    graph->setDataPEAECG();
 }
 
 void MainWindow::shockIndicatorButtonFlashing() {
@@ -288,21 +283,6 @@ void MainWindow::updateShockCount(){
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
 
-
-void MainWindow::incrementAnalyzingStateCounter() {
-    if(isPatientDead == true){
-        analyzingStateCounter = 0;
-    }
-    else{
-        analyzingStateCounter++;
-    }
-}
-
-int MainWindow::getAnalyzingStateCounter() const{
-    return analyzingStateCounter;
-}
-
-
 bool MainWindow::isCurrentStatePerformCPR() const {
     return dynamic_cast<PerformCPRState*>(state) != nullptr;
 }
@@ -318,24 +298,8 @@ void MainWindow::stopTimer(){
     elapsedTimeLabel->resetElapsedTime();
 }
 
-bool MainWindow::getDeathStatus() const{
-    return isPatientDead;
-}
-void MainWindow::setDeathStatus(bool death){
-    isPatientDead = death;
-}
 
-void MainWindow::deleteECGGraph(){
-    delete ecgGraph;
-}
 
-void MainWindow::initializeECGGraph(){
-    qDebug() << "Hello";
-    ecgGraph = new QCustomPlot(displayWidget);
-    ecgGraph->setFixedSize(300, 150);
-    ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
-    ecgGraph->setStyleSheet("QWidget { background-color: black; }");
-}
 
 
 

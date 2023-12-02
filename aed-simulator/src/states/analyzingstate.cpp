@@ -38,40 +38,30 @@ void AnalyzingState::execute()
     {
     case 0:
     {
-        if(context->getAnalyzingStateCounter()==0){
-            qDebug() << "Executing Analyzing State";
-            if(context->getPatientStatus() == MainWindow::PatientStatus::VT){
-                qDebug() << "1";
-                context->displayVTECG();
-            }
-            else if(context->getPatientStatus() == MainWindow::PatientStatus::VF){
-                context->displayVFECG();
-                qDebug() << "2";
-            }
-            else if(context->getPatientStatus() == MainWindow::PatientStatus::PEA){
-                context->displayPEAECG();
-                if(context->getDeathStatus() != true){
-                    context->changeState(new PerformCPRState(context));
-                    return;
-                }
-                qDebug() << "3";
-            }
-            else if(context->getPatientStatus() == MainWindow::PatientStatus::ASYSTOLE){
-                qDebug() << "4";
-                context->displayAsystoleECG();
-                if(context->getDeathStatus() != true){
-                    context->changeState(new PerformCPRState(context));
-                    return;
-                }
-
-                return;
-            }
+        qDebug() << "Executing Analyzing State";
+        if(context->getPatientStatus() == MainWindow::PatientStatus::VT){
+            context->displayVTECG();
         }
+        else if(context->getPatientStatus() == MainWindow::PatientStatus::VF){
+            context->displayVFECG();
+        }
+        else if(context->getPatientStatus() == MainWindow::PatientStatus::PEA){
+            context->displayPEAECG();
+            context->playMessage("No Shock Is Advised");
+            context->changeState(new PerformCPRState(context));
+            return;
+        }
+        else if(context->getPatientStatus() == MainWindow::PatientStatus::ASYSTOLE){
+            context->displayAsystoleECG();
+            context->playMessage("No Shock Is Advised");
+            context->changeState(new PerformCPRState(context));
+            return;
+        }
+
         if(context->getBattery() >= MainWindow::SHOCK_BATTERY_COST){
             context->shockIndicatorButtonFlashing();
             context->playMessage("Give STAND CLEAR Warning. DO NOT touch patient");
             timer->start(ANALYZING_STATE_DURATION_MS);
-            context->incrementAnalyzingStateCounter();
             break;
         }
 
@@ -124,10 +114,8 @@ void AnalyzingState::execute()
 
     case 5:
         context->shockIndicatorButtonStopFlashing();
-        if(context->getDeathStatus() != true){
-            context->changeState(new PerformCPRState(context));
-            return;
-        }
+        context->changeState(new PerformCPRState(context));
+        return;
     }
 
     nextStep();

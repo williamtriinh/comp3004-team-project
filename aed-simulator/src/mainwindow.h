@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include "simulation/elapsedtimelabel.h"
+#include "graphs.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -110,29 +111,13 @@ public:
 
     void deactivateShockIndicatorButtonPressed();
 
-    void incrementAnalyzingStateCounter();
-
-    int getAnalyzingStateCounter() const;
-
-
     // When user presses power button to turn on AED it begins the timer
     void startTimer();
 
     // When user presses power button to power off the AED it stops the timer
     void stopTimer();
 
-
-
     bool isCurrentStatePerformCPR() const;
-
-
-    bool getDeathStatus() const;
-    void setDeathStatus(bool death);
-
-    void deleteECGGraph();
-
-    void initializeECGGraph();
-
 
 public slots:
     void toggleElectrodesInstalled();
@@ -189,16 +174,14 @@ private:
      */
     int numberOfShocks;
 
-    /**
-     * Counts how many times the program enters the analyzing state
-     */
-    int analyzingStateCounter;
-
     ElapsedTimeLabel *elapsedTimeLabel;
 
-    bool isPatientDead;
-
     QWidget *displayWidget;
+
+    /**
+     * ECG Graph
+     */
+    Graphs *graph;
 
 
 signals:

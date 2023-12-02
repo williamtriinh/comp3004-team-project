@@ -50,10 +50,6 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
     case 4:
         mainWindow->setPatientStatus(MainWindow::PatientStatus::ASYSTOLE);
         mainWindow->changeState(new AnalyzingState(mainWindow));
-        mainWindow->setDeathStatus(true);
-        mainWindow->incrementAnalyzingStateCounter();
-        mainWindow->deleteECGGraph();
-        mainWindow->initializeECGGraph();
     }
 
 }
