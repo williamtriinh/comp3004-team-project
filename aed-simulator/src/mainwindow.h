@@ -129,6 +129,9 @@ public:
     bool getDeathStatus() const;
     void setDeathStatus(bool death);
 
+    void deleteECGGraph();
+
+    void initializeECGGraph();
 
 
 public slots:
@@ -194,6 +197,8 @@ private:
     ElapsedTimeLabel *elapsedTimeLabel;
 
     bool isPatientDead;
+
+    QWidget *displayWidget;
 
 
 signals:

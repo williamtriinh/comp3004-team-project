@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *mainWidget = new QWidget;
     mainWidget->setLayout(mainLayout);
 
-    QWidget *displayWidget = new QWidget;
+    displayWidget = new QWidget;
     displayWidget->setFixedSize(DISPLAY_SIZE, DISPLAY_SIZE);
 
     QHBoxLayout *bottomLayout = new QHBoxLayout;
@@ -290,7 +290,12 @@ void MainWindow::updateShockCount(){
 
 
 void MainWindow::incrementAnalyzingStateCounter() {
-    analyzingStateCounter++;
+    if(isPatientDead == true){
+        analyzingStateCounter = 0;
+    }
+    else{
+        analyzingStateCounter++;
+    }
 }
 
 int MainWindow::getAnalyzingStateCounter() const{
@@ -319,5 +324,18 @@ bool MainWindow::getDeathStatus() const{
 void MainWindow::setDeathStatus(bool death){
     isPatientDead = death;
 }
+
+void MainWindow::deleteECGGraph(){
+    delete ecgGraph;
+}
+
+void MainWindow::initializeECGGraph(){
+    qDebug() << "Hello";
+    ecgGraph = new QCustomPlot(displayWidget);
+    ecgGraph->setFixedSize(300, 150);
+    ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
+    ecgGraph->setStyleSheet("QWidget { background-color: black; }");
+}
+
 
 
