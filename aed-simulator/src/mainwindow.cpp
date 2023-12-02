@@ -110,8 +110,8 @@ MainWindow::MainWindow(QWidget *parent)
       
     ecgGraph = new QCustomPlot(displayWidget);
     graph = new Graphs(ecgGraph);
+    graph->setupGraph();
     ecgGraph->setFixedSize(300 - 48, 150); // Subtract width by 40px (chest compression meter) + 8px (spacing)
-
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     ecgGraph->setStyleSheet("QWidget { background-color: black; }");
 
@@ -252,7 +252,6 @@ void MainWindow::displayVTECG(){
     graph->setDataVTECG();
 }
 void MainWindow::displayVFECG(){
-
     graph->setDataVFECG();
 }
 

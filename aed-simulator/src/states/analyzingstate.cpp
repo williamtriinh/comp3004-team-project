@@ -38,7 +38,6 @@ void AnalyzingState::execute()
     {
     case 0:
     {
-        qDebug() << "Executing Analyzing State";
         if(context->getPatientStatus() == MainWindow::PatientStatus::VT){
             context->displayVTECG();
         }
