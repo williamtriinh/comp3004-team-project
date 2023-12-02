@@ -8,14 +8,12 @@
 
 #include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
+#include "simulation/chestcompressiondisplay.h"
 #include "simulation/installelectrodeswidget.h"
 #include "simulation/patientstatuswidget.h"
 #include "simulation/endprogramwidget.h"
+
 #include "states/performcprstate.h"
-
-
-
-
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -106,11 +104,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
     elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
-
+      
+    chestCompressionDisplay = new ChestCompressionDisplay(this, displayWidget);
+    chestCompressionDisplay->move(DISPLAY_SIZE / 2 + 110, 240);
+      
     ecgGraph = new QCustomPlot(displayWidget);
     graph = new Graphs(ecgGraph);
-    graph->setupGraph();
-    ecgGraph->setFixedSize(300, 150);
+    ecgGraph->setFixedSize(300 - 48, 150); // Subtract width by 40px (chest compression meter) + 8px (spacing)
+
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     ecgGraph->setStyleSheet("QWidget { background-color: black; }");
 
@@ -228,6 +229,11 @@ void MainWindow::setElectrodePadsAttached(ElectrodePadsAttachedState state)
 {
     electrodePadsAttachedState = state;
     emit electrodePadsAttachedStateChanged(electrodePadsAttachedState);
+}
+
+ChestCompressionDisplay *MainWindow::getChestCompressionDisplay()
+{
+    return chestCompressionDisplay;
 }
 
 MainWindow::PatientStatus MainWindow::getPatientStatus()

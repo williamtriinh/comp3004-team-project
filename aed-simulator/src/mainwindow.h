@@ -8,7 +8,11 @@
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include "simulation/elapsedtimelabel.h"
+
 #include "graphs.h"
+
+#include "simulation/chestcompressiondisplay.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,7 +38,7 @@ public:
         ATTACHED,
     };
 
-    enum class PatientStatus{
+    enum class PatientStatus {
         VT,
         VF,
         PEA,
@@ -89,6 +93,8 @@ public:
 
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
+
+    ChestCompressionDisplay *getChestCompressionDisplay();
 
     void updateShockCount();
 
@@ -182,6 +188,8 @@ private:
      * ECG Graph
      */
     Graphs *graph;
+
+    ChestCompressionDisplay *chestCompressionDisplay;
 
 
 signals:

@@ -1,5 +1,17 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
+    <file>images/chest-compression-meter/adult_meter_deep.png</file>
+    <file>images/chest-compression-meter/adult_meter_default.png</file>
+    <file>images/chest-compression-meter/adult_meter_good.png</file>
+    <file>images/chest-compression-meter/adult_meter_shallow.png</file>
+    <file>images/chest-compression-meter/child_meter_deep.png</file>
+    <file>images/chest-compression-meter/child_meter_default.png</file>
+    <file>images/chest-compression-meter/child_meter_good.png</file>
+    <file>images/chest-compression-meter/child_meter_shallow.png</file>
+    <file>images/chest-compression-meter/infant_meter_deep.png</file>
+    <file>images/chest-compression-meter/infant_meter_default.png</file>
+    <file>images/chest-compression-meter/infant_meter_good.png</file>
+    <file>images/chest-compression-meter/infant_meter_shallow.png</file>
     <file>images/green_ring.png</file>
     <file>images/power_button.png</file>
     <file>images/shock_indicator_off.png</file>
