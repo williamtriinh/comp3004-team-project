@@ -11,11 +11,21 @@ sequenceDiagram
 Low Battery Sequence  diagram:
 
 sequenceDiagram
-    SelfTestState ->>+ LowBatteryState : ! hasSufficientBattery()
-    LowBatteryState ->>- MainWindow : playMessage("Change batteries.")
-    User ->>+ RechargeBatteryButton : click()
-    RechargeBatteryButton ->>- MainWindow : setBattery(100)
-    MainWindow ->> SelfTestState : hasSufficientBattery()
+    actor user as User
+    participant selfTestState as selfTestState:SelfTestState
+    participant poweredOffState as poweredOffState:PoweredOffState
+    participant lowBatteryState as lowBatteryState:LowBatteryState
+    participant mainWindow as mainWindow:MainWindow
+    participant batteryWidget as batteryWidget:BatteryWidget
+
+    selfTestState ->>+ lowBatteryState : ! hasSufficientBattery()
+    lowBatteryState ->>- mainWindow : playMessage(message: "Change batteries.")
+    user ->>+ batteryWidget : presses "Recharge Battery" button
+    batteryWidget ->>+ mainWindow : setBattery(100)
+    batteryWidget ->>- mainWindow : changeState(state: PoweredOffState)
+    poweredOffState ->> mainWindow : playMessage(message: "Powering Off.")
+
+    deactivate mainWindow
 
 =========================================================================================================
 State diagram:
