@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     patientStatus = PatientStatus::DEFAULT;
     analyzingStateCounter = 0;
     numberOfShocks = 0;
+    shockIndicatorButtonPressed = false;
 
     // Important to initialize state after other attributes
     state = new PoweredOffState(this);
