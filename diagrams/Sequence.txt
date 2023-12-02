@@ -1,0 +1,43 @@
+electrodes not attached sequence diagram:
+
+sequenceDiagram
+    SelfTestState ->>+ InstallElectrodesWidget : ! getElectrodesInstalled()
+    InstallElectrodesWidget ->>- MainWindow : playMessage("Attach electrode pads.")
+    User ->>+ InstallElectrodesWidget : click()
+    InstallElectrodesWidget ->>- MainWindow : playMessage("Electrodes Installed, true")
+    MainWindow ->> SelfTestState : getElectrodesInstalled()
+
+=========================================================================================================
+Low Battery Sequence  diagram:
+
+sequenceDiagram
+    SelfTestState ->>+ LowBatteryState : ! hasSufficientBattery()
+    LowBatteryState ->>- MainWindow : playMessage("Change batteries.")
+    User ->>+ RechargeBatteryButton : click()
+    RechargeBatteryButton ->>- MainWindow : setBattery(100)
+    MainWindow ->> SelfTestState : hasSufficientBattery()
+
+=========================================================================================================
+State diagram:
+
+stateDiagram-v2
+[*] --> PowerOnState
+PowerOnState --> PoweredOffState
+PowerOnState --> SelfTestState
+SelfTestState --> LowBatteryState : Detects low battery
+LowBatteryState --> CheckResponsivenessState : Change batteries
+SelfTestState --> CheckResponsivenessState : Pass the Self Test
+CheckResponsivenessState --> CallForHelpState
+CallForHelpState --> AttachdeFibrillatorPadsState
+AttachdeFibrillatorPadsState --> AnalyzingState
+state Analyze_Shock_CPR_Loop{
+AnalyzingState --> PerformCprState : After Shock
+PerformCprState --> AnalyzingState : Analyze the patient again 
+}
+PerformCprState --> PoweredOffState : CPR / Shock revives the patient <br> Emergency Services arrives
+PoweredOffState --> [*]
+  
+
+
+
+
