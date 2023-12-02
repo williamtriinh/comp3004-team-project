@@ -1,0 +1,177 @@
+sequenceDiagram
+
+actor operator as AED Operator
+
+participant mainWindow as mainWindow:MainWindow
+participant state as State
+
+participant checkResponsivenessImage as checkResponsivenessImage:AEDImage
+participant callForHelpImage as callForHelpImage:AEDImage
+participant attachElectrodePadsImage as attachElectrodePadsImage:AEDImage
+participant analyzingPatientImage as analyzingPatientImage:AEDImage
+participant performCPRImage as performCPRImage:AEDImage
+
+participant powerButton as powerButton:PowerButton
+participant shockIndicatorButton as shockIndicatorButton:ShockIndicatorButton
+participant statusIndicator as statusIndicator:StatusIndicator
+participant elapsedTimeLabel as elapsedTimeLabel:ElapsedTimeLabel
+participant chestCompressionDisplay as chestCompressionDisplay:ChestCompressionDisplay
+participant attachElectrodePadsWidget as attachElectrodePadsWidget:AttachElectrodePadsWidget
+participant patientStatusWidget as patientStatusWidget:PatientStatusWidget
+participant graph as graph:Graph
+
+%% Powered off state
+note over mainWindow: PoweredOffState
+operator->>powerButton: presses
+activate powerButton
+powerButton->>state: togglePower()
+activate state
+deactivate powerButton
+state->>mainWindow: startTimer()
+mainWindow-)elapsedTimeLabel: startElapsedTime()
+activate elapsedTimeLabel
+loop Every second
+    elapsedTimeLabel->>elapsedTimeLabel: updateElapsedTimeDisplay()
+end
+deactivate elapsedTimeLabel
+state->>mainWindow: changeState(state: SelfTestState)
+activate mainWindow
+
+%% Self test state
+note over mainWindow: SelfTestState
+state->>mainWindow: hasSufficientBattery()
+state->>mainWindow: getElectrodesInstalled()
+state->>mainWindow: playMessage(message: "Automatic defibrillator unit OK.")
+mainWindow->>statusIndicator: updateIndicator()
+activate statusIndicator
+deactivate statusIndicator
+state->>mainWindow: playMessage(message: "Stay calm.");
+state->>mainWindow: changeState(state: CheckResponsivenessState)
+deactivate state
+
+%% Check responsiveness state
+note over mainWindow: CheckResponsivenessState
+mainWindow-)checkResponsivenessImage: handleStateChanged()
+activate checkResponsivenessImage
+checkResponsivenessImage->>checkResponsivenessImage: turnOn()
+deactivate checkResponsivenessImage
+state->>mainWindow: playMessage(message: "Check responsiveness.")
+activate state
+state->>mainWindow: changeState(state: CallForHelpState)
+deactivate state
+
+%% Call for help state
+note over mainWindow: CallForHelpState
+mainWindow-)checkResponsivenessImage: handleStateChanged()
+activate checkResponsivenessImage
+checkResponsivenessImage->>checkResponsivenessImage: turnOff()
+deactivate checkResponsivenessImage
+mainWindow-)callForHelpImage: handleStateChanged()
+activate callForHelpImage
+callForHelpImage->>callForHelpImage: turnOn()
+deactivate callForHelpImage
+state->>mainWindow: playMessage(message: "Call for help.")
+activate state
+state->>mainWindow: changeState(state: AttachDefibrillatorPadsState)
+deactivate state
+
+%% Attach defibrillator pads state
+note over mainWindow: AttachDefibrillatorPadsState
+mainWindow-)callForHelpImage: handleStateChanged()
+activate callForHelpImage
+callForHelpImage->>callForHelpImage: turnOff()
+deactivate callForHelpImage
+mainWindow-)attachElectrodePadsImage: handleStateChanged()
+activate attachElectrodePadsImage
+attachElectrodePadsImage->>attachElectrodePadsImage: turnOn()
+deactivate attachElectrodePadsImage
+operator->>attachElectrodePadsWidget: selects "Attached" option
+activate attachElectrodePadsWidget
+attachElectrodePadsWidget->>attachElectrodePadsWidget: handleAttachmentComboBoxChanged()
+attachElectrodePadsWidget->>mainWindow: setElectrodePadsAttached(state: MainWindow::ElectrodePadsAttachedState::ATTACHED)
+deactivate attachElectrodePadsWidget
+loop mainWindow.getElectrodePadsAttachedState() = true
+    state->>mainWindow: getElectrodePadsAttachedState()
+    activate state
+end
+state->>mainWindow: changeState(state: AnalyzingState)
+deactivate state
+
+loop state != PoweredOffState && mainWindow.battery >= MINIMUM_BATTERY
+    %% Analyzing State
+    note over mainWindow: AnalyzingState
+    mainWindow-)attachElectrodePadsImage: handleStateChanged()
+    activate attachElectrodePadsImage
+    attachElectrodePadsImage->>attachElectrodePadsImage: turnOff()
+    deactivate attachElectrodePadsImage
+    mainWindow-)analyzingPatientImage: handleStateChanged()
+    activate analyzingPatientImage
+    analyzingPatientImage->>analyzingPatientImage: turnOn()
+    deactivate analyzingPatientImage
+    operator->>patientStatusWidget: selects "Pulseless Ventricular Tachycardia (Shock Given)" option
+    activate patientStatusWidget
+    patientStatusWidget->>patientStatusWidget: handlePatientStatusComboBoxChanged()
+    patientStatusWidget->>mainWindow: setPatientStatus(state: MainWindow::PatientStatus::VT)
+    deactivate patientStatusWidget
+    state->>mainWindow: displayVTECG()
+    activate state
+    mainWindow->>graph: <<create>>
+    activate graph
+    mainWindow->>graph: shockAdvisedVTECG()
+    deactivate graph
+    state->>mainWindow: playMessage(message: "Don't touch patient. Analyzing.")
+    state->>mainWindow: shockIndicatorButtonFlashing()
+    mainWindow->>shockIndicatorButton: startFlashing()
+    activate shockIndicatorButton
+    shockIndicatorButton->>shockIndicatorButton: toggleLight()
+    deactivate shockIndicatorButton
+    state->>mainWindow: playMessage(message: "Give STAND CLEAR Warning. DO NOT touch patient.")
+    state->>mainWindow: incrementAnalyzingStateCounter()
+    state->>mainWindow: playMessage(message: "Press Shock Indicator Button.")
+    operator->>shockIndicatorButton: presses
+    activate shockIndicatorButton
+    shockIndicatorButton->>mainWindow: activateShockIndicatorButtonPressed()
+    deactivate shockIndicatorButton
+    state->>mainWindow: deactivateShockIndicatorButtonPressed()
+    state->>mainWindow: playMessage(message: "Shock will be delivered in three, two, one ....")
+    state->>mainWindow: playMessage(message: "Shock delivered.)
+    state->>mainWindow: setBattery(battery: context->getBattery() - MainWindow::SHOCK_BATTERY_COST)
+    state->>mainWindow: updateShockCount()
+    state->>mainWindow: hasSufficientBattery()
+    state->>mainWindow: shockIndicatorButtonStopFlashing()
+    mainWindow->>shockIndicatorButton: stopFlashing()
+    activate shockIndicatorButton
+    deactivate shockIndicatorButton
+    state->>mainWindow: changeState(state: PerformCPRState)
+    deactivate state
+
+    %% Perform cpr state
+    note over mainWindow: PerformCPRState
+    mainWindow-)analyzingPatientImage: handleStateChanged()
+    activate analyzingPatientImage
+    analyzingPatientImage->>analyzingPatientImage: turnOff()
+    deactivate analyzingPatientImage
+    mainWindow-)performCPRImage: handleStateChanged()
+    activate performCPRImage
+    performCPRImage->>performCPRImage: turnOn()
+    deactivate performCPRImage
+    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 0)
+    activate chestCompressionDisplay
+    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+    state->>chestCompressionDisplay: setVisible(visible: true)
+    state->>mainWindow: playMessage("Perform CPR.)
+    state->>mainWindow: playMessage("2 breaths for every 30 compressions.")
+    state->>mainWindow: playMessage("Compression to deep. Reduce force.")
+    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 3)
+    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+    state->>mainWindow: playMessage("Compression to shallow. Press harder.")
+    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 1)
+    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+    state->>mainWindow: playMessage("Good compression depth. Keep going.")
+    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 2)
+    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+    deactivate chestCompressionDisplay
+    state->>mainWindow: playMessage("Stop CPR.")
+end
+
+deactivate mainWindow
