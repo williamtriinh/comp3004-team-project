@@ -28,7 +28,7 @@ public:
     };
 
 
-    enum class ElectrodePadsAttachedState {
+    enum class ElectrodePadsAttachedState{
         NOT_ATTACHED,
         ATTACHED,
     };
@@ -40,6 +40,8 @@ public:
         ASYSTOLE,
         DEFAULT,
     };
+
+
 
     static const int DISPLAY_SIZE = 700;
 
@@ -124,6 +126,11 @@ public:
     bool isCurrentStatePerformCPR() const;
 
 
+    bool getDeathStatus() const;
+    void setDeathStatus(bool death);
+
+
+
 public slots:
     void toggleElectrodesInstalled();
 
@@ -185,6 +192,8 @@ private:
     int analyzingStateCounter;
 
     ElapsedTimeLabel *elapsedTimeLabel;
+
+    bool isPatientDead;
 
 
 signals:

@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     analyzingStateCounter = 0;
     numberOfShocks = 0;
     shockIndicatorButtonPressed = false;
+    isPatientDead = false;
 
     // Important to initialize state after other attributes
     state = new PoweredOffState(this);
@@ -311,4 +312,12 @@ void MainWindow::startTimer(){
 void MainWindow::stopTimer(){
     elapsedTimeLabel->resetElapsedTime();
 }
+
+bool MainWindow::getDeathStatus() const{
+    return isPatientDead;
+}
+void MainWindow::setDeathStatus(bool death){
+    isPatientDead = death;
+}
+
 
