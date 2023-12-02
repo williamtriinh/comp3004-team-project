@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
     elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
     elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
 
-    ChestCompressionDisplay *chestCompressionDisplay = new ChestCompressionDisplay(this, displayWidget);
+    chestCompressionDisplay = new ChestCompressionDisplay(this, displayWidget);
     chestCompressionDisplay->move(DISPLAY_SIZE / 2 + 110, 240);
       
     ecgGraph = new QCustomPlot(displayWidget);
@@ -232,15 +232,9 @@ void MainWindow::setElectrodePadsAttached(ElectrodePadsAttachedState state)
     emit electrodePadsAttachedStateChanged(electrodePadsAttachedState);
 }
 
-MainWindow::PatientType MainWindow::getPatientType()
+ChestCompressionDisplay *MainWindow::getChestCompressionDisplay()
 {
-    return patientType;
-}
-
-void MainWindow::setPatientType(PatientType patientType)
-{
-    this->patientType = patientType;
-    emit patientTypeChanged(patientType);
+    return chestCompressionDisplay;
 }
 
 MainWindow::PatientStatus MainWindow::getPatientStatus()

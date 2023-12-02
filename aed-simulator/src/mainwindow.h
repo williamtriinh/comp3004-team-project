@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include "simulation/elapsedtimelabel.h"
+#include "simulation/chestcompressiondisplay.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -39,12 +40,6 @@ public:
         PEA,
         ASYSTOLE,
         DEFAULT,
-    };
-
-    enum class PatientType {
-        ADULT,
-        CHILD,
-        INFANT,
     };
 
     static const int DISPLAY_SIZE = 700;
@@ -93,8 +88,7 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
-    PatientType getPatientType();
-    void setPatientType(PatientType patientType);
+    ChestCompressionDisplay *getChestCompressionDisplay();
 
     void updateShockCount();
 
@@ -128,10 +122,7 @@ public:
     // When user presses power button to power off the AED it stops the timer
     void stopTimer();
 
-
-
     bool isCurrentStatePerformCPR() const;
-
 
 public slots:
     void toggleElectrodesInstalled();
@@ -162,11 +153,6 @@ private:
      * Keeps track of whether the electrode pads are attached to the patient
      */
     ElectrodePadsAttachedState electrodePadsAttachedState;
-
-    /**
-     * The type of patient
-     */
-    PatientType patientType;
 
     /**
      * The patient's status
@@ -200,13 +186,14 @@ private:
 
     ElapsedTimeLabel *elapsedTimeLabel;
 
+    ChestCompressionDisplay *chestCompressionDisplay;
+
 
 signals:
     void stateChanged(BaseState *state);
     void unitStatusChanged(UnitStatus status);
     void batteryChanged(int battery);
     void electrodesInstalledChanged(bool electrodesInstalled);
-    void patientTypeChanged(PatientType patientType);
     void electrodePadsAttachedStateChanged(ElectrodePadsAttachedState state);
     void patientStatusChanged(PatientStatus status);
 

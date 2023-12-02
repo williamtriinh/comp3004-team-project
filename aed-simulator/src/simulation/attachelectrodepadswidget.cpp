@@ -32,21 +32,7 @@ AttachElectrodePadsWidget::AttachElectrodePadsWidget(MainWindow *mainWindow, QWi
 
 void AttachElectrodePadsWidget::handlePatientComboBoxChanged(int index)
 {
-    MainWindow::PatientType patientType;
-
-    switch (index)
-    {
-    case 0:
-        patientType = MainWindow::PatientType::ADULT;
-        break;
-    case 1:
-        patientType = MainWindow::PatientType::CHILD;
-        break;
-    case 2:
-        patientType = MainWindow::PatientType::INFANT;
-    }
-
-    mainWindow->setPatientType(patientType);
+    mainWindow->getChestCompressionDisplay()->setPatientTypeIndex(index);
 }
 
 void AttachElectrodePadsWidget::handleAttachmentComboBoxChanged(int index)

@@ -5,13 +5,27 @@
 ChestCompressionDisplay::ChestCompressionDisplay(MainWindow *mainWindow, QWidget *parent) : QLabel(parent)
 {
     this->mainWindow = mainWindow;
-    connect(mainWindow, &MainWindow::patientTypeChanged, this, &ChestCompressionDisplay::updatePatientTypeIndex);
 
     loadImages();
-    patientType = PATIENT_TYPES[0];
-    compressionType = COMPRESSION_TYPES[0];
+    patientTypeIndex = 0;
+    compressionTypeIndex = 0;
+
+    updateDisplay();
 
     setFixedSize(40, 150);
+    setVisible(false);
+}
+
+void ChestCompressionDisplay::setPatientTypeIndex(int patientTypeIndex)
+{
+    this->patientTypeIndex = patientTypeIndex;
+    updateDisplay();
+}
+
+void ChestCompressionDisplay::setCompressionTypeIndex(int compressionTypeIndex)
+{
+    this->compressionTypeIndex = compressionTypeIndex;
+    updateDisplay();
 }
 
 void ChestCompressionDisplay::loadImages()
@@ -26,22 +40,10 @@ void ChestCompressionDisplay::loadImages()
         const QString imagePath = QString(":/images/chest-compression-meter/%1_meter_%2.png").arg(patientType).arg(compressionType);
         pixmaps.append(QPixmap(imagePath));
     }
-
-    setPixmap(pixmaps.first());
 }
 
-void ChestCompressionDisplay::updatePatientTypeIndex()
+void ChestCompressionDisplay::updateDisplay()
 {
-    switch (mainWindow->getPatientType())
-    {
-    case MainWindow::PatientType::ADULT:
-        patientType = PATIENT_TYPES[0];
-        break;
-    case MainWindow::PatientType::CHILD:
-        patientType = PATIENT_TYPES[1];
-        break;
-    case MainWindow::PatientType::INFANT:
-        patientType = PATIENT_TYPES[2];
-        break;
-    }
+    QPixmap pixmap = pixmaps[patientTypeIndex * COMPRESSION_TYPES.size() + compressionTypeIndex];
+    setPixmap(pixmap);
 }

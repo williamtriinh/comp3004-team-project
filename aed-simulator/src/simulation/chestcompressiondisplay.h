@@ -15,28 +15,34 @@ public:
 
     ChestCompressionDisplay(MainWindow *mainWindow, QWidget *parent = nullptr);
 
+    void setPatientTypeIndex(int patientTypeIndex);
+
+    void setCompressionTypeIndex(int compressionTypeIndex);
+
 private:
     MainWindow *mainWindow;
 
     QVector<QPixmap> pixmaps;
 
     /**
-     * The current patient type from PATIENT_TYPES
+     * Index pointing to the current item in PATIENT_TYPES
      */
-    QString patientType;
+    int patientTypeIndex;
 
     /**
-     * The current compression type from COMPRESSION_TYPES
+     * Index pointing to the current item in
      */
-    QString compressionType;
+    int compressionTypeIndex;
 
     /**
      * Loads the images into the pixmaps array
      */
     void loadImages();
 
-private slots:
-    void updatePatientTypeIndex();
+    /**
+     * Updates the meter to the current patient and compression indices
+     */
+    void updateDisplay();
 };
 
 #endif // CHESTCOMPRESSIONDISPLAY_H
