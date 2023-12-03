@@ -244,7 +244,6 @@ MainWindow::PatientStatus MainWindow::getPatientStatus()
 void MainWindow::setPatientStatus(PatientStatus status)
 {
     patientStatus = status;
-    emit patientStatusChanged(patientStatus);
 }
 
 

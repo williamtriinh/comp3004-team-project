@@ -4,6 +4,9 @@
 #include "basestate.h"
 #include "../utils/intermediatestate.h"
 #include <QTimer>
+#include "../mainwindow.h"
+
+class MainWindow;
 
 class AnalyzingState : public BaseState, public IntermediateState
 {
