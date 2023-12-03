@@ -22,6 +22,7 @@ void PoweredOffState::initialize()
     context->setUnitStatus(MainWindow::UnitStatus::DEFAULT);
     context->stopTimer();
     context->updateShockCount();
+    context->resetECGDisplay();
     execute();
 }
 

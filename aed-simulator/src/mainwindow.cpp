@@ -263,6 +263,10 @@ void MainWindow::displayPEAECG(){
     graph->setDataPEAECG();
 }
 
+void MainWindow::resetECGDisplay(){
+    graph->resetGraphData();
+}
+
 void MainWindow::shockIndicatorButtonFlashing() {
     shockIndicatorButton->startFlashing();
 }

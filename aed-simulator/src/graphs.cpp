@@ -43,6 +43,11 @@ void Graphs::setDataVFECG(){
     updateGraphData(yValues);
 }
 
+void Graphs::resetGraphData(){
+    QVector<double> yValues = {};
+    updateGraphData(yValues);
+}
+
 void Graphs::updateGraphData(const QVector<double>& yValues){
     QVector<double> repeatedYValues;
     for (int i = 0; i < 3; ++i) {

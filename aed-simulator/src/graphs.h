@@ -14,6 +14,7 @@ public:
     void setDataAsystoleECG();
     void setDataVTECG();
     void setDataVFECG();
+    void resetGraphData();
 
 private:
     QCustomPlot* placeholderGraph;
