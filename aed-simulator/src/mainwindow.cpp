@@ -284,7 +284,12 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
 }
 
 void MainWindow::updateShockCount(){
-    numberOfShocks++;
+    if(state->getStateName() == "PoweredOffState"){
+        numberOfShocks = 0;
+    }
+    else{
+        numberOfShocks++;
+    }
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
 
