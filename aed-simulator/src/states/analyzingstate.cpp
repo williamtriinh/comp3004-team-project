@@ -79,7 +79,11 @@ void AnalyzingState::execute()
     case 2:
 
         while(!context->getShockIndicatorButtonPressed()){
+            if(context->getState()->getStateName() == "PoweredOffState"){
+                break;
+            }
             QCoreApplication::processEvents();
+            QThread::msleep(10);
         }
         context->deactivateShockIndicatorButtonPressed();
         context->playMessage("Shock will be delivered in three, two, one ....");
