@@ -244,7 +244,6 @@ MainWindow::PatientStatus MainWindow::getPatientStatus()
 void MainWindow::setPatientStatus(PatientStatus status)
 {
     patientStatus = status;
-    emit patientStatusChanged(patientStatus);
 }
 
 
@@ -261,6 +260,10 @@ void MainWindow::displayAsystoleECG(){
 
 void MainWindow::displayPEAECG(){
     graph->setDataPEAECG();
+}
+
+void MainWindow::resetECGDisplay(){
+    graph->resetGraphData();
 }
 
 void MainWindow::shockIndicatorButtonFlashing() {
@@ -284,7 +287,12 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
 }
 
 void MainWindow::updateShockCount(){
-    numberOfShocks++;
+    if(state->getStateName() == "PoweredOffState"){
+        numberOfShocks = 0;
+    }
+    else{
+        numberOfShocks++;
+    }
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
 

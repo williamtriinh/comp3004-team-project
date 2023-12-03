@@ -109,6 +109,7 @@ public:
     void displayVFECG();
     void displayPEAECG();
     void displayAsystoleECG();
+    void resetECGDisplay();
 
     void shockIndicatorButtonFlashing();
     void shockIndicatorButtonStopFlashing();

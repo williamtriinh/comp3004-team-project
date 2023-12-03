@@ -1,6 +1,6 @@
 #include "analyzingstate.h"
 
-#include "../mainwindow.h"
+
 #include "lowbatterystate.h"
 #include "performcprstate.h"
 #include "poweredoffstate.h"
@@ -14,6 +14,7 @@ AnalyzingState::AnalyzingState(MainWindow *context)
     timer = new QTimer(this);
     timer->setSingleShot(true);
     connect(timer, &QTimer::timeout, this, &AnalyzingState::execute);
+
 }
 
 AnalyzingState::~AnalyzingState()
@@ -26,17 +27,22 @@ void AnalyzingState::initialize(){
     timer->start(ANALYZING_STATE_DURATION_MS);
 }
 
+
+
 void AnalyzingState::execute()
 {
-    if(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT){
-        qDebug() << "Select Patient's Status";
-        while(context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT) {
-            QCoreApplication::processEvents();
-        }
-    }
     switch(getStep())
     {
     case 0:
+        if (context->getPatientStatus() == MainWindow::PatientStatus::DEFAULT)
+        {
+            qDebug() << "Select Patient Status";
+            timer->start(100);
+            return;
+        }
+        timer->start(100);
+        break;
+    case 1:
     {
         if(context->getPatientStatus() == MainWindow::PatientStatus::VT){
             context->displayVTECG();
@@ -70,22 +76,25 @@ void AnalyzingState::execute()
         }
     }
 
-    case 1:
+    case 2:
+        context->deactivateShockIndicatorButtonPressed();
         context->playMessage("Press Shock Indicator Button");
         timer->start(ANALYZING_STATE_DURATION_MS);
         break;
 
-    case 2:
+    case 3:
 
-        while(!context->getShockIndicatorButtonPressed()){
-            QCoreApplication::processEvents();
+        if (!context->getShockIndicatorButtonPressed())
+        {
+            timer->start(100);
+            return;
         }
         context->deactivateShockIndicatorButtonPressed();
         context->playMessage("Shock will be delivered in three, two, one ....");
         timer->start(ANALYZING_STATE_DURATION_MS);
         break;
 
-    case 3:
+    case 4:
 
         context->playMessage("Shock delivered");
         context->setBattery(context->getBattery() - MainWindow::SHOCK_BATTERY_COST);
@@ -93,7 +102,7 @@ void AnalyzingState::execute()
         timer->start(1000);
         break;
 
-    case 4:
+    case 5:
 
         if (context->getBattery() == 0)
         {
@@ -111,7 +120,7 @@ void AnalyzingState::execute()
         timer->start(1000);
         break;
 
-    case 5:
+    case 6:
         context->shockIndicatorButtonStopFlashing();
         context->changeState(new PerformCPRState(context));
         return;
@@ -125,6 +134,8 @@ void AnalyzingState::execute()
 QString AnalyzingState::getStateName(){
     return "AnalyzingState";
 }
+
+
 
 
 
