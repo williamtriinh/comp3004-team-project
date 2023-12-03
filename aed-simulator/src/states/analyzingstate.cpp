@@ -71,6 +71,7 @@ void AnalyzingState::execute()
     }
 
     case 1:
+        context->deactivateShockIndicatorButtonPressed();
         context->playMessage("Press Shock Indicator Button");
         timer->start(ANALYZING_STATE_DURATION_MS);
         break;
