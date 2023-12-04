@@ -10,6 +10,17 @@ What each member did:
     Evan Moore:
     
     William Trinh:
+        - Created class diagram
+        - Created normal sequence diagram
+        - Set up most of the GUI
+        - Set up state classes
+        - Implemented
+            - powered off state
+            - self-test state
+            - check for responsiveness state
+            - call for help state
+            - attach defibrillator state
+        - Created chest compression meter
     
     Ziyang Ling:
         Traceability matrix
