@@ -2,15 +2,22 @@ electrodes not attached sequence diagram:
 
 sequenceDiagram
     actor user as User
+    participant selfTestState as selfTestState:selfTestState
     participant selfTestState as selfTestState:SelfTestState
     participant mainWindow as mainWindow:MainWindow
-    participant InstallElectrodesWidget as InstallElectrodesWidget:InstallElectrodesWidget
+    participant installElectrodesWidget as installElectrodesWidget:InstallElectrodesWidget
+    participant powerButton as powerButton:PowerButton
 
-    selfTestState ->>+ InstallElectrodesWidget : ! getElectrodesInstalled()
-    InstallElectrodesWidget ->>- mainWindow : playMessage("Attach electrode pads.")
-    user ->>+ InstallElectrodesWidget : click "Install/Uninstall" button
-    InstallElectrodesWidget ->>+ mainWindow : playMessage("Electrodes Installed, true")
-    InstallElectrodesWidget ->>- selfTestState : getElectrodesInstalled()
+    note over user, powerButton: While in the self-test state
+    selfTestState ->>+ installElectrodesWidget : ! getElectrodesInstalled()
+    installElectrodesWidget ->>- mainWindow : playMessage(message: "Attach electrode pads.")
+    user ->>+ installElectrodesWidget : click "Install/Uninstall" button
+    installElectrodesWidget ->>- mainWindow : toggleElectrodesInstalled()
+    user ->>+ powerButton : turn off AED
+    powerButton ->>- selfTestState : togglePower()
+    activate selfTestState
+    selfTestState ->>- mainWindow : changeState(state: PoweredOffState)
+    note over user, powerButton: Turn on the AED again to perform the self test
 
 =========================================================================================================
 Low Battery Sequence  diagram:
