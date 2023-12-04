@@ -2,6 +2,7 @@
 
 #include "../mainwindow.h"
 #include "../states/poweredoffstate.h"
+#include "../states/analyzingstate.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -18,6 +19,7 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
     endProgramComboBox->addItem("Emergency Services' arrives");
     endProgramComboBox->addItem("CPR regenerates the heart beat");
     endProgramComboBox->addItem("The shock revives the patient");
+    endProgramComboBox->addItem("Patient Dies");
     connect(endProgramComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EndProgramWidget::handleEndProgramComboBoxChanged);
 
     QVBoxLayout *layout = new QVBoxLayout();
@@ -40,9 +42,14 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
         }
         break;
     case 3:
-        if (mainWindow->isCurrentStatePerformCPR()) {
+        if (mainWindow->isCurrentStatePerformCPR()){
             mainWindow->changeState(new PoweredOffState(mainWindow));
         }
         break;
+
+    case 4:
+        mainWindow->setPatientStatus(MainWindow::PatientStatus::ASYSTOLE);
+        mainWindow->changeState(new AnalyzingState(mainWindow));
     }
+
 }

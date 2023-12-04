@@ -21,6 +21,8 @@ void PoweredOffState::initialize()
     context->playMessage("Powering off.");
     context->setUnitStatus(MainWindow::UnitStatus::DEFAULT);
     context->stopTimer();
+    context->updateShockCount();
+    context->resetECGDisplay();
     execute();
 }
 

@@ -8,7 +8,11 @@
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include "simulation/elapsedtimelabel.h"
+
+#include "graphs.h"
+
 #include "simulation/chestcompressiondisplay.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,7 +33,7 @@ public:
     };
 
 
-    enum class ElectrodePadsAttachedState {
+    enum class ElectrodePadsAttachedState{
         NOT_ATTACHED,
         ATTACHED,
     };
@@ -41,6 +45,8 @@ public:
         ASYSTOLE,
         DEFAULT,
     };
+
+
 
     static const int DISPLAY_SIZE = 700;
 
@@ -103,6 +109,7 @@ public:
     void displayVFECG();
     void displayPEAECG();
     void displayAsystoleECG();
+    void resetECGDisplay();
 
     void shockIndicatorButtonFlashing();
     void shockIndicatorButtonStopFlashing();
@@ -110,11 +117,6 @@ public:
     bool getShockIndicatorButtonPressed();
 
     void deactivateShockIndicatorButtonPressed();
-
-    void incrementAnalyzingStateCounter();
-
-    int getAnalyzingStateCounter() const;
-
 
     // When user presses power button to turn on AED it begins the timer
     void startTimer();
@@ -126,7 +128,7 @@ public:
 
 public slots:
     void toggleElectrodesInstalled();
-
+    void rechargeBatteries();
 
 private:
     Ui::MainWindow *ui;
@@ -179,12 +181,14 @@ private:
      */
     int numberOfShocks;
 
-    /**
-     * Counts how many times the program enters the analyzing state
-     */
-    int analyzingStateCounter;
-
     ElapsedTimeLabel *elapsedTimeLabel;
+
+    QWidget *displayWidget;
+
+    /**
+     * ECG Graph
+     */
+    Graphs *graph;
 
     ChestCompressionDisplay *chestCompressionDisplay;
 

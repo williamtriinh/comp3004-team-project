@@ -6,8 +6,6 @@
 #include "shockindicatorbutton.h"
 #include "statusindicator.h"
 
-#include "graphs.h"
-
 #include "simulation/attachelectrodepadswidget.h"
 #include "simulation/batterieswidget.h"
 #include "simulation/chestcompressiondisplay.h"
@@ -40,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
-    analyzingStateCounter = 0;
     numberOfShocks = 0;
     shockIndicatorButtonPressed = false;
 
@@ -58,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *mainWidget = new QWidget;
     mainWidget->setLayout(mainLayout);
 
-    QWidget *displayWidget = new QWidget;
+    displayWidget = new QWidget;
     displayWidget->setFixedSize(DISPLAY_SIZE, DISPLAY_SIZE);
 
     QHBoxLayout *bottomLayout = new QHBoxLayout;
@@ -107,11 +104,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     elapsedTimeLabel = new ElapsedTimeLabel(displayWidget);
     elapsedTimeLabel->move(DISPLAY_SIZE / 2, 200);  // Adjust this position as needed
-
+      
     chestCompressionDisplay = new ChestCompressionDisplay(this, displayWidget);
     chestCompressionDisplay->move(DISPLAY_SIZE / 2 + 110, 240);
       
     ecgGraph = new QCustomPlot(displayWidget);
+    graph = new Graphs(ecgGraph);
+    graph->setupGraph();
     ecgGraph->setFixedSize(300 - 48, 150); // Subtract width by 40px (chest compression meter) + 8px (spacing)
     ecgGraph->move(DISPLAY_SIZE / 2 - 150, 240);
     ecgGraph->setStyleSheet("QWidget { background-color: black; }");
@@ -216,6 +215,12 @@ void MainWindow::toggleElectrodesInstalled()
     emit electrodesInstalledChanged(electrodesInstalled);
 }
 
+void MainWindow::rechargeBatteries()
+{
+    setBattery(100);
+    changeState(new PoweredOffState(this));
+}
+
 bool MainWindow::getElectrodesInstalled()
 {
     return electrodesInstalled;
@@ -245,27 +250,26 @@ MainWindow::PatientStatus MainWindow::getPatientStatus()
 void MainWindow::setPatientStatus(PatientStatus status)
 {
     patientStatus = status;
-    emit patientStatusChanged(patientStatus);
 }
 
 
 void MainWindow::displayVTECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedVTECG();
+    graph->setDataVTECG();
 }
 void MainWindow::displayVFECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockAdvisedVFECG();
+    graph->setDataVFECG();
 }
 
 void MainWindow::displayAsystoleECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockNotAdvisedAsystoleECG();
+    graph->setDataAsystoleECG();
 }
 
 void MainWindow::displayPEAECG(){
-    Graphs *graph = new Graphs(ecgGraph);
-    graph->shockNotAdvisedPEAECG();
+    graph->setDataPEAECG();
+}
+
+void MainWindow::resetECGDisplay(){
+    graph->resetGraphData();
 }
 
 void MainWindow::shockIndicatorButtonFlashing() {
@@ -289,19 +293,14 @@ void MainWindow::deactivateShockIndicatorButtonPressed(){
 }
 
 void MainWindow::updateShockCount(){
-    numberOfShocks++;
+    if(state->getStateName() == "PoweredOffState"){
+        numberOfShocks = 0;
+    }
+    else{
+        numberOfShocks++;
+    }
     shockCountLabel->setText(QString("Shocks: %1").arg(numberOfShocks));
 }
-
-
-void MainWindow::incrementAnalyzingStateCounter() {
-    analyzingStateCounter++;
-}
-
-int MainWindow::getAnalyzingStateCounter() const{
-    return analyzingStateCounter;
-}
-
 
 bool MainWindow::isCurrentStatePerformCPR() const {
     return dynamic_cast<PerformCPRState*>(state) != nullptr;
@@ -317,4 +316,9 @@ void MainWindow::startTimer(){
 void MainWindow::stopTimer(){
     elapsedTimeLabel->resetElapsedTime();
 }
+
+
+
+
+
 
