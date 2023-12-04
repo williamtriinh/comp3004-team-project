@@ -23,11 +23,15 @@ What each member did:
         - Created chest compression meter
     
     Ziyang Ling:
-        Traceability matrix
-        Textual explanation PDF
-        State diagram
-        Safety feature sequence diagrams
-        performcprstate and endprogramwidget class
+        - Created Traceability matrix
+        - Created Textual explanation PDF
+        - Created State diagram
+        - Created Safety feature sequence diagrams
+            - Install Electrodes
+            - Low Battery
+        - Implemented 
+            - perform cpr state class
+            - end program widget class
         
 
 Organization of the submission:
