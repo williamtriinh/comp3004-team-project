@@ -48,7 +48,7 @@ public:
 
     enum class EndOfProgramStatus {
         EMSARRIVES,
-        CPRREVIVESPATIENTSHOCKREVIVESPATIENT,
+        CPRREVIVESPATIENT,
         SHOCKREVIVESPATIENT,
         PATIENTDIES,
         DEFAULT,
@@ -113,6 +113,9 @@ public:
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
+    EndOfProgramStatus getEndOfProgramStatus();
+    void setEndOfProgramStatus(EndOfProgramStatus status);
+
     void displayVTECG();
     void displayVFECG();
     void displayPEAECG();
@@ -168,6 +171,8 @@ private:
      * The patient's status
      */
     PatientStatus patientStatus;
+
+    EndOfProgramStatus endOfProgramStatus;
 
     /**
      * Keeps track if the shock button has been pressed

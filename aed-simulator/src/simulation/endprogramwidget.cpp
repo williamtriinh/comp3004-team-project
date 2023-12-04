@@ -31,25 +31,33 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
 
 void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
 {
+    MainWindow::EndOfProgramStatus state;
     switch (index)
     {
+    case 0:
+        state = MainWindow::EndOfProgramStatus::DEFAULT;
     case 1:
+        state = MainWindow::EndOfProgramStatus::EMSARRIVES;
         mainWindow->changeState(new PoweredOffState(mainWindow));
         break;
     case 2:
+        state = MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT;
         if (mainWindow->isCurrentStatePerformCPR()) {
             mainWindow->changeState(new PoweredOffState(mainWindow));
         }
         break;
     case 3:
+        state = MainWindow::EndOfProgramStatus::SHOCKREVIVESPATIENT;
         if (mainWindow->isCurrentStatePerformCPR()){
             mainWindow->changeState(new PoweredOffState(mainWindow));
         }
         break;
 
     case 4:
+        state = MainWindow::EndOfProgramStatus::PATIENTDIES;
         mainWindow->setPatientStatus(MainWindow::PatientStatus::ASYSTOLE);
         mainWindow->changeState(new AnalyzingState(mainWindow));
-    }
 
+    }
+    mainWindow->setEndOfProgramStatus(state);
 }

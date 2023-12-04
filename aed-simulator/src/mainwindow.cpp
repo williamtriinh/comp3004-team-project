@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
+    endOfProgramStatus = EndOfProgramStatus::DEFAULT;
     numberOfShocks = 0;
     shockIndicatorButtonPressed = false;
 
@@ -250,6 +251,13 @@ MainWindow::PatientStatus MainWindow::getPatientStatus()
 void MainWindow::setPatientStatus(PatientStatus status)
 {
     patientStatus = status;
+}
+
+MainWindow::EndOfProgramStatus MainWindow::getEndOfProgramStatus(){
+    return endOfProgramStatus;
+}
+void MainWindow::setEndOfProgramStatus(EndOfProgramStatus status){
+    endOfProgramStatus = status;
 }
 
 
