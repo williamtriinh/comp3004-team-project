@@ -1,0 +1,66 @@
+electrodes not attached sequence diagram:
+
+sequenceDiagram
+    actor user as User
+    participant selfTestState as selfTestState:selfTestState
+    participant selfTestState as selfTestState:SelfTestState
+    participant mainWindow as mainWindow:MainWindow
+    participant installElectrodesWidget as installElectrodesWidget:InstallElectrodesWidget
+    participant powerButton as powerButton:PowerButton
+
+    note over user, powerButton: While in the self-test state
+    selfTestState ->>+ installElectrodesWidget : ! getElectrodesInstalled()
+    installElectrodesWidget ->>- mainWindow : playMessage(message: "Attach electrode pads.")
+    user ->>+ installElectrodesWidget : click "Install/Uninstall" button
+    installElectrodesWidget ->>- mainWindow : toggleElectrodesInstalled()
+    user ->>+ powerButton : turn off AED
+    powerButton ->>- selfTestState : togglePower()
+    activate selfTestState
+    selfTestState ->>- mainWindow : changeState(state: PoweredOffState)
+    note over user, powerButton: Turn on the AED again to perform the self test
+
+=========================================================================================================
+Low Battery Sequence  diagram:
+
+sequenceDiagram
+    actor user as User
+    participant selfTestState as selfTestState:SelfTestState
+    participant poweredOffState as poweredOffState:PoweredOffState
+    participant lowBatteryState as lowBatteryState:LowBatteryState
+    participant mainWindow as mainWindow:MainWindow
+    participant batteryWidget as batteryWidget:BatteryWidget
+
+    selfTestState ->>+ lowBatteryState : ! hasSufficientBattery()
+    lowBatteryState ->>- mainWindow : playMessage(message: "Change batteries.")
+    user ->>+ batteryWidget : presses "Recharge Battery" button
+    batteryWidget ->>+ mainWindow : setBattery(100)
+    batteryWidget ->>- mainWindow : changeState(state: PoweredOffState)
+    poweredOffState ->> mainWindow : playMessage(message: "Powering Off.")
+
+    deactivate mainWindow
+
+=========================================================================================================
+State diagram:
+
+stateDiagram-v2
+[*] --> PoweredOffState
+PoweredOffState --> SelfTestState : Power button pressed
+LowBatteryState --> PoweredOffState : Recharge batteries button presed
+state "Powered On" as OnState {
+    SelfTestState --> LowBatteryState : Detects low battery
+    SelfTestState --> CheckResponsivenessState : [electrodes installed and battery is sufficient]
+    CheckResponsivenessState --> CallForHelpState : after several seconds
+    CallForHelpState --> AttachDefibrillatorPadsState : after several seconds
+    AttachDefibrillatorPadsState --> AnalyzingState : [electrode pads are attached]
+    state "Analyze Shock CPR Loop" as loop {
+        AnalyzingState --> PerformCprState : Analyzing complete
+        PerformCprState --> AnalyzingState : Analyze the patient again
+    }
+}
+AnalyzingState --> LowBatteryState : Insufficient battery
+OnState --> PoweredOffState : Power button pressed
+  
+
+
+
+
