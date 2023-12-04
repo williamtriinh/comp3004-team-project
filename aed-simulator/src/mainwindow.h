@@ -46,6 +46,14 @@ public:
         DEFAULT,
     };
 
+    enum class EndOfProgramStatus {
+        EMSARRIVES,
+        CPRREVIVESPATIENTSHOCKREVIVESPATIENT,
+        SHOCKREVIVESPATIENT,
+        PATIENTDIES,
+        DEFAULT,
+    };
+
 
 
     static const int DISPLAY_SIZE = 700;
