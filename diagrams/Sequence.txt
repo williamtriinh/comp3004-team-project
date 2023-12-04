@@ -36,21 +36,22 @@ sequenceDiagram
 State diagram:
 
 stateDiagram-v2
-[*] --> PowerOnState
-PowerOnState --> PoweredOffState
-PowerOnState --> SelfTestState
-SelfTestState --> LowBatteryState : Detects low battery
-LowBatteryState --> CheckResponsivenessState : Change batteries
-SelfTestState --> CheckResponsivenessState : Pass the Self Test
-CheckResponsivenessState --> CallForHelpState
-CallForHelpState --> AttachdeFibrillatorPadsState
-AttachdeFibrillatorPadsState --> AnalyzingState
-state Analyze_Shock_CPR_Loop{
-AnalyzingState --> PerformCprState : After Shock
-PerformCprState --> AnalyzingState : Analyze the patient again 
+[*] --> PoweredOffState
+PoweredOffState --> SelfTestState : Power button pressed
+LowBatteryState --> PoweredOffState : Recharge batteries button presed
+state "Powered On" as OnState {
+    SelfTestState --> LowBatteryState : Detects low battery
+    SelfTestState --> CheckResponsivenessState : [electrodes installed and battery is sufficient]
+    CheckResponsivenessState --> CallForHelpState : after several seconds
+    CallForHelpState --> AttachDefibrillatorPadsState : after several seconds
+    AttachDefibrillatorPadsState --> AnalyzingState : [electrode pads are attached]
+    state "Analyze Shock CPR Loop" as loop {
+        AnalyzingState --> PerformCprState : Analyzing complete
+        PerformCprState --> AnalyzingState : Analyze the patient again
+    }
 }
-PerformCprState --> PoweredOffState : CPR / Shock revives the patient <br> Emergency Services arrives
-PoweredOffState --> [*]
+AnalyzingState --> LowBatteryState : Insufficient battery
+OnState --> PoweredOffState : Power button pressed
   
 
 
