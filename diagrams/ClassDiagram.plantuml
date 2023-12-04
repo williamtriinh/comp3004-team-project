@@ -28,11 +28,14 @@ class QMainWindow
 
 QCustomPlot "1" <-- "0..1" Graphs : has <
 class Graphs {
-  + shockAdvisedVTECG(): void
-  + shockAdvisedVFECG(): void
-  + shockNotAdvisedPEAECG(): void
-  + shockNotAdvisedAsystoleECG(): void
   - placeholderGraph: QCustomPlot*
+  + setupGraph(): void
+  + setDataPEAECG(): void
+  + setDataAsystoleECG(): void
+  + setDataVTECG(): void
+  + setDataVFECG(): void
+  + resetGraphData(): void
+  - updateGraphData(yValues: QVector<double>&): void
 }
 
 MainWindow "1" -- "1" StatusIndicator : has >
@@ -75,6 +78,7 @@ AttachElectrodePadsWidget "1" -- "1" MainWindow : has <
 class AttachElectrodePadsWidget {
   - patientComboBox: QComboBox*
   - attachmentComboBox: QComboBox*
+  - handlePatientComboBoxChanged(index: int): void
   - handleAttachmentComboBoxChanged(index: int): void
 }
 
@@ -84,6 +88,18 @@ class BatteriesWidget {
   - spinBox: QSpinBox*
   - button: QPushButton*
   - updateBattery(): void
+}
+
+QLabel <|-- ChestCompressionDisplay
+ChestCompressionDisplay "1" -- "1" MainWindow : has <
+class ChestCompressionDisplay {
+  - pixmaps: QVector<QPixmap>
+  - patientTypeIndex: int
+  - compressionTypeIndex: int
+  + setPatientTypeIndex(patientTypeIndex: int): void
+  + setCompressionTypeIndex(compressionTypeIndex: int): void
+  - loadImages(): void
+  - updateDisplay(): void
 }
 
 QWidget <|-- ElapsedTimeLabel
@@ -137,7 +153,7 @@ together {
     - batteryLabel: QLabel*
     - shockCountLabel: QLabel*
     - numberOfShocks: int
-    - analyzingStateCounter: int
+    - displayWidget: QWidget*
     + changeState(newState: BaseState*): void
     + playMessage(message: QString): void
     + hasSufficientBattery(): bool
@@ -146,16 +162,16 @@ together {
     + displayVFECG(): void
     + displayPEAECG(): void
     + displayAsystoleECG(): void
+    + resetECGDisplay(): void
     + shockIndicatorButtonFlashing(): void
     + shockIndicatorButtonStopFlashing(): void
     + getShockIndicatorButtonPressed(): bool
-    + deactivateShockIndicatorButtonPressed(): void
-    + incrementAnalyzingStateCounter(): void
-    + getAnalyzingStateCounter(): int
     + startTimer(): void
     + stopTimer(): void
     + isCurrentStatePerformCPR(): bool
     + toggleElectrodesInstalled(): void
+    + rechargeBatteries(): void
+    - activateShockIndicatorButtonPressed(): void
   }
 }
 
@@ -205,7 +221,9 @@ together {
 
   BaseState <|-- AnalyzingState
   IntermediateState <|-- AnalyzingState
-  class AnalyzingState
+  class AnalyzingState {
+    - timer: QTimer*
+  }
 
   BaseState <|-- PerformCPRState
   IntermediateState <|-- PerformCPRState

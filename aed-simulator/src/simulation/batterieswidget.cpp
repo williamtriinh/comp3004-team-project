@@ -27,7 +27,7 @@ BatteriesWidget::BatteriesWidget(MainWindow *mainWindow, QWidget *parent)
     horLayout->addWidget(button);
 
     button = new QPushButton("Recharge Battery");
-    connect(button, &QPushButton::clicked, mainWindow, [=]() { mainWindow->setBattery(100); });
+    connect(button, &QPushButton::clicked, mainWindow, &MainWindow::rechargeBatteries);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);

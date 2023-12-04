@@ -19,6 +19,7 @@ private:
     QComboBox *attachmentComboBox;
 
 private slots:
+    void handlePatientComboBoxChanged(int index);
     void handleAttachmentComboBoxChanged(int index);
 
 signals:

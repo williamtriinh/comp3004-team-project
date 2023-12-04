@@ -3,6 +3,7 @@
 
 #include <QComboBox>
 #include <QWidget>
+#include "patientstatuswidget.h"
 
 class MainWindow;
 
@@ -14,6 +15,8 @@ public:
 
 private:
     MainWindow *mainWindow;
+
+
 
 private slots:
     void handleEndProgramComboBoxChanged(int index);

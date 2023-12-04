@@ -9,6 +9,11 @@
 #include <QPlainTextEdit>
 #include "simulation/elapsedtimelabel.h"
 
+#include "graphs.h"
+
+#include "simulation/chestcompressiondisplay.h"
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -28,18 +33,20 @@ public:
     };
 
 
-    enum class ElectrodePadsAttachedState {
+    enum class ElectrodePadsAttachedState{
         NOT_ATTACHED,
         ATTACHED,
     };
 
-    enum class PatientStatus{
+    enum class PatientStatus {
         VT,
         VF,
         PEA,
         ASYSTOLE,
         DEFAULT,
     };
+
+
 
     static const int DISPLAY_SIZE = 700;
 
@@ -87,6 +94,8 @@ public:
     ElectrodePadsAttachedState getElectrodePadsAttachedState();
     void setElectrodePadsAttached(ElectrodePadsAttachedState state);
 
+    ChestCompressionDisplay *getChestCompressionDisplay();
+
     void updateShockCount();
 
     QCustomPlot *ecgGraph;
@@ -100,6 +109,7 @@ public:
     void displayVFECG();
     void displayPEAECG();
     void displayAsystoleECG();
+    void resetECGDisplay();
 
     void shockIndicatorButtonFlashing();
     void shockIndicatorButtonStopFlashing();
@@ -108,25 +118,17 @@ public:
 
     void deactivateShockIndicatorButtonPressed();
 
-    void incrementAnalyzingStateCounter();
-
-    int getAnalyzingStateCounter() const;
-
-
     // When user presses power button to turn on AED it begins the timer
     void startTimer();
 
     // When user presses power button to power off the AED it stops the timer
     void stopTimer();
 
-
-
     bool isCurrentStatePerformCPR() const;
-
 
 public slots:
     void toggleElectrodesInstalled();
-
+    void rechargeBatteries();
 
 private:
     Ui::MainWindow *ui;
@@ -179,12 +181,16 @@ private:
      */
     int numberOfShocks;
 
-    /**
-     * Counts how many times the program enters the analyzing state
-     */
-    int analyzingStateCounter;
-
     ElapsedTimeLabel *elapsedTimeLabel;
+
+    QWidget *displayWidget;
+
+    /**
+     * ECG Graph
+     */
+    Graphs *graph;
+
+    ChestCompressionDisplay *chestCompressionDisplay;
 
 
 signals:
