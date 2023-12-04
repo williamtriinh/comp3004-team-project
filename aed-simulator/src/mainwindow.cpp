@@ -215,6 +215,12 @@ void MainWindow::toggleElectrodesInstalled()
     emit electrodesInstalledChanged(electrodesInstalled);
 }
 
+void MainWindow::rechargeBatteries()
+{
+    setBattery(100);
+    changeState(new PoweredOffState(this));
+}
+
 bool MainWindow::getElectrodesInstalled()
 {
     return electrodesInstalled;

@@ -128,7 +128,7 @@ public:
 
 public slots:
     void toggleElectrodesInstalled();
-
+    void rechargeBatteries();
 
 private:
     Ui::MainWindow *ui;
