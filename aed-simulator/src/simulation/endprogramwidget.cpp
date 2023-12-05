@@ -34,8 +34,6 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
     MainWindow::EndOfProgramStatus state;
     switch (index)
     {
-    case 0:
-        state = MainWindow::EndOfProgramStatus::DEFAULT;
     case 1:
         state = MainWindow::EndOfProgramStatus::EMSARRIVES;
         mainWindow->changeState(new PoweredOffState(mainWindow));
@@ -57,6 +55,10 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
         state = MainWindow::EndOfProgramStatus::PATIENTDIES;
         mainWindow->setPatientStatus(MainWindow::PatientStatus::ASYSTOLE);
         mainWindow->changeState(new AnalyzingState(mainWindow));
+        break;
+
+    default:
+        state = MainWindow::EndOfProgramStatus::DEFAULT;
 
     }
     mainWindow->setEndOfProgramStatus(state);
