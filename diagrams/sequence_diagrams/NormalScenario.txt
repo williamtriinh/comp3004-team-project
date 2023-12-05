@@ -115,6 +115,9 @@ loop state != PoweredOffState && mainWindow.battery >= MINIMUM_BATTERY
     deactivate patientStatusWidget
     state->>mainWindow: playMessage(message: "Don't touch patient. Analyzing.")
     activate state
+    loop getPatientStatus() == MainWindow::PatientStatus::DEFAULT
+        state->>state: execute()
+    end
     state->>mainWindow: displayVTECG()
     mainWindow->>graph: setDataVTECG()
     activate graph
@@ -128,6 +131,9 @@ loop state != PoweredOffState && mainWindow.battery >= MINIMUM_BATTERY
     state->>mainWindow: playMessage(message: "Give STAND CLEAR Warning. DO NOT touch patient.")
     state->>mainWindow: deactivateShockIndicatorButtonPressed()
     state->>mainWindow: playMessage(message: "Press Shock Indicator Button.")
+    loop getShockIndicatorButtonPressed() = false
+        state->>state: execute()
+    end
     operator->>shockIndicatorButton: presses
     activate shockIndicatorButton
     shockIndicatorButton->>mainWindow: activateShockIndicatorButtonPressed()
