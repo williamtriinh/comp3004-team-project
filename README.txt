@@ -23,11 +23,25 @@ What each member did:
         - Created chest compression meter
     
     Ziyang Ling:
-        Traceability matrix
-        Textual explanation PDF
-        State diagram
-        Safety feature sequence diagrams
-        performcprstate and endprogramwidget class
+        - Created Traceability matrix
+        - Created Textual explanation PDF
+        - Created State diagram
+        - Created Safety feature sequence diagrams
+            - Install Electrodes
+            - Low Battery
+        - Implemented 
+            - perform cpr state class
+            - end program widget class
+
+    Evan Moore:
+        - Created Use Cases and Use Case Diagram
+        - Implemented 
+            - Analyzing State Class
+            - Patient Status Class
+            - The number of shocks given and time elapsed displays on the GUI
+            - ECG Display
+            - Patient Dies Scenario
+        -
         
 
 Organization of the submission:
