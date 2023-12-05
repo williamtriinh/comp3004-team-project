@@ -113,26 +113,25 @@ loop state != PoweredOffState && mainWindow.battery >= MINIMUM_BATTERY
     patientStatusWidget->>patientStatusWidget: handlePatientStatusComboBoxChanged()
     patientStatusWidget->>mainWindow: setPatientStatus(state: MainWindow::PatientStatus::VT)
     deactivate patientStatusWidget
-    state->>mainWindow: displayVTECG()
-    activate state
-    mainWindow->>graph: <<create>>
-    activate graph
-    mainWindow->>graph: shockAdvisedVTECG()
-    deactivate graph
     state->>mainWindow: playMessage(message: "Don't touch patient. Analyzing.")
+    activate state
+    state->>mainWindow: displayVTECG()
+    mainWindow->>graph: setDataVTECG()
+    activate graph
+    graph->graph: updateGraph(yValues: {...})
+    deactivate graph
     state->>mainWindow: shockIndicatorButtonFlashing()
     mainWindow->>shockIndicatorButton: startFlashing()
     activate shockIndicatorButton
     shockIndicatorButton->>shockIndicatorButton: toggleLight()
     deactivate shockIndicatorButton
     state->>mainWindow: playMessage(message: "Give STAND CLEAR Warning. DO NOT touch patient.")
-    state->>mainWindow: incrementAnalyzingStateCounter()
+    state->>mainWindow: deactivateShockIndicatorButtonPressed()
     state->>mainWindow: playMessage(message: "Press Shock Indicator Button.")
     operator->>shockIndicatorButton: presses
     activate shockIndicatorButton
     shockIndicatorButton->>mainWindow: activateShockIndicatorButtonPressed()
     deactivate shockIndicatorButton
-    state->>mainWindow: deactivateShockIndicatorButtonPressed()
     state->>mainWindow: playMessage(message: "Shock will be delivered in three, two, one ....")
     state->>mainWindow: playMessage(message: "Shock delivered.)
     state->>mainWindow: setBattery(battery: context->getBattery() - MainWindow::SHOCK_BATTERY_COST)
