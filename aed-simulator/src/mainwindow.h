@@ -46,6 +46,14 @@ public:
         DEFAULT,
     };
 
+    enum class EndOfProgramStatus {
+        EMSARRIVES,
+        CPRREVIVESPATIENT,
+        SHOCKREVIVESPATIENT,
+        PATIENTDIES,
+        DEFAULT,
+    };
+
 
 
     static const int DISPLAY_SIZE = 700;
@@ -105,6 +113,9 @@ public:
     PatientStatus getPatientStatus();
     void setPatientStatus(PatientStatus status);
 
+    EndOfProgramStatus getEndOfProgramStatus();
+    void setEndOfProgramStatus(EndOfProgramStatus status);
+
     void displayVTECG();
     void displayVFECG();
     void displayPEAECG();
@@ -125,6 +136,8 @@ public:
     void stopTimer();
 
     bool isCurrentStatePerformCPR() const;
+
+    bool isCurrentStateAnalyzingState() const;
 
 public slots:
     void toggleElectrodesInstalled();
@@ -160,6 +173,8 @@ private:
      * The patient's status
      */
     PatientStatus patientStatus;
+
+    EndOfProgramStatus endOfProgramStatus;
 
     /**
      * Keeps track if the shock button has been pressed

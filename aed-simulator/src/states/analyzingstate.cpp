@@ -1,6 +1,5 @@
 #include "analyzingstate.h"
 
-
 #include "lowbatterystate.h"
 #include "performcprstate.h"
 #include "poweredoffstate.h"
@@ -10,7 +9,6 @@
 AnalyzingState::AnalyzingState(MainWindow *context)
     : BaseState(context)
 {
-
     timer = new QTimer(this);
     timer->setSingleShot(true);
     connect(timer, &QTimer::timeout, this, &AnalyzingState::execute);
@@ -26,8 +24,6 @@ void AnalyzingState::initialize(){
     context->playMessage("Don't touch patient. Analyzing");
     timer->start(ANALYZING_STATE_DURATION_MS);
 }
-
-
 
 void AnalyzingState::execute()
 {
@@ -95,14 +91,23 @@ void AnalyzingState::execute()
         break;
 
     case 4:
-
         context->playMessage("Shock delivered");
         context->setBattery(context->getBattery() - MainWindow::SHOCK_BATTERY_COST);
         context->updateShockCount();
-        timer->start(1000);
+        if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::SHOCKREVIVESPATIENT){
+            context->displayPEAECG();
+            context->playMessage("Shock Revived Patient. AED Shutting Off");
+        }
+
+        timer->start(3000);
         break;
 
     case 5:
+
+        if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::SHOCKREVIVESPATIENT){
+            context->changeState(new PoweredOffState(context));
+            return;
+        }
 
         if (context->getBattery() == 0)
         {
@@ -116,6 +121,8 @@ void AnalyzingState::execute()
             context->changeState(new LowBatteryState(context));
             return;
         }
+
+
 
         timer->start(1000);
         break;

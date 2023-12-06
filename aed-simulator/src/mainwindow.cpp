@@ -14,6 +14,7 @@
 #include "simulation/endprogramwidget.h"
 
 #include "states/performcprstate.h"
+#include "states/analyzingstate.h"
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -38,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     electrodesInstalled = true;
     electrodePadsAttachedState = ElectrodePadsAttachedState::NOT_ATTACHED;
     patientStatus = PatientStatus::DEFAULT;
+    endOfProgramStatus = EndOfProgramStatus::DEFAULT;
     numberOfShocks = 0;
     shockIndicatorButtonPressed = false;
 
@@ -252,6 +254,13 @@ void MainWindow::setPatientStatus(PatientStatus status)
     patientStatus = status;
 }
 
+MainWindow::EndOfProgramStatus MainWindow::getEndOfProgramStatus(){
+    return endOfProgramStatus;
+}
+void MainWindow::setEndOfProgramStatus(EndOfProgramStatus status){
+    endOfProgramStatus = status;
+}
+
 
 void MainWindow::displayVTECG(){
     graph->setDataVTECG();
@@ -306,6 +315,10 @@ bool MainWindow::isCurrentStatePerformCPR() const {
     return dynamic_cast<PerformCPRState*>(state) != nullptr;
 }
 
+
+bool MainWindow::isCurrentStateAnalyzingState() const {
+    return dynamic_cast<AnalyzingState*>(state) != nullptr;
+}
 
 
 void MainWindow::startTimer(){
