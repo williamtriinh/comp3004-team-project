@@ -137,6 +137,8 @@ public:
 
     bool isCurrentStatePerformCPR() const;
 
+    bool isCurrentStateAnalyzingState() const;
+
 public slots:
     void toggleElectrodesInstalled();
     void rechargeBatteries();

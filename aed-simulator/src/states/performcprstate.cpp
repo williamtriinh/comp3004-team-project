@@ -1,6 +1,7 @@
 #include "performcprstate.h"
 #include "../mainwindow.h"
 #include "analyzingstate.h"
+#include "poweredoffstate.h"
 
 PerformCPRState::PerformCPRState(MainWindow *context)
     : BaseState(context)
@@ -46,6 +47,21 @@ void PerformCPRState::execute()
         break;
 
     case 3:
+        if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT){
+            context->displayPEAECG();
+            context->playMessage("CPR Revived Patient. AED Shutting Off");
+        }
+        timer->start(3000);
+        break;
+    case 4:
+        if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT){
+            context->changeState(new PoweredOffState(context));
+            return;
+        }
+        break;
+
+
+    case 5:
         context->playMessage("Stop CPR.");
         context->getChestCompressionDisplay()->setVisible(false);
         context->changeState(new AnalyzingState(context));

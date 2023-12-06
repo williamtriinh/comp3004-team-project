@@ -14,6 +14,7 @@
 #include "simulation/endprogramwidget.h"
 
 #include "states/performcprstate.h"
+#include "states/analyzingstate.h"
 #include "states/poweredoffstate.h"
 
 #include <QComboBox>
@@ -314,6 +315,10 @@ bool MainWindow::isCurrentStatePerformCPR() const {
     return dynamic_cast<PerformCPRState*>(state) != nullptr;
 }
 
+
+bool MainWindow::isCurrentStateAnalyzingState() const {
+    return dynamic_cast<AnalyzingState*>(state) != nullptr;
+}
 
 
 void MainWindow::startTimer(){

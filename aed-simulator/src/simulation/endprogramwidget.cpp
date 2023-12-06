@@ -36,25 +36,22 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
     {
     case 1:
         state = MainWindow::EndOfProgramStatus::EMSARRIVES;
+        mainWindow->playMessage("EMS has arrived. AED powering off");
         mainWindow->changeState(new PoweredOffState(mainWindow));
         break;
     case 2:
         state = MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT;
-        if (mainWindow->isCurrentStatePerformCPR()) {
-            mainWindow->changeState(new PoweredOffState(mainWindow));
-        }
         break;
     case 3:
         state = MainWindow::EndOfProgramStatus::SHOCKREVIVESPATIENT;
-        if (mainWindow->isCurrentStatePerformCPR()){
-            mainWindow->changeState(new PoweredOffState(mainWindow));
-        }
         break;
 
     case 4:
         state = MainWindow::EndOfProgramStatus::PATIENTDIES;
-        mainWindow->setPatientStatus(MainWindow::PatientStatus::ASYSTOLE);
-        mainWindow->changeState(new AnalyzingState(mainWindow));
+        mainWindow->playMessage("Patient has died");
+        if (mainWindow->isCurrentStatePerformCPR() || mainWindow->isCurrentStateAnalyzingState()){
+            mainWindow->displayPEAECG();
+        }
         break;
 
     default:
