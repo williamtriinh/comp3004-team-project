@@ -7,8 +7,6 @@ Team 58 (3):
     Ziyang Ling
 
 What each member did:
-    Evan Moore:
-    
     William Trinh:
         - Created class diagram
         - Created normal sequence diagram
