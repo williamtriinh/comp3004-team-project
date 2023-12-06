@@ -72,6 +72,12 @@ void PerformCPRState::execute()
     nextStep();
 }
 
+void PerformCPRState::togglePower()
+{
+    context->getChestCompressionDisplay()->setVisible(false);
+    BaseState::togglePower();
+}
+
 QString PerformCPRState::getStateName()
 {
     return "PerformCPRState";
