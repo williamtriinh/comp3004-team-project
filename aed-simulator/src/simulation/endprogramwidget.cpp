@@ -48,6 +48,7 @@ void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
 
     case 4:
         state = MainWindow::EndOfProgramStatus::PATIENTDIES;
+        mainWindow->setPatientStatus(MainWindow::PatientStatus::ASYSTOLE);
         mainWindow->playMessage("Patient has died");
         if (mainWindow->isCurrentStatePerformCPR() || mainWindow->isCurrentStateAnalyzingState()){
             mainWindow->displayAsystoleECG();

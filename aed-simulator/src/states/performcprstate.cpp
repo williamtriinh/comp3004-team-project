@@ -50,14 +50,16 @@ void PerformCPRState::execute()
         if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT){
             context->displayPEAECG();
             context->playMessage("CPR Revived Patient. AED Shutting Off");
+            timer->start(3000);
         }
-        timer->start(3000);
+        timer->start(10);
         break;
     case 4:
         if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT){
             context->changeState(new PoweredOffState(context));
             return;
         }
+        timer->start(10);
         break;
 
 
