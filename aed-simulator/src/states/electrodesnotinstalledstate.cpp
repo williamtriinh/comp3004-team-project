@@ -10,6 +10,7 @@ ElectrodesNotInstalledState::ElectrodesNotInstalledState(MainWindow *context)
 void ElectrodesNotInstalledState::initialize()
 {
     context->playMessage("Attach electrode pads.");
+    context->resetECGDisplay();
 }
 
 QString ElectrodesNotInstalledState::getStateName()
