@@ -1,0 +1,17 @@
+stateDiagram-v2
+[*] --> PoweredOffState
+PoweredOffState --> SelfTestState : Power button pressed
+LowBatteryState --> PoweredOffState : Recharge batteries button presed
+state "Powered On" as OnState {
+    SelfTestState --> LowBatteryState : Detects low battery
+    SelfTestState --> CheckResponsivenessState : [electrodes installed and battery is sufficient]
+    CheckResponsivenessState --> CallForHelpState : after several seconds
+    CallForHelpState --> AttachDefibrillatorPadsState : after several seconds
+    AttachDefibrillatorPadsState --> AnalyzingState : [electrode pads are attached]
+    state "Analyze Shock CPR Loop" as loop {
+        AnalyzingState --> PerformCprState : Analyzing complete
+        PerformCprState --> AnalyzingState : Analyze the patient again
+    }
+}
+AnalyzingState --> LowBatteryState : Insufficient battery
+OnState --> PoweredOffState : Power button pressed
