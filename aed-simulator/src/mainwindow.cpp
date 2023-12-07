@@ -13,9 +13,14 @@
 #include "simulation/patientstatuswidget.h"
 #include "simulation/endprogramwidget.h"
 
-#include "states/performcprstate.h"
 #include "states/analyzingstate.h"
+#include "states/attachdefibrillatorpadsstate.h"
+#include "states/callforhelpstate.h"
+#include "states/checkresponsivenessstate.h"
+#include "states/electrodesnotinstalledstate.h"
+#include "states/performcprstate.h"
 #include "states/poweredoffstate.h"
+#include "states/selfteststate.h"
 
 #include <QComboBox>
 #include <QDebug>
@@ -121,18 +126,12 @@ MainWindow::MainWindow(QWidget *parent)
     shockIndicatorButton->move(DISPLAY_SIZE / 2 - shockIndicatorButton->width() / 2, 440);
     connect(shockIndicatorButton,SIGNAL(released()),this,SLOT(activateShockIndicatorButtonPressed()));
 
-
     StatusIndicator *statusIndicator = new StatusIndicator(this);
     bottomLayout->insertWidget(0, statusIndicator);
-
-
 
     PowerButton *powerButton = new PowerButton();
     bottomLayout->insertWidget(2, powerButton);
     connect(powerButton, &QPushButton::clicked, this, [=]() { state->togglePower(); });
-
-
-
 
     // Widgets for simulating events/actions
     QVBoxLayout *rightLayout = new QVBoxLayout;
@@ -214,6 +213,16 @@ bool MainWindow::hasSufficientBattery()
 void MainWindow::toggleElectrodesInstalled()
 {
     electrodesInstalled = !electrodesInstalled;
+
+    if (electrodesInstalled)
+    {
+        restoreState();
+    } else {
+        if (state != nullptr && state->getStateName() != "PoweredOffState")
+            lastState = state->getStateName();
+        changeState(new ElectrodesNotInstalledState(this));
+    }
+
     emit electrodesInstalledChanged(electrodesInstalled);
 }
 
@@ -320,7 +329,6 @@ bool MainWindow::isCurrentStateAnalyzingState() const {
     return dynamic_cast<AnalyzingState*>(state) != nullptr;
 }
 
-
 void MainWindow::startTimer(){
     elapsedTimeLabel->startElapsedTime();
 
@@ -330,8 +338,30 @@ void MainWindow::stopTimer(){
     elapsedTimeLabel->resetElapsedTime();
 }
 
-
-
-
-
-
+void MainWindow::restoreState()
+{
+    if (lastState == "SelfTestState")
+    {
+        changeState(new SelfTestState(this));
+    }
+    else if (lastState == "CheckResponsivenessState")
+    {
+        changeState(new CheckResponsivenessState(this));
+    }
+    else if (lastState == "CallForHelpState")
+    {
+        changeState(new CallForHelpState(this));
+    }
+    else if (lastState == "AttachDefibrillatorPadsState")
+    {
+        changeState(new AttachDefibrillatorPadsState(this));
+    }
+    else if (lastState == "AnalyzingState")
+    {
+        changeState(new AnalyzingState(this));
+    }
+    else if (lastState == "PerformCPRState")
+    {
+        changeState(new PerformCPRState(this));
+    }
+}

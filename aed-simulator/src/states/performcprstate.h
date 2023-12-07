@@ -15,7 +15,6 @@ public:
 
 public slots:
     void execute() override;
-    void togglePower() override;
 
 private:
     QTimer *timer;

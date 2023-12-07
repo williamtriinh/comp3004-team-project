@@ -2,6 +2,7 @@
 
 #include "../mainwindow.h"
 #include "checkresponsivenessstate.h"
+#include "electrodesnotinstalledstate.h"
 #include "lowbatterystate.h"
 
 SelfTestState::SelfTestState(MainWindow *context)
@@ -40,7 +41,7 @@ void SelfTestState::execute()
         if (!context->getElectrodesInstalled())
         {
             context->setUnitStatus(MainWindow::UnitStatus::FAILED);
-            context->playMessage("Attach electrode pads.");
+            context->changeState(new ElectrodesNotInstalledState(context));
             return;
         }
 

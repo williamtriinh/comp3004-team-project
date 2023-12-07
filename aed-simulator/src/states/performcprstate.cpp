@@ -13,6 +13,7 @@ PerformCPRState::PerformCPRState(MainWindow *context)
 
 PerformCPRState::~PerformCPRState()
 {
+    context->getChestCompressionDisplay()->setVisible(false);
     delete timer;
 }
 
@@ -70,12 +71,6 @@ void PerformCPRState::execute()
         return;
     }
     nextStep();
-}
-
-void PerformCPRState::togglePower()
-{
-    context->getChestCompressionDisplay()->setVisible(false);
-    BaseState::togglePower();
 }
 
 QString PerformCPRState::getStateName()
