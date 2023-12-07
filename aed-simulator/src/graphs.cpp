@@ -39,7 +39,7 @@ void Graphs::setDataVTECG(){
 }
 
 void Graphs::setDataVFECG(){
-    QVector<double> yValues = {-2, 2, -1, 1, -1, 1, -1, 1, 0.5, -0.5, -1, 1, 0.5, -0.5, -2, 2, -1, 1, -1, 1, -1, 1, 0.5, -0.5};
+    QVector<double> yValues = {-2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2};
     updateGraphData(yValues);
 }
 
