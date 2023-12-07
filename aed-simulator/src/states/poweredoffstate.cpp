@@ -23,6 +23,7 @@ void PoweredOffState::initialize()
     context->stopTimer();
     context->updateShockCount();
     context->resetECGDisplay();
+    context->shockIndicatorButtonStopFlashing();
     execute();
 }
 

@@ -163,6 +163,11 @@ void MainWindow::changeState(BaseState *newState)
     if (newState->getStateName() == state->getStateName())
         return;
 
+    if (state->getStateName() != "PoweredOffState")
+    {
+        lastState = state->getStateName();
+    }
+
     qDebug() << "MainWindow changeState() called with" << newState->getStateName();
     if (state != nullptr) {
         delete state;
@@ -221,8 +226,6 @@ void MainWindow::toggleElectrodesInstalled()
         // Don't save the state if it's the powered off state
         if (state->getStateName() != "PoweredOffState")
         {
-            if (state != nullptr)
-                lastState = state->getStateName();
             changeState(new ElectrodesNotInstalledState(this));
         }
     }
