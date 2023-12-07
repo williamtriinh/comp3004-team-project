@@ -1,0 +1,27 @@
+sequenceDiagram
+    actor user as User
+    participant selfTestState as selfTestState:SelfTestState
+    participant poweredOffState as poweredOffState:PoweredOffState
+    participant lowBatteryState as lowBatteryState:LowBatteryState
+    participant mainWindow as mainWindow:MainWindow
+    participant batteryWidget as batteryWidget:BatteryWidget
+
+    note over mainWindow : While in the SelfTestState
+    selfTestState ->> mainWindow : ! hasSufficientBattery()
+    activate selfTestState
+    activate mainWindow
+    selfTestState ->> mainWindow : setUnitStatus(status: FAILED)
+    selfTestState ->> mainWindow : changeState(state: LowBatteryState)
+    deactivate selfTestState
+    deactivate mainWindow
+    note over mainWindow : Switched to LowBatteryState
+    lowBatteryState ->> lowBatteryState : playMessage(message: "Change batteries.")
+    activate lowBatteryState
+    deactivate lowBatteryState
+    user ->>+ batteryWidget : presses "Recharge Battery" button
+    batteryWidget ->>+ mainWindow : setBattery(100)
+    batteryWidget ->>- mainWindow : changeState(state: PoweredOffState)
+    note over mainWindow : Switched to PoweredOffState
+    poweredOffState ->> mainWindow : playMessage(message: "Powering Off.")
+
+    deactivate mainWindow
