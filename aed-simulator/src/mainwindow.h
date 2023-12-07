@@ -147,6 +147,14 @@ private:
     Ui::MainWindow *ui;
     BaseState *state;
 
+    /**
+     * The name of last state the AED was in when some error occurs
+     */
+    QString lastState;
+
+    /**
+     * Where audio messages are displayed
+     */
     QPlainTextEdit *console;
 
     /**
@@ -206,6 +214,11 @@ private:
     Graphs *graph;
 
     ChestCompressionDisplay *chestCompressionDisplay;
+
+    /**
+     * Sets the current state to the lastState
+     */
+    void restoreState();
 
 
 signals:
