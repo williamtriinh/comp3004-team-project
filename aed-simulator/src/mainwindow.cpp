@@ -218,6 +218,7 @@ void MainWindow::toggleElectrodesInstalled()
     {
         restoreState();
     } else {
+        // Don't save the state if it's the powered off state
         if (state != nullptr && state->getStateName() != "PoweredOffState")
             lastState = state->getStateName();
         changeState(new ElectrodesNotInstalledState(this));
