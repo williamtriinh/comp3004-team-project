@@ -143,6 +143,7 @@ together {
   class MainWindow {
     + ecgGraph: QCustomPlot*
     - state: BaseState*
+    - lastState: QString
     - console: QPlainTextEdit*
     - unitStatus: enum
     - battery: int
@@ -171,6 +172,7 @@ together {
     + isCurrentStatePerformCPR(): bool
     + toggleElectrodesInstalled(): void
     + rechargeBatteries(): void
+    - restoreState(): void
     - activateShockIndicatorButtonPressed(): void
   }
 }
@@ -182,7 +184,7 @@ together {
     + initialize(): void
     + execute(): void
     + togglePower(): void
-    + getStateName(): QString
+    + {abstract} getStateName(): QString
   }
 
   abstract class IntermediateState {
@@ -203,6 +205,9 @@ together {
 
   BaseState <|-- LowBatteryState
   class LowBatteryState
+
+  BaseState <|-- ElectrodesNotInstalledState
+  class ElectrodesNotInstalledState
 
   BaseState <|-- CheckResponsivenessState
   class CheckResponsivenessState {
