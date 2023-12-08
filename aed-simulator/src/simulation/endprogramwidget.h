@@ -3,7 +3,8 @@
 
 #include <QComboBox>
 #include <QWidget>
-#include "patientstatuswidget.h"
+
+#include "../states/basestate.h"
 
 class MainWindow;
 
@@ -15,10 +16,10 @@ public:
 
 private:
     MainWindow *mainWindow;
-
-
+    QComboBox *endProgramComboBox;
 
 private slots:
+    void handleStateChanged(BaseState *state);
     void handleEndProgramComboBoxChanged(int index);
 };
 

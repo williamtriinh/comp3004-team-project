@@ -2,7 +2,6 @@
 
 #include "../mainwindow.h"
 #include "../states/poweredoffstate.h"
-#include "../states/analyzingstate.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -11,10 +10,11 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
     : QWidget{parent}
 {
     this->mainWindow = mainWindow;
+    connect(mainWindow, &MainWindow::stateChanged, this, &EndProgramWidget::handleStateChanged);
 
     QLabel *label = new QLabel("End Program");
 
-    QComboBox *endProgramComboBox = new QComboBox;
+    endProgramComboBox = new QComboBox;
     endProgramComboBox->addItem("Select End Program");
     endProgramComboBox->addItem("Emergency Services' arrives");
     endProgramComboBox->addItem("CPR regenerates the heart beat");
@@ -27,6 +27,14 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(label);
     layout->addWidget(endProgramComboBox);
+}
+
+void EndProgramWidget::handleStateChanged(BaseState *state)
+{
+    if (state->getStateName() != "PerformCPRState")
+    {
+        endProgramComboBox->setCurrentIndex(0);
+    }
 }
 
 void EndProgramWidget::handleEndProgramComboBoxChanged(int index)
