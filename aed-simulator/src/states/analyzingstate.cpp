@@ -79,7 +79,12 @@ void AnalyzingState::execute()
         break;
 
     case 3:
-
+        if (context->getPatientStatus() == MainWindow::PatientStatus::ASYSTOLE)
+        {
+            setStep(1);
+            timer->start(100);
+            return;
+        }
         if (!context->getShockIndicatorButtonPressed())
         {
             timer->start(100);
