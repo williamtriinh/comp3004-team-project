@@ -1,17 +1,23 @@
 stateDiagram-v2
-[*] --> PoweredOffState
-PoweredOffState --> SelfTestState : Power button pressed
-LowBatteryState --> PoweredOffState : Recharge batteries button presed
-state "Powered On" as OnState {
-    SelfTestState --> LowBatteryState : Detects low battery
-    SelfTestState --> CheckResponsivenessState : [electrodes installed and battery is sufficient]
-    CheckResponsivenessState --> CallForHelpState : after several seconds
-    CallForHelpState --> AttachDefibrillatorPadsState : after several seconds
-    AttachDefibrillatorPadsState --> AnalyzingState : [electrode pads are attached]
-    state "Analyze Shock CPR Loop" as loop {
-        AnalyzingState --> PerformCprState : Analyzing complete
-        PerformCprState --> AnalyzingState : Analyze the patient again
+    direction LR
+    [*] --> PoweredOffState
+    PoweredOffState --> [*] : User terminates Program
+    PoweredOffState --> SelfTestState : Power button pressed
+    LowBatteryState --> PoweredOffState : Recharge batteries button pressed
+
+    state "Powered On" as OnState {
+        SelfTestState --> LowBatteryState : Detects low battery
+        SelfTestState --> CheckResponsivenessState : [Electrodes installed and battery is sufficient]
+        CheckResponsivenessState --> CallForHelpState : After several seconds
+        CallForHelpState --> AttachDefibrillatorPadsState : After several seconds
+        AttachDefibrillatorPadsState --> AnalyzingState : [Electrode pads are attached]
+        state "Analyze Shock CPR Loop" as loop {
+            AnalyzingState --> PerformCprState : Analyzing complete
+            PerformCprState --> AnalyzingState : Analyze the patient again
+        }
     }
-}
-AnalyzingState --> LowBatteryState : Insufficient battery
-OnState --> PoweredOffState : Power button pressed
+
+    AnalyzingState --> LowBatteryState : Insufficient battery
+    OnState --> PoweredOffState : Power button pressed
+    OnState --> ElectrodesNotInstalledState : Electrodes are uninstalled
+    ElectrodesNotInstalledState --> OnState : Electrodes installed
