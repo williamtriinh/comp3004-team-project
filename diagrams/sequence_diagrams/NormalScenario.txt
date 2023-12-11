@@ -18,10 +18,11 @@ participant elapsedTimeLabel as elapsedTimeLabel:ElapsedTimeLabel
 participant chestCompressionDisplay as chestCompressionDisplay:ChestCompressionDisplay
 participant attachElectrodePadsWidget as attachElectrodePadsWidget:AttachElectrodePadsWidget
 participant patientStatusWidget as patientStatusWidget:PatientStatusWidget
+participant endProgramWidget as endProgramWidget:EndProgramWidget
 participant graph as graph:Graph
 
 %% Powered off state
-note over mainWindow: PoweredOffState
+note over mainWindow: Initial state is PoweredOffState
 operator->>powerButton: presses
 activate powerButton
 powerButton->>state: togglePower()
@@ -38,7 +39,7 @@ state->>mainWindow: changeState(state: SelfTestState)
 activate mainWindow
 
 %% Self test state
-note over mainWindow: SelfTestState
+note over mainWindow: Switched to SelfTestState
 state->>mainWindow: hasSufficientBattery()
 state->>mainWindow: getElectrodesInstalled()
 state->>mainWindow: playMessage(message: "Automatic defibrillator unit OK.")
@@ -50,7 +51,7 @@ state->>mainWindow: changeState(state: CheckResponsivenessState)
 deactivate state
 
 %% Check responsiveness state
-note over mainWindow: CheckResponsivenessState
+note over mainWindow: Switched to CheckResponsivenessState
 mainWindow-)checkResponsivenessImage: handleStateChanged()
 activate checkResponsivenessImage
 checkResponsivenessImage->>checkResponsivenessImage: turnOn()
@@ -61,7 +62,7 @@ state->>mainWindow: changeState(state: CallForHelpState)
 deactivate state
 
 %% Call for help state
-note over mainWindow: CallForHelpState
+note over mainWindow: Switched to CallForHelpState
 mainWindow-)checkResponsivenessImage: handleStateChanged()
 activate checkResponsivenessImage
 checkResponsivenessImage->>checkResponsivenessImage: turnOff()
@@ -76,7 +77,7 @@ state->>mainWindow: changeState(state: AttachDefibrillatorPadsState)
 deactivate state
 
 %% Attach defibrillator pads state
-note over mainWindow: AttachDefibrillatorPadsState
+note over mainWindow: Switched to AttachDefibrillatorPadsState
 mainWindow-)callForHelpImage: handleStateChanged()
 activate callForHelpImage
 callForHelpImage->>callForHelpImage: turnOff()
@@ -97,86 +98,98 @@ end
 state->>mainWindow: changeState(state: AnalyzingState)
 deactivate state
 
-loop state != PoweredOffState && mainWindow.battery >= MINIMUM_BATTERY
-    %% Analyzing State
-    note over mainWindow: AnalyzingState
-    mainWindow-)attachElectrodePadsImage: handleStateChanged()
-    activate attachElectrodePadsImage
-    attachElectrodePadsImage->>attachElectrodePadsImage: turnOff()
-    deactivate attachElectrodePadsImage
-    mainWindow-)analyzingPatientImage: handleStateChanged()
-    activate analyzingPatientImage
-    analyzingPatientImage->>analyzingPatientImage: turnOn()
-    deactivate analyzingPatientImage
-    operator->>patientStatusWidget: selects "Pulseless Ventricular Tachycardia (Shock Given)" option
-    activate patientStatusWidget
-    patientStatusWidget->>patientStatusWidget: handlePatientStatusComboBoxChanged()
-    patientStatusWidget->>mainWindow: setPatientStatus(state: MainWindow::PatientStatus::VT)
-    deactivate patientStatusWidget
-    state->>mainWindow: playMessage(message: "Don't touch patient. Analyzing.")
-    activate state
-    loop getPatientStatus() == MainWindow::PatientStatus::DEFAULT
-        state->>state: execute()
-    end
-    state->>mainWindow: displayVTECG()
-    mainWindow->>graph: setDataVTECG()
-    activate graph
-    graph->graph: updateGraph(yValues: {...})
-    deactivate graph
-    state->>mainWindow: shockIndicatorButtonFlashing()
-    mainWindow->>shockIndicatorButton: startFlashing()
-    activate shockIndicatorButton
-    shockIndicatorButton->>shockIndicatorButton: toggleLight()
-    deactivate shockIndicatorButton
-    state->>mainWindow: playMessage(message: "Give STAND CLEAR Warning. DO NOT touch patient.")
-    state->>mainWindow: deactivateShockIndicatorButtonPressed()
-    state->>mainWindow: playMessage(message: "Press Shock Indicator Button.")
-    loop getShockIndicatorButtonPressed() = false
-        state->>state: execute()
-    end
-    operator->>shockIndicatorButton: presses
-    activate shockIndicatorButton
-    shockIndicatorButton->>mainWindow: activateShockIndicatorButtonPressed()
-    deactivate shockIndicatorButton
-    state->>mainWindow: playMessage(message: "Shock will be delivered in three, two, one ....")
-    state->>mainWindow: playMessage(message: "Shock delivered.)
-    state->>mainWindow: setBattery(battery: context->getBattery() - MainWindow::SHOCK_BATTERY_COST)
-    state->>mainWindow: updateShockCount()
-    state->>mainWindow: hasSufficientBattery()
-    state->>mainWindow: shockIndicatorButtonStopFlashing()
-    mainWindow->>shockIndicatorButton: stopFlashing()
-    activate shockIndicatorButton
-    deactivate shockIndicatorButton
-    state->>mainWindow: changeState(state: PerformCPRState)
-    deactivate state
 
-    %% Perform cpr state
-    note over mainWindow: PerformCPRState
-    mainWindow-)analyzingPatientImage: handleStateChanged()
-    activate analyzingPatientImage
-    analyzingPatientImage->>analyzingPatientImage: turnOff()
-    deactivate analyzingPatientImage
-    mainWindow-)performCPRImage: handleStateChanged()
-    activate performCPRImage
-    performCPRImage->>performCPRImage: turnOn()
-    deactivate performCPRImage
-    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 0)
-    activate chestCompressionDisplay
-    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
-    state->>chestCompressionDisplay: setVisible(visible: true)
-    state->>mainWindow: playMessage("Perform CPR.)
-    state->>mainWindow: playMessage("2 breaths for every 30 compressions.")
-    state->>mainWindow: playMessage("Compression to deep. Reduce force.")
-    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 3)
-    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
-    state->>mainWindow: playMessage("Compression to shallow. Press harder.")
-    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 1)
-    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
-    state->>mainWindow: playMessage("Good compression depth. Keep going.")
-    state->>chestCompressionDisplay: setCompressionTypeIndex(index: 2)
-    chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
-    deactivate chestCompressionDisplay
-    state->>mainWindow: playMessage("Stop CPR.")
+%% Analyzing State
+note over mainWindow: Switched to AnalyzingState
+mainWindow-)attachElectrodePadsImage: handleStateChanged()
+activate attachElectrodePadsImage
+attachElectrodePadsImage->>attachElectrodePadsImage: turnOff()
+deactivate attachElectrodePadsImage
+mainWindow-)analyzingPatientImage: handleStateChanged()
+activate analyzingPatientImage
+analyzingPatientImage->>analyzingPatientImage: turnOn()
+deactivate analyzingPatientImage
+operator->>patientStatusWidget: selects "Pulseless Ventricular Tachycardia (Shock Given)" option
+activate patientStatusWidget
+patientStatusWidget->>patientStatusWidget: handlePatientStatusComboBoxChanged()
+patientStatusWidget->>mainWindow: setPatientStatus(state: MainWindow::PatientStatus::VT)
+deactivate patientStatusWidget
+state->>mainWindow: playMessage(message: "Don't touch patient. Analyzing.")
+activate state
+loop getPatientStatus() == MainWindow::PatientStatus::DEFAULT
+    state->>state: execute()
 end
+state->>mainWindow: displayVTECG()
+mainWindow->>graph: setDataVTECG()
+activate graph
+graph->>graph: updateGraph(yValues: {...})
+deactivate graph
+state->>mainWindow: shockIndicatorButtonFlashing()
+mainWindow->>shockIndicatorButton: startFlashing()
+activate shockIndicatorButton
+shockIndicatorButton->>shockIndicatorButton: toggleLight()
+deactivate shockIndicatorButton
+state->>mainWindow: playMessage(message: "Give STAND CLEAR Warning. DO NOT touch patient.")
+state->>mainWindow: deactivateShockIndicatorButtonPressed()
+state->>mainWindow: playMessage(message: "Press Shock Indicator Button.")
+loop getShockIndicatorButtonPressed() = false
+    state->>state: execute()
+end
+operator->>shockIndicatorButton: presses
+activate shockIndicatorButton
+shockIndicatorButton->>mainWindow: activateShockIndicatorButtonPressed()
+deactivate shockIndicatorButton
+state->>mainWindow: playMessage(message: "Shock will be delivered in three, two, one ....")
+state->>mainWindow: playMessage(message: "Shock delivered.)
+state->>mainWindow: setBattery(battery: context->getBattery() - MainWindow::SHOCK_BATTERY_COST)
+state->>mainWindow: updateShockCount()
+state->>mainWindow: hasSufficientBattery()
+state->>mainWindow: shockIndicatorButtonStopFlashing()
+mainWindow->>shockIndicatorButton: stopFlashing()
+activate shockIndicatorButton
+deactivate shockIndicatorButton
+state->>mainWindow: changeState(state: PerformCPRState)
+deactivate state
 
+%% Perform cpr state
+note over mainWindow: Switched to PerformCPRState
+operator->>endProgramWidget: Selects "CPR regenerates the heart beat" option
+activate endProgramWidget
+endProgramWidget->>endProgramWidget: handleEndProgramComboBoxChanged
+endProgramWidget->>mainWindow: setEndOfProgramStatus(state: CPRREVIVESPATIENT)
+deactivate endProgramWidget
+mainWindow-)analyzingPatientImage: handleStateChanged()
+activate analyzingPatientImage
+analyzingPatientImage->>analyzingPatientImage: turnOff()
+deactivate analyzingPatientImage
+mainWindow-)performCPRImage: handleStateChanged()
+activate performCPRImage
+performCPRImage->>performCPRImage: turnOn()
+deactivate performCPRImage
+state->>chestCompressionDisplay: setCompressionTypeIndex(index: 0)
+activate state
+activate chestCompressionDisplay
+chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+state->>chestCompressionDisplay: setVisible(visible: true)
+state->>mainWindow: playMessage(message: "Perform CPR.)
+state->>mainWindow: playMessage(message: "2 breaths for every 30 compressions.")
+state->>mainWindow: playMessage(message: "Compression to deep. Reduce force.")
+state->>chestCompressionDisplay: setCompressionTypeIndex(index: 3)
+chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+state->>mainWindow: playMessage(message: "Compression to shallow. Press harder.")
+state->>chestCompressionDisplay: setCompressionTypeIndex(index: 1)
+chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+state->>mainWindow: playMessage(message: "Good compression depth. Keep going.")
+state->>chestCompressionDisplay: setCompressionTypeIndex(index: 2)
+chestCompressionDisplay->>chestCompressionDisplay: updateDisplay()
+deactivate chestCompressionDisplay
+state->>mainWindow: displayPEAECG()
+mainWindow->>graph: setDataPEAECG()
+activate graph
+graph->>graph: updateGraph(yValues: {...})
+deactivate graph
+state->>mainWindow: playMessage(message: "CPR Revived Patient. AED Shutting Off")
+state->>mainWindow: changeState(state: PoweredOffState);
+deactivate state
+note over mainWindow: Switched to PoweredOffState
 deactivate mainWindow
