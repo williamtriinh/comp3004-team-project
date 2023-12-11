@@ -51,7 +51,6 @@ Organization of the submission:
     diagrams/StateDiagram.txt
     diagrams/StateDiagramExplanation.txt
     diagrams/Traceability matrix.pdf
-    diagrams/Use Case.pdf
     diagrams/sequence_diagrams/ElectrodesNotInstalled.png
     diagrams/sequence_diagrams/ElectrodesNotInstalled.txt
     diagrams/sequence_diagrams/NormalScenario.png
