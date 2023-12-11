@@ -1,3 +1,4 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'lineColor': '#ff6347'}}}%%
 stateDiagram-v2
     direction LR
     [*] --> PoweredOffState
