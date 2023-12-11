@@ -1,0 +1,23 @@
+This document gives an explanation to the State Diagram and the various state's. In the diagram there is an overarching Powered On state 
+which indicates that the states inside can only be accessed when the device is powered on. If the user presses the power button when the AED is on 
+the system transitions back to the PoweredOffState no matter what state the AED is currently in. Also if at any point while the AED is powered on and
+the electrodes are uninstalled the system transistions to ElectrodesNotInstalled state where it waits for the them to be reinstalled before continuing. 
+
+Description of all the states:
+
+1. The AED starts off in the PoweredOffState
+
+2. If the power button is pressed, the AED transitions to the PoweredOn state.
+
+3. the AED then transistions to the SelfTestState.
+
+4. If the battery is sufficient and the electrodes are installed, it transitions to the CheckResponsivenessState.
+
+5. The AED then transistions to the CallForHelpState.
+
+6. The AED then transitions to the AttachDefibrillatorPadsState.
+
+7. Once the electrode pads are attached, it transitions to the AnalyzingState.
+
+8. The AED will then loop between the AnalyzingState and the PerformCPRState. 
+If the battery is insufficient to adminstrer a shock the AED transitions to the LowBatteryState.
