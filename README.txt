@@ -43,14 +43,14 @@ What each member did:
 
 Organization of the submission:
     README.txt
-    diagrams/Textual explanation.pdf
+    Use Case.pdf
+    Textual explanation.pdf
     diagrams/ClassDiagram.plantuml
     diagrams/ClassDiagram.png
     diagrams/StateDiagram.png
     diagrams/StateDiagram.txt
     diagrams/StateDiagramExplanation.txt
     diagrams/Traceability matrix.pdf
-    diagrams/Use Case.pdf
     diagrams/sequence_diagrams/NormalScenario.png
     diagrams/sequence_diagrams/NormalScenario.txt
     diagrams/sequence_diagrams/SelfTestElectrodesNotInstalled.png
