@@ -54,6 +54,8 @@ Organization of the submission:
     diagrams/sequence_diagrams/InstallElectrodes.png
     diagrams/sequence_diagrams/LowBattery.png
     diagrams/sequence_diagrams/NormalSequenceDiagram.png
+    diagrams/sequence_diagrams/RechargeBatteries.png
+    diagrams/sequence_diagrams/RechargeBatteries.txt
     diagrams/sequence_diagrams/ShockLowBattery.png
     diagrams/sequence_diagrams/ShockLowBattery.txt
     aed-simulator.pro
