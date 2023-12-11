@@ -19,6 +19,7 @@ What each member did:
             - call for help state
             - attach defibrillator state
         - Created chest compression meter
+        - Demo video
     
     Ziyang Ling:
         - Created Traceability matrix
