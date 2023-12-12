@@ -1,0 +1,25 @@
+sequenceDiagram
+
+participant analyzingPatientState as analyzingPatientState:AnalyzingPatientState
+participant lowBatteryState as lowBatteryState:LowBatteryState
+participant mainWindow as mainWindow:MainWindow
+
+note over analyzingPatientState,mainWindow : While in the AnalyzingPatientState, as soon as the<br/>user presses the shock button.
+analyzingPatientState ->> mainWindow : playMessage(message: "Shock will be delivered in three, two, one ....")
+activate analyzingPatientState
+activate mainWindow
+analyzingPatientState ->> mainWindow : playMessage(message: "Shock delivered.")
+analyzingPatientState ->> mainWindow : context->setBattery(battery: getBattery() - MainWindow::SHOCK_BATTERY_COST);
+analyzingPatientState ->> mainWindow : updateShockCount()
+opt battery = 0
+analyzingPatientState ->> mainWindow : playMessage(message: "Battery Reached 0.")
+analyzingPatientState ->> mainWindow : changeState(state: PoweredOffState)
+note over mainWindow : Switched to PoweredOffState
+end
+opt hasSufficientBattery() = false
+analyzingPatientState ->> mainWindow : changeState(state: LowBatteryState)
+note over mainWindow : Switched to LowBatteryState
+lowBatteryState ->> mainWindow : playMessage(message: "Change batteries.")
+end
+deactivate analyzingPatientState
+deactivate mainWindow

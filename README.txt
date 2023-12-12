@@ -51,12 +51,18 @@ Organization of the submission:
     diagrams/StateDiagram.txt
     diagrams/StateDiagramExplanation.txt
     diagrams/Traceability matrix.pdf
+    diagrams/sequence_diagrams/ElectrodesNotInstalled.png
+    diagrams/sequence_diagrams/ElectrodesNotInstalled.txt
     diagrams/sequence_diagrams/NormalScenario.png
     diagrams/sequence_diagrams/NormalScenario.txt
+    diagrams/sequence_diagrams/RechargeBatteries.png
+    diagrams/sequence_diagrams/RechargeBatteries.txt
     diagrams/sequence_diagrams/SelfTestElectrodesNotInstalled.png
     diagrams/sequence_diagrams/SelfTestElectrodesNotInstalled.txt
     diagrams/sequence_diagrams/SelfTestLowBattery.png
     diagrams/sequence_diagrams/SelfTestLowBattery.txt
+    diagrams/sequence_diagrams/ShockLowBattery.png
+    diagrams/sequence_diagrams/ShockLowBattery.txt
     aed-simulator.pro
     application.qrc
     src/aedimage.cpp

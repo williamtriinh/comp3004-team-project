@@ -1,0 +1,16 @@
+sequenceDiagram
+
+actor user as user:User
+participant mainWindow as mainWindow:MainWindow
+participant batteriesWidget as batteriesWidget:BatteriesWidget
+
+note over mainWindow : While in any state other than the PoweredOffState.
+user ->> batteriesWidget : presses "Recharge Battery" button
+activate batteriesWidget
+batteriesWidget ->> mainWindow : rechargeBatteries()
+activate mainWindow
+deactivate batteriesWidget
+mainWindow ->> mainWindow : setBattery(battery: 100)
+mainWindow ->> mainWindow : changeState(state: PoweredOffState)
+note over mainWindow : Switched to PoweredOffState
+deactivate mainWindow

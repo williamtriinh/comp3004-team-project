@@ -1,0 +1,28 @@
+sequenceDiagram
+
+actor user as User
+participant electrodesNotInstalledState as electrodesNotInstalledState:ElectrodesNotInstalledState
+participant mainWindow as mainWindow:MainWindow
+participant installElectrodesWidget as installElectrodesWidget:InstallElectrodesWidget
+participant powerButton as powerButton:PowerButton
+
+note over mainWindow : While in any state other than the PoweredOffState, SelfTestState,<br/>LowBatteryState, and ElectrodesNotInstalledState.
+user ->> installElectrodesWidget : Presses "install/uninstall" button to uninstall electrodes
+activate installElectrodesWidget
+installElectrodesWidget ->> mainWindow : toggleElectrodesInstalled()
+activate mainWindow
+deactivate installElectrodesWidget
+mainWindow ->> mainWindow : changeState(state: ElectrodesNotInstalledState)
+note over mainWindow : Switched to ElectrodesNotInstalledState
+electrodesNotInstalledState ->> mainWindow : playMessage(message: "Attach electrode pads.")
+activate electrodesNotInstalledState
+electrodesNotInstalledState ->> mainWindow : resetECGDisplay()
+deactivate electrodesNotInstalledState
+user ->> installElectrodesWidget : Presses "install/uninstall" button to install electrodes
+activate installElectrodesWidget
+installElectrodesWidget ->> mainWindow : toggleElectrodesInstalled()
+deactivate installElectrodesWidget
+mainWindow ->> mainWindow : restoreState()
+mainWindow ->> mainWindow : changeState(state: lastState)
+deactivate mainWindow
+note over mainWindow : Switched back to previous state
