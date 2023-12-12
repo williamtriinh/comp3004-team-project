@@ -44,7 +44,7 @@ What each member did:
 Organization of the submission:
     README.txt
     Use Case.pdf
-    Textual explanation.pdf
+    Textual explanation.pdf  - Include the demo video link: https://youtu.be/zc1WP2dcdPA 
     diagrams/ClassDiagram.plantuml
     diagrams/ClassDiagram.png
     diagrams/StateDiagram.png
