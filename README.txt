@@ -45,12 +45,12 @@ Organization of the submission:
     README.txt
     Use Case.pdf
     Textual explanation.pdf  - Include the demo video link: https://youtu.be/zc1WP2dcdPA 
+    Traceability matrix.pdf
     diagrams/ClassDiagram.plantuml
     diagrams/ClassDiagram.png
     diagrams/StateDiagram.png
     diagrams/StateDiagram.txt
     diagrams/StateDiagramExplanation.txt
-    diagrams/Traceability matrix.pdf
     diagrams/sequence_diagrams/ElectrodesNotInstalled.png
     diagrams/sequence_diagrams/ElectrodesNotInstalled.txt
     diagrams/sequence_diagrams/NormalScenario.png
