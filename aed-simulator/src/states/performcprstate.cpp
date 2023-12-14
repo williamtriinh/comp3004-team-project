@@ -52,8 +52,9 @@ void PerformCPRState::execute()
             context->displayPEAECG();
             context->playMessage("CPR Revived Patient. AED Shutting Off");
             timer->start(3000);
+        } else {
+            timer->start(10);
         }
-        timer->start(10);
         break;
     case 4:
         if(context->getEndOfProgramStatus() == MainWindow::EndOfProgramStatus::CPRREVIVESPATIENT){

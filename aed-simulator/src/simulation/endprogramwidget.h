@@ -14,6 +14,9 @@ class EndProgramWidget : public QWidget
 public:
     explicit EndProgramWidget(MainWindow *mainWindow, QWidget *parent = nullptr);
 
+    // Resets the user's selection
+    void reset();
+
 private:
     MainWindow *mainWindow;
     QComboBox *endProgramComboBox;

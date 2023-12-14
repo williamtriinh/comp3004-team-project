@@ -29,11 +29,16 @@ EndProgramWidget::EndProgramWidget(MainWindow *mainWindow, QWidget *parent)
     layout->addWidget(endProgramComboBox);
 }
 
+void EndProgramWidget::reset()
+{
+    endProgramComboBox->setCurrentIndex(0);
+}
+
 void EndProgramWidget::handleStateChanged(BaseState *state)
 {
-    if (state->getStateName() != "PerformCPRState")
+    if (state->getStateName() == "PoweredOffState")
     {
-        endProgramComboBox->setCurrentIndex(0);
+        reset();
     }
 }
 
